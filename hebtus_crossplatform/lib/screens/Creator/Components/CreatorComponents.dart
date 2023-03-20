@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hebtus_crossplatform/screens/Creator/Tickets/TicketsAssign.dart';
 import 'package:hebtus_crossplatform/screens/Creator/BasicInfo/BasicInfo.dart';
+import 'package:hebtus_crossplatform/screens/Creator/Details/Details.dart';
+import 'package:hebtus_crossplatform/screens/Creator/OnlineEventPage/OnlineEventPage.dart';
+import 'package:hebtus_crossplatform/screens/Creator/Publish/Publish.dart';
 
 
 AppBar appBarModule() {
@@ -80,7 +84,7 @@ Drawer appDrawer(BuildContext context) {
           title: const Text('Basic info'),
           onTap: () {
             Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) =>BasicInfo()));
+                MaterialPageRoute(builder: (context) => BasicInfo()));
           },
         ),
         ListTile(
@@ -90,7 +94,7 @@ Drawer appDrawer(BuildContext context) {
           title: const Text('Details'),
           onTap: () {
             Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => BasicInfo()));
+                MaterialPageRoute(builder: (context) => Details()));
           },
         ),
         ListTile(
@@ -100,7 +104,7 @@ Drawer appDrawer(BuildContext context) {
           title: const Text('Online event page'),
           onTap: () {
             Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => BasicInfo()));
+                MaterialPageRoute(builder: (context) => OnlineEventPage()));
           },
         ),
         ListTile(
@@ -110,7 +114,7 @@ Drawer appDrawer(BuildContext context) {
           title: const Text('Tickets'),
           onTap: () {
             Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => BasicInfo()));
+                MaterialPageRoute(builder: (context) => Tickets()));
           },
         ),
         ListTile(
@@ -120,7 +124,7 @@ Drawer appDrawer(BuildContext context) {
           title: const Text('Publish'),
           onTap: () {
             Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => BasicInfo()));
+                MaterialPageRoute(builder: (context) => Publish()));
           },
         ),
       ],
@@ -145,7 +149,7 @@ Material sideMenuModule(final GlobalKey<ScaffoldState> globalKey,String fieldNam
                 color: Colors.grey[400],
                 size: 35,
               )),
-           Text(
+          Text(
             '$fieldName',
             style: TextStyle(
               //fontWeight: FontWeight.bold,
