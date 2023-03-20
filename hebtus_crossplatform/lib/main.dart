@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hebtus_crossplatform/theme/style.dart';
 import 'package:provider/provider.dart';
 import 'package:hebtus_crossplatform/screens/SignUp/signup_screen.dart';
+import 'package:hebtus_crossplatform/screens/Creator/BasicInfo/BasicInfo.dart';
+
 
 void main() {
   runApp(const MyApp());
