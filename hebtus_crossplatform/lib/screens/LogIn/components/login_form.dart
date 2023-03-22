@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hebtus_crossplatform/components/or_divider.dart';
+import 'package:hebtus_crossplatform/components/password_text_field.dart';
 import 'package:hebtus_crossplatform/screens/LogIn/components/dont_have_account_btn.dart';
 import '../../../components/socialmedia_icon.dart';
 
@@ -16,26 +17,13 @@ class LoginForm extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   label: Text("Email address"),
                   prefixIcon: Icon(Icons.mail),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(5))))),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextFormField(
-              obscureText: true,
-              decoration: InputDecoration(
-                  label: Text("Password"),
-                  prefixIcon: Icon(Icons.lock),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.remove_red_eye_outlined),
-                    onPressed: () {},
-                  ),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5))))),
-        ),
+        PasswordTextfield(displayText: "Password"),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: ElevatedButton(
@@ -46,9 +34,9 @@ class LoginForm extends StatelessWidget {
         ),
         TextButton(
             onPressed: () {},
-            child: Text("Forgot Password?",
+            child: const Text("Forgot Password?",
                 style: TextStyle(fontWeight: FontWeight.bold))),
-        OrDivider(),
+        const OrDivider(),
         Padding(
           padding: const EdgeInsets.all(5.0),
           child: Row(
@@ -62,7 +50,7 @@ class LoginForm extends StatelessWidget {
             ],
           ),
         ),
-        RegisterNowBtn(),
+        const RegisterNowBtn(),
       ],
     ));
   }

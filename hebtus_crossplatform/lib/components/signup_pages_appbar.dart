@@ -10,7 +10,8 @@ class SignUpPagesAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: const Text(
         "Hebtus",
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(
+            color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
       ),
       elevation: 0,
       backgroundColor: Colors.transparent,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../components/or_divider.dart';
+import '../../../components/password_text_field.dart';
 import 'already_have_account_btn.dart';
 import '../../../components/socialmedia_icon.dart';
 
@@ -16,7 +17,7 @@ class SignupForm extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   label: Text("Email address"),
                   prefixIcon: Icon(Icons.mail),
                   border: OutlineInputBorder(
@@ -28,16 +29,16 @@ class SignupForm extends StatelessWidget {
             children: [
               Flexible(
                 child: TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         label: Text("First name"),
                         border: OutlineInputBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(5))))),
               ),
-              SizedBox(width: 5),
+              const SizedBox(width: 5),
               Flexible(
                 child: TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         label: Text("Last name"),
                         border: OutlineInputBorder(
                             borderRadius:
@@ -46,34 +47,8 @@ class SignupForm extends StatelessWidget {
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextFormField(
-              obscureText: true,
-              decoration: InputDecoration(
-                  label: Text("Password"),
-                  prefixIcon: Icon(Icons.lock),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.remove_red_eye_outlined),
-                    onPressed: () {},
-                  ),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5))))),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextFormField(
-              obscureText: true,
-              decoration: InputDecoration(
-                  label: Text("Confirm password"),
-                  prefixIcon: Icon(Icons.lock),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.remove_red_eye_outlined),
-                    onPressed: () {},
-                  ),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5))))),
-        ),
+        PasswordTextfield(displayText: "Password"),
+        PasswordTextfield(displayText: "Confirm Password"),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: ElevatedButton(

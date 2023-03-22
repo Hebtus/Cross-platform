@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hebtus_crossplatform/constants.dart' as constants;
 
 import '../../components/signup_pages_appbar.dart';
 import 'components/signup_form.dart';
@@ -33,9 +34,9 @@ class SignupScreen extends StatelessWidget {
                         style: TextStyle(fontSize: 50, color: Colors.white)),
                   ),
                   Container(
-                    width: mediaQuery.size.width < 450
+                    width: mediaQuery.size.width < constants.phoneWidth
                         ? mediaQuery.size.width * 0.9
-                        : 450,
+                        : constants.phoneWidth,
                     margin: const EdgeInsets.all(10),
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
