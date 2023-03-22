@@ -67,6 +67,7 @@ class _BasicInfoState extends State<BasicInfo> {
           height: 20,
         ),
         TextFormField(
+          maxLength: 75,
           onChanged: (String value) {
             setState(() {
               eventNameCount = value.length;
@@ -107,6 +108,7 @@ class _BasicInfoState extends State<BasicInfo> {
           height: 20,
         ),
         TextFormField(
+          maxLength: 25,
           onChanged: (String value) {
             setState(() {
               tagsCount = value.length;
@@ -160,7 +162,7 @@ class _BasicInfoState extends State<BasicInfo> {
             OutlinedButton(
                 onPressed: () {
                   setState(() {
-                    buttonVenue = !buttonVenue;
+                    buttonVenue = true;
                     buttonOnlineEvent=buttonVenue?false:false;
                     buttonToBeAnnounced = buttonToBeAnnounced?false:false;
                   });
@@ -172,7 +174,7 @@ class _BasicInfoState extends State<BasicInfo> {
             OutlinedButton(
                 onPressed: () {
                   setState(() {
-                    buttonOnlineEvent = !buttonOnlineEvent;
+                    buttonOnlineEvent =  true;
                     buttonVenue = buttonVenue?false:false;
                     buttonToBeAnnounced = buttonToBeAnnounced?false:false;
 
@@ -185,7 +187,7 @@ class _BasicInfoState extends State<BasicInfo> {
             OutlinedButton(
                 onPressed: () {
                   setState(() {
-                    buttonToBeAnnounced = !buttonToBeAnnounced;
+                    buttonToBeAnnounced =  true;
                     buttonVenue = buttonVenue?false:false;
                     buttonOnlineEvent=buttonVenue?false:false;
                   });
