@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class AlreadyRegisteredBtn extends StatelessWidget {
   const AlreadyRegisteredBtn({
@@ -8,7 +9,9 @@ class AlreadyRegisteredBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () {},
+      onPressed: () {
+        return context.go("/");
+      },
       child: RichText(
         text: const TextSpan(
           text: 'Already have an account? ',

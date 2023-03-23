@@ -23,7 +23,7 @@ class _EmailTextFieldState extends State<EmailTextField> {
             } else if (email != null && EmailValidator.validate(email)) {
               return null;
             } else {
-              return "Enter a valid email";
+              return "Please Enter a valid email";
             }
           },
           decoration: const InputDecoration(

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hebtus_crossplatform/components/email_text_field.dart';
 import 'package:hebtus_crossplatform/components/signup_pages_appbar.dart';
 import 'package:hebtus_crossplatform/constants.dart' as constants;
+import 'package:go_router/go_router.dart';
 
 class ForgotPasswdScreen extends StatelessWidget {
-  const ForgotPasswdScreen({super.key});
+  ForgotPasswdScreen({super.key});
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +30,9 @@ class ForgotPasswdScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: const Text("Forgot  Your Password?",
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text("Forgot  Your Password?",
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 40, color: Colors.white)),
                   ),
@@ -51,29 +55,35 @@ class ForgotPasswdScreen extends StatelessWidget {
                               style:
                                   TextStyle(fontSize: 15, color: Colors.black)),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextFormField(
-                              decoration: const InputDecoration(
-                                  label: Text("Email address"),
-                                  prefixIcon: Icon(Icons.mail),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5))))),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ElevatedButton(
-                              onPressed: () {},
-                              child: const Text("Send",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold))),
+                        Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              const Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: EmailTextField()),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      if (_formKey.currentState!.validate()) {
+                                        return context.go("/");
+                                      }
+                                    },
+                                    child: const Text("Send",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold))),
+                              ),
+                            ],
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              return context.go("/");
+                            },
                             child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: const [
@@ -99,6 +109,5 @@ class ForgotPasswdScreen extends StatelessWidget {
             ),
           )),
     );
-    ;
   }
 }

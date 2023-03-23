@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class RegisterNowBtn extends StatelessWidget {
   const RegisterNowBtn({
@@ -8,7 +9,9 @@ class RegisterNowBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () {},
+      onPressed: () {
+        return context.go("/signup");
+      },
       child: RichText(
         text: const TextSpan(
           text: "Don't have an account? ",

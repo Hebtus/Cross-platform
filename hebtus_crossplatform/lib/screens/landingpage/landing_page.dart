@@ -2,14 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:hebtus_crossplatform/components/app_bar.dart';
-import 'package:hebtus_crossplatform/screens/landingpage/components/location.dart';
-import 'package:hebtus_crossplatform/screens/landingpage/components/cover_image.dart';
-import 'package:hebtus_crossplatform/screens/landingpage/components/tab_bar.dart';
-import 'package:hebtus_crossplatform/screens/landingpage/components/categories.dart';
-import 'package:hebtus_crossplatform/screens/landingpage/components/event_list.dart';
+import 'package:hebtus_crossplatform/screens/LandingPage/components/location.dart';
+import 'package:hebtus_crossplatform/screens/LandingPage/components/cover_image.dart';
+import 'package:hebtus_crossplatform/screens/LandingPage/components/tab_bar.dart';
+import 'package:hebtus_crossplatform/screens/LandingPage/components/categories.dart';
+import 'package:hebtus_crossplatform/screens/LandingPage/components/event_list.dart';
 
-class Landingpagescreen extends StatelessWidget {
-  const Landingpagescreen({super.key});
+class LandingPageScreen extends StatelessWidget {
+  const LandingPageScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -54,13 +54,18 @@ class Landingpagescreen extends StatelessWidget {
                 Column(
                   children: [
                     Row(
-                      children:  [eventcard(num: 0,), eventcard(num:1)],
+                      children: [
+                        eventcard(
+                          num: 0,
+                        ),
+                        eventcard(num: 1)
+                      ],
                     ),
                     Row(
-                      children: [eventcard(num:2), eventcard(num:3)],
+                      children: [eventcard(num: 2), eventcard(num: 3)],
                     ),
                     Row(
-                      children:[eventcard(num:4), eventcard(num:5)],
+                      children: [eventcard(num: 4), eventcard(num: 5)],
                     ),
                     Padding(
                       padding: const EdgeInsets.all(15),
