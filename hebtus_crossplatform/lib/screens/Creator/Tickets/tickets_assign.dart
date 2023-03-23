@@ -370,6 +370,23 @@ class _TicketsState extends State<Tickets> {
                           ),
                         ),
                       ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: ElevatedButton(onPressed: () {
+
+                          
+                        },
+                          style: ElevatedButton.styleFrom(
+                           backgroundColor: Colors.white, // Background colo// r
+                          ),
+                          child: Text('+ Add more tickets',
+                          style: TextStyle(
+                            color: Colors.blueAccent
+                          ),),
+
+
+                        ),
+                      ),
 
 
 
