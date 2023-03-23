@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class PasswordTextfield extends StatefulWidget {
-  final TextEditingController controller;
-  const PasswordTextfield({
+class ConfirmPasswordTextfield extends StatefulWidget {
+  final TextEditingController passwdController;
+  const ConfirmPasswordTextfield({
     super.key,
-    required this.controller,
+    required this.passwdController,
   });
 
   @override
-  State<PasswordTextfield> createState() => _PasswordTextfieldState();
+  State<ConfirmPasswordTextfield> createState() => _PasswordTextfieldState();
 }
 
-class _PasswordTextfieldState extends State<PasswordTextfield> {
+class _PasswordTextfieldState extends State<ConfirmPasswordTextfield> {
   bool _passwordVisible = false;
   @override
   void initState() {
@@ -24,17 +24,16 @@ class _PasswordTextfieldState extends State<PasswordTextfield> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
-          controller: widget.controller,
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: (password) {
-            if (password != null && password.isEmpty) {
-              return "Password field can't be empty";
+          obscureText: !_passwordVisible,
+          validator: (value) {
+            if (value != null && value != widget.passwdController.text) {
+              return "Password doesn't match";
             }
             return null;
           },
-          obscureText: !_passwordVisible,
           decoration: InputDecoration(
-              label: const Text("Password"),
+              label: const Text("Confirm Password"),
               prefixIcon: const Icon(Icons.lock),
               suffixIcon: IconButton(
                 icon: Icon(

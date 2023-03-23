@@ -1,34 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:hebtus_crossplatform/screens/SignUp/components/confirm_passwd_text_field.dart';
 import '../../../components/or_divider.dart';
 import '../../../components/password_text_field.dart';
+import '../../../components/email_text_field.dart';
 import 'already_have_account_btn.dart';
 import '../../../components/socialmedia_icon.dart';
 
 class SignupForm extends StatelessWidget {
-  const SignupForm({
+  SignupForm({
     super.key,
   });
 
+  final _passwdController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Form(
         child: Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextFormField(
-              decoration: const InputDecoration(
-                  label: Text("Email address"),
-                  prefixIcon: Icon(Icons.mail),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5))))),
-        ),
+        EmailTextField(),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
               Flexible(
                 child: TextFormField(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (firstName) {
+                      if (firstName != null && firstName.isEmpty) {
+                        return "First Name can't be empty";
+                      }
+                      return null;
+                    },
                     decoration: const InputDecoration(
                         label: Text("First name"),
                         border: OutlineInputBorder(
@@ -38,6 +40,13 @@ class SignupForm extends StatelessWidget {
               const SizedBox(width: 5),
               Flexible(
                 child: TextFormField(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (lastName) {
+                      if (lastName != null && lastName.isEmpty) {
+                        return "Last Name can't be empty";
+                      }
+                      return null;
+                    },
                     decoration: const InputDecoration(
                         label: Text("Last name"),
                         border: OutlineInputBorder(
@@ -47,8 +56,8 @@ class SignupForm extends StatelessWidget {
             ],
           ),
         ),
-        PasswordTextfield(displayText: "Password"),
-        PasswordTextfield(displayText: "Confirm Password"),
+        PasswordTextfield(controller: _passwdController),
+        ConfirmPasswordTextfield(passwdController: _passwdController),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: ElevatedButton(

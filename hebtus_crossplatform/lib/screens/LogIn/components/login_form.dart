@@ -1,29 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:hebtus_crossplatform/components/or_divider.dart';
 import 'package:hebtus_crossplatform/components/password_text_field.dart';
+import 'package:hebtus_crossplatform/components/email_text_field.dart';
 import 'package:hebtus_crossplatform/screens/LogIn/components/dont_have_account_btn.dart';
 import '../../../components/socialmedia_icon.dart';
 
 class LoginForm extends StatelessWidget {
-  const LoginForm({
+  LoginForm({
     super.key,
   });
-
+  final _passwdController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Form(
         child: Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextFormField(
-              decoration: const InputDecoration(
-                  label: Text("Email address"),
-                  prefixIcon: Icon(Icons.mail),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5))))),
-        ),
-        PasswordTextfield(displayText: "Password"),
+        EmailTextField(),
+        PasswordTextfield(controller: _passwdController),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: ElevatedButton(

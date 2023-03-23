@@ -11,12 +11,13 @@ class OrDivider extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Stack(
         children: [
-          Divider(thickness: 1),
+          const Divider(thickness: 1),
           Center(
               child: Container(
             color: Colors.white,
-            padding: EdgeInsets.only(left: 5, right: 5),
-            child: Text("OR", style: TextStyle(fontWeight: FontWeight.bold)),
+            padding: const EdgeInsets.only(left: 5, right: 5),
+            child:
+                const Text("OR", style: TextStyle(fontWeight: FontWeight.bold)),
           )),
         ],
       ),

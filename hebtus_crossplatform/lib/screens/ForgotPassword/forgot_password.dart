@@ -18,7 +18,7 @@ class ForgotPasswdScreen extends StatelessWidget {
             Theme.of(context).primaryColorDark
           ])),
       child: Scaffold(
-          appBar: SignUpPagesAppBar(),
+          appBar: const SignUpPagesAppBar(),
           backgroundColor: Colors.transparent,
           body: Center(
             child: SingleChildScrollView(
@@ -43,8 +43,8 @@ class ForgotPasswdScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(5)),
                     child: Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
                           child: Text(
                               "Enter your account email, and we'll send you a link to reset your password.",
                               textAlign: TextAlign.center,
@@ -54,7 +54,7 @@ class ForgotPasswdScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TextFormField(
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                   label: Text("Email address"),
                                   prefixIcon: Icon(Icons.mail),
                                   border: OutlineInputBorder(
@@ -76,9 +76,9 @@ class ForgotPasswdScreen extends StatelessWidget {
                             onPressed: () {},
                             child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
+                                children: const [
                                   Padding(
-                                    padding: const EdgeInsets.only(right: 5),
+                                    padding: EdgeInsets.only(right: 5),
                                     child: Icon(
                                       Icons.arrow_back,
                                       color: Colors.black,

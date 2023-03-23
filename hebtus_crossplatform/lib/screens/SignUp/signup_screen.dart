@@ -20,7 +20,7 @@ class SignupScreen extends StatelessWidget {
             Theme.of(context).primaryColorDark
           ])),
       child: Scaffold(
-          appBar: SignUpPagesAppBar(),
+          appBar: const SignUpPagesAppBar(),
           backgroundColor: Colors.transparent,
           body: Center(
             child: SingleChildScrollView(
