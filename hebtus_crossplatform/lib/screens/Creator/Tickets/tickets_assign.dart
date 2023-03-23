@@ -7,6 +7,14 @@ bool  buttonAddons=false;
 bool  buttonPromoCode=false;
 bool  buttonHold=false;
 bool  buttonSettings=false;
+
+bool checkBoxDisplaySettings=false;
+
+
+enum SingingCharacter { ticketEvent, RegEvent }
+enum SampleItem { itemOne, itemTwo, itemThree }
+SampleItem? selectedMenu;
+SingingCharacter? _character = SingingCharacter.ticketEvent;
 class Tickets extends StatefulWidget {
   const Tickets({Key? key}) : super(key: key);
 
@@ -134,13 +142,118 @@ class _TicketsState extends State<Tickets> {
       ],
     );
   }
+  Column tabSettings(){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+
+        const Text(
+          'Display settings',
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        CheckboxListTile(
+          title: Text("Display number of tickets remaining."),
+          value: checkBoxDisplaySettings,
+          onChanged: (newValue) {
+            setState(() {
+              checkBoxDisplaySettings = newValue!;
+            });
+          },
+          controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+        ),
+
+        const SizedBox(
+          height: 20,
+        ),
+
+        const Text(
+          'Event type',
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        ListTile(
+          title: const Text('Ticket Event'),
+          leading: Radio<SingingCharacter>(
+            value: SingingCharacter.ticketEvent,
+            groupValue: _character,
+            onChanged: (SingingCharacter? value) {
+              setState(() {
+                _character = value;
+              });
+            },
+          ),
+        ),
+        ListTile(
+          title: const Text('Registration Event'),
+          leading: Radio<SingingCharacter>(
+            value: SingingCharacter.RegEvent,
+            groupValue: _character,
+            onChanged: (SingingCharacter? value) {
+              setState(() {
+                _character = value;
+              });
+            },
+          ),
+        ),
+        const Text(
+          'Display a message after ticket sales end',
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        const Text(
+          'Tell event-goers when your event starts and ends so they can make plans to attend.',
+          style: TextStyle(
+            fontSize: 13,
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        TextFormField(
+
+          onChanged: (String value) {
+            setState(() {
+
+            });
+          },
+          decoration: InputDecoration(
+            //hint addressa dispappers while the lable remains
+            border: const OutlineInputBorder(),
+
+          ),
+        ),
+
+
+      ],
+
+    );
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         bottomSheet: Container(
           width: MediaQuery.of(context).size.width,
-          child: ElevatedButton(onPressed: () {  }, child: Text('hello'),),
+          child: ElevatedButton(onPressed: () {  }, child: Text('Next'),),
         ),
         key: _globalKey,
         appBar: appBarModule(),
@@ -150,6 +263,9 @@ class _TicketsState extends State<Tickets> {
               children: [
                 sideMenuModule(_globalKey, pageTitle),
                 //for ( var i = 0; i < 10; i++ )  tabMenu(),
+                SizedBox(
+                  height: 10,
+                ),
                 tabMenu(),
 
                 Padding(
@@ -162,30 +278,108 @@ class _TicketsState extends State<Tickets> {
                       height: 10,
                     ),
 
-                    if (buttonAdmission) ...[],
+                    if (buttonAdmission) ...[
+                      Material(
+                        elevation: 5,
+                        child: Container(
+                          height: 200,
+                          padding: const EdgeInsets.all(25.0),
+                          decoration: BoxDecoration(
+                            border: Border.all( color: Colors.grey),
+                            borderRadius: BorderRadius.all(Radius.circular(5))
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  const Text(
+                                    "General admission",
+                                    style: TextStyle(fontSize: 20.0),
+
+                                  ),
+                                  Spacer(),
+                          PopupMenuButton<SampleItem>(
+                            initialValue: selectedMenu,
+                            // Callback that sets the selected popup menu item.
+                            onSelected: (SampleItem item) {
+                              setState(() {
+                                selectedMenu = item;
+                              });
+                            },
+                            itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
+                              const PopupMenuItem<SampleItem>(
+                                value: SampleItem.itemOne,
+                                child: Text('edit'),
+                              ),
+                              const PopupMenuItem<SampleItem>(
+                                value: SampleItem.itemTwo,
+                                child: Text('copy'),
+                              ),
+                              const PopupMenuItem<SampleItem>(
+                                value: SampleItem.itemThree,
+                                child: Text('delete'),
+                              ),
+                            ],
+                          ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  CircleAvatar(backgroundColor: Colors.green,
+                                  radius: 4,
+                                  ),
+                                  SizedBox(width: 5,),
+                                  const Text(
+                                    "On Sale",
+                                    style: TextStyle(fontSize: 20.0,
+                                    color: Colors.grey),
+
+                                  ),
+                                  Spacer(),
+                                  const Text(
+                                    "Free",
+                                    style: TextStyle(fontSize: 20.0),
+
+                                  ),
+
+                                ],
+                              ),
+                              const Divider(
+                                thickness: 1,
+                              ),
+                              Row(
+                                children: [
+                                  const Text(
+                                    "Available Quantity ",
+                                    style: TextStyle(fontSize: 20.0,
+                                        color: Colors.grey),
+
+                                  ),
+                                  const Text(
+                                    "20 ",
+                                    style: TextStyle(fontSize: 20.0,
+                                        color: Colors.black),
+
+                                  ),
+                                ],
+
+                              )
+
+
+                            ],
+                          ),
+                        ),
+                      ),
+
+
+
+                    ],
                     if (buttonAddons) ...[],
                     if (buttonPromoCode) ...[],
                     if (buttonHold) ...[],
                     if (buttonSettings) ...[
-                      const Text(
-                        'Display settings',
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      const Text(
-                        'Name your event and tell event-goers why they should come. Add details that highlight what makes it unique.',
-                        style: TextStyle(
-                          fontSize: 13,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
+                      tabSettings(),
+
 
 
 
@@ -204,3 +398,24 @@ class _TicketsState extends State<Tickets> {
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
