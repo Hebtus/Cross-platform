@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hebtus_crossplatform/screens/Creator/Components/CreatorComponents.dart';
+import 'package:hebtus_crossplatform/screens/Creator/Components/creator_components.dart';
 
 int eventNameCount = 0;
 int tagsCount = 0;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hebtus_crossplatform/screens/Creator/Tickets/TicketsAssign.dart';
-import 'package:hebtus_crossplatform/screens/Creator/BasicInfo/BasicInfo.dart';
-import 'package:hebtus_crossplatform/screens/Creator/Details/Details.dart';
-import 'package:hebtus_crossplatform/screens/Creator/OnlineEventPage/OnlineEventPage.dart';
-import 'package:hebtus_crossplatform/screens/Creator/Publish/Publish.dart';
+import 'package:hebtus_crossplatform/screens/Creator/Tickets/tickets_assign.dart';
+import 'package:hebtus_crossplatform/screens/Creator/BasicInfo/basic_info.dart';
+import 'package:hebtus_crossplatform/screens/Creator/Details/details.dart';
+import 'package:hebtus_crossplatform/screens/Creator/OnlineEventPage/online_event_page.dart';
+import 'package:hebtus_crossplatform/screens/Creator/Publish/publish.dart';
 
 
 AppBar appBarModule() {

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:hebtus_crossplatform/screens/Creator/Components/CreatorComponents.dart';
-class Publish extends StatefulWidget {
-  const Publish({Key? key}) : super(key: key);
+import 'package:hebtus_crossplatform/screens/Creator/Components/creator_components.dart';
+class Details extends StatefulWidget {
+  const Details({Key? key}) : super(key: key);
 
   @override
-  State<Publish> createState() => _PublishState();
+  State<Details> createState() => _DetailsState();
 }
 
-class _PublishState extends State<Publish> {
+class _DetailsState extends State<Details> {
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +19,7 @@ class _PublishState extends State<Publish> {
         body: SingleChildScrollView(
             child: Column(
                 children: [
-                  sideMenuModule(_globalKey,'Publish'),
+                  sideMenuModule(_globalKey,'Details'),
                 ])
         )
 

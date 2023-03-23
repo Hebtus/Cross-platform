@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:hebtus_crossplatform/screens/Creator/Components/CreatorComponents.dart';
-class Details extends StatefulWidget {
-  const Details({Key? key}) : super(key: key);
+import 'package:hebtus_crossplatform/screens/Creator/Components/creator_components.dart';
+class OnlineEventPage extends StatefulWidget {
+  const OnlineEventPage({Key? key}) : super(key: key);
 
   @override
-  State<Details> createState() => _DetailsState();
+  State<OnlineEventPage> createState() => _OnlineEventPageState();
 }
 
-class _DetailsState extends State<Details> {
+class _OnlineEventPageState extends State<OnlineEventPage> {
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +18,7 @@ class _DetailsState extends State<Details> {
         body: SingleChildScrollView(
             child: Column(
                 children: [
-                  sideMenuModule(_globalKey,'Details'),
+                  sideMenuModule(_globalKey,'Online Event Page'),
                 ])
         )
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hebtus_crossplatform/screens/Creator/Tickets/TicketsAssign.dart';
+import 'package:hebtus_crossplatform/screens/Creator/Tickets/tickets_assign.dart';
 import 'package:hebtus_crossplatform/theme/style.dart';
 import 'package:provider/provider.dart';
 import 'screens/all_screens.dart';
-import 'package:hebtus_crossplatform/screens/Creator/BasicInfo/BasicInfo.dart';
+import 'package:hebtus_crossplatform/screens/Creator/BasicInfo/basic_info.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: appTheme(context),
-      home: SignupScreen(),
+      home: Tickets(),
     );
   }
 }
