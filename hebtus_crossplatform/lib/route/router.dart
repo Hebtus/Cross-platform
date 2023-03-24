@@ -1,4 +1,6 @@
 import 'package:go_router/go_router.dart';
+import 'package:hebtus_crossplatform/screens/Creator/Tickets/add_more_tickets.dart';
+import 'package:hebtus_crossplatform/screens/Creator/Tickets/add_promo_code.dart';
 import 'package:hebtus_crossplatform/screens/ResetPassword/reset_passwd_screen.dart';
 import 'package:hebtus_crossplatform/screens/all_screens.dart';
 

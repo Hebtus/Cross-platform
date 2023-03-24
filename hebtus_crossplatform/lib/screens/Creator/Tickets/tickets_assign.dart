@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Components/creator_components.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Tickets/add_more_tickets.dart';
+import 'package:hebtus_crossplatform/screens/Creator/Tickets/add_promo_code.dart';
 
 String pageTitle = 'Tickets';
 bool buttonAdmission = true;
@@ -350,7 +351,12 @@ class _TicketsState extends State<Tickets> {
                     ],
                     if (buttonAddons) ...[],
                     if (buttonPromoCode) ...[
-                      ElevatedButton(onPressed: (){}, child: Text('Add a code')),
+                      ElevatedButton(onPressed: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => addPromoCode()),);
+
+                      }, child: Text('Add a code')),
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: DataTable(columns: [

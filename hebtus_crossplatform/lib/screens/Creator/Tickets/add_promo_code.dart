@@ -11,7 +11,11 @@ class _addPromoCodeState extends State<addPromoCode> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      appBar: AppBar(
+        title: Text('Add code'),
+        backgroundColor: Colors.white,
+        elevation: 1,
+      ),
     );
   }
 }
