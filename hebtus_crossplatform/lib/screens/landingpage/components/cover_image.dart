@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Coverimage extends StatelessWidget {
   const Coverimage({super.key});
@@ -9,7 +9,7 @@ class Coverimage extends StatelessWidget {
     return Stack(
       children: [
         const Image(
-          image: AssetImage("images/singer.jpg"),
+          image: AssetImage("assets/images/singer.jpg"),
           width: double.infinity,
           height: 220,
           fit: BoxFit.cover,
