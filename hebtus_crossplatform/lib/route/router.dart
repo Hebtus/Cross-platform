@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:hebtus_crossplatform/screens/ResetPassword/reset_passwd_screen.dart';
 import 'package:hebtus_crossplatform/screens/all_screens.dart';
 
 class AppRouter {

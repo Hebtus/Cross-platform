@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hebtus_crossplatform/screens/SignUp/components/confirm_passwd_text_field.dart';
+import 'package:hebtus_crossplatform/components/confirm_passwd_text_field.dart';
 import '../../../components/or_divider.dart';
 import '../../../components/password_text_field.dart';
 import '../../../components/email_text_field.dart';

@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:hebtus_crossplatform/components/signup_pages_appbar.dart';
 import 'package:hebtus_crossplatform/constants.dart' as constants;
+import 'package:hebtus_crossplatform/screens/ResetPassword/components/reset_passwd_form.dart';
 
-import '../../components/signup_pages_appbar.dart';
-import 'components/signup_form.dart';
+class ResetPasswdScreen extends StatelessWidget {
+  ResetPasswdScreen({super.key});
 
-class SignupScreen extends StatelessWidget {
-  const SignupScreen({super.key});
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage("assets/images/sun-tornado.png"),
-            fit: BoxFit.cover),
-      ),
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+            Theme.of(context).primaryColor,
+            Theme.of(context).primaryColorDark
+          ])),
       child: Scaffold(
           appBar: const SignUpPagesAppBar(),
           backgroundColor: Colors.transparent,
@@ -27,8 +31,9 @@ class SignupScreen extends StatelessWidget {
                 children: [
                   const Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: Text("Sign Up",
-                        style: TextStyle(fontSize: 50, color: Colors.white)),
+                    child: Text("Reset Password",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 40, color: Colors.white)),
                   ),
                   Container(
                     width: mediaQuery.size.width < constants.phoneWidth
@@ -39,7 +44,11 @@ class SignupScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(5)),
-                    child: SignupForm(),
+                    child: Column(
+                      children: [
+                        ForgotPasswdForm(),
+                      ],
+                    ),
                   )
                 ],
               ),

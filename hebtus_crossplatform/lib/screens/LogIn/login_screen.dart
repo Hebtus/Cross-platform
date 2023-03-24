@@ -10,14 +10,11 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     return Container(
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-            Theme.of(context).primaryColor,
-            Theme.of(context).primaryColorDark
-          ])),
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+            image: AssetImage("assets/images/liquid-cheese.png"),
+            fit: BoxFit.cover),
+      ),
       child: Scaffold(
           appBar: const SignUpPagesAppBar(),
           backgroundColor: Colors.transparent,
