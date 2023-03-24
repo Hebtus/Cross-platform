@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Coverimage extends StatelessWidget {
   const Coverimage({super.key});
@@ -32,8 +31,16 @@ class Coverimage extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
               Padding(
-                padding: const EdgeInsets.only(top:20),
-                child: ElevatedButton(onPressed: (){}, child: const Text("find your next event",style: TextStyle(color: Colors.white),),style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),),
+                padding: const EdgeInsets.only(top: 20),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: const Text(
+                    "find your next event",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+                ),
               )
             ],
           ),

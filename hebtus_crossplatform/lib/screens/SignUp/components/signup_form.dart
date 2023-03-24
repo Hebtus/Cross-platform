@@ -7,18 +7,24 @@ import 'already_have_account_btn.dart';
 import '../../../components/socialmedia_icon.dart';
 import 'package:go_router/go_router.dart';
 
-class SignupForm extends StatelessWidget {
-  SignupForm({
+class SignupForm extends StatefulWidget {
+  const SignupForm({
     super.key,
   });
 
+  static final _formKey = GlobalKey<FormState>();
+
+  @override
+  State<SignupForm> createState() => _SignupFormState();
+}
+
+class _SignupFormState extends State<SignupForm> {
   final _passwdController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Form(
-        key: _formKey,
+        key: SignupForm._formKey,
         child: Column(
           children: [
             const EmailTextField(),
@@ -66,7 +72,7 @@ class SignupForm extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
+                    if (SignupForm._formKey.currentState!.validate()) {
                       return context.go("/");
                     }
                   },

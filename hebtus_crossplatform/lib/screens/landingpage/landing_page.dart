@@ -7,10 +7,9 @@ import 'package:hebtus_crossplatform/screens/LandingPage/components/cover_image.
 import 'package:hebtus_crossplatform/screens/LandingPage/components/tab_bar.dart';
 import 'package:hebtus_crossplatform/screens/LandingPage/components/categories.dart';
 import 'package:hebtus_crossplatform/screens/LandingPage/components/event_list.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class Landingpagescreen extends StatelessWidget {
-  const Landingpagescreen({super.key});
+class LandingPageScreen extends StatelessWidget {
+  const LandingPageScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +40,8 @@ class Landingpagescreen extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 30, top: 30),
                     child: Text(
                       "Check out trending categories",
-                      style: TextStyle(
-                          fontSize: 20.sp, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ),
                   const Categories(),
@@ -71,19 +70,18 @@ class Landingpagescreen extends StatelessWidget {
                       eventcard(num: 3),
                       eventcard(num: 4),
                       eventcard(num: 5),
-                    
                     ],
                   ),
                   Center(
                     child: Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: ElevatedButton(
-                            onPressed: () {},
-                            child: const Text(
-                              "See more",
-                              style: TextStyle(color: Colors.white),
-                            )),
-                      ),
+                      padding: const EdgeInsets.all(15),
+                      child: ElevatedButton(
+                          onPressed: () {},
+                          child: const Text(
+                            "See more",
+                            style: TextStyle(color: Colors.white),
+                          )),
+                    ),
                   )
                 ],
               ),

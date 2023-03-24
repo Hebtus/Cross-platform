@@ -4,11 +4,16 @@ import 'package:hebtus_crossplatform/components/signup_pages_appbar.dart';
 import 'package:hebtus_crossplatform/constants.dart' as constants;
 import 'package:go_router/go_router.dart';
 
-class ForgotPasswdScreen extends StatelessWidget {
-  ForgotPasswdScreen({super.key});
+class ForgotPasswdScreen extends StatefulWidget {
+  const ForgotPasswdScreen({super.key});
 
-  final _formKey = GlobalKey<FormState>();
+  static final _formKey = GlobalKey<FormState>();
 
+  @override
+  State<ForgotPasswdScreen> createState() => _ForgotPasswdScreenState();
+}
+
+class _ForgotPasswdScreenState extends State<ForgotPasswdScreen> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -56,7 +61,7 @@ class ForgotPasswdScreen extends StatelessWidget {
                                   TextStyle(fontSize: 15, color: Colors.black)),
                         ),
                         Form(
-                          key: _formKey,
+                          key: ForgotPasswdScreen._formKey,
                           child: Column(
                             children: [
                               const Padding(
@@ -66,7 +71,9 @@ class ForgotPasswdScreen extends StatelessWidget {
                                 padding: const EdgeInsets.all(8.0),
                                 child: ElevatedButton(
                                     onPressed: () {
-                                      if (_formKey.currentState!.validate()) {
+                                      if (ForgotPasswdScreen
+                                          ._formKey.currentState!
+                                          .validate()) {
                                         return context.go("/");
                                       }
                                     },

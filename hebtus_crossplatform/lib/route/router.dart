@@ -19,7 +19,7 @@ class AppRouter {
     GoRoute(
       path: '/forgotpassword',
       builder: (context, state) {
-        return ForgotPasswdScreen();
+        return const ForgotPasswdScreen();
       },
     ),
     GoRoute(

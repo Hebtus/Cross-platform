@@ -6,16 +6,23 @@ import 'package:hebtus_crossplatform/screens/LogIn/components/dont_have_account_
 import '../../../components/socialmedia_icon.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginForm extends StatelessWidget {
-  LoginForm({
+class LoginForm extends StatefulWidget {
+  const LoginForm({
     super.key,
   });
+  static final _formKey = GlobalKey<FormState>();
+
+  @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
   final _passwdController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Form(
-        key: _formKey,
+        key: LoginForm._formKey,
         child: Column(
           children: [
             const EmailTextField(),
@@ -24,7 +31,7 @@ class LoginForm extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
+                    if (LoginForm._formKey.currentState!.validate()) {
                       return context.go("/home");
                     }
                   },

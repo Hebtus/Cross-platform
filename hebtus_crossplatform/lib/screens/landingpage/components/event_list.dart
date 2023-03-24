@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:hebtus_crossplatform/Models/events.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class eventcard extends StatelessWidget {
   int num;
@@ -55,9 +54,9 @@ class eventcard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left:10,right:30),
-      height: double.infinity,
-      child: Card(
+        margin: EdgeInsets.only(left: 10, right: 30),
+        height: double.infinity,
+        child: Card(
           clipBehavior: Clip.hardEdge,
           color: Color.fromARGB(255, 255, 249, 249),
           child: InkWell(
@@ -65,50 +64,92 @@ class eventcard extends StatelessWidget {
               onTap: () {},
               child: Flexible(
                 child: Container(
-                  height:double.infinity,
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                    height: double.infinity,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                        Image(image: NetworkImage(eventlist[num].eventimage),fit: BoxFit.cover,),
-                        SizedBox(
-                         
-                         width: 250.w,
-                          child: Padding(
-                           padding: const EdgeInsets.only(top:10,left:9,right:8),
-                           child: FittedBox(fit:BoxFit.fitWidth,child: Text(eventlist[num].eventname,style:  TextStyle(fontSize: 17.sp,fontWeight: FontWeight.bold),)),
+                          Image(
+                            image: NetworkImage(eventlist[num].eventimage),
+                            fit: BoxFit.cover,
+                          ),
+                          SizedBox(
+                            width: 250,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 10, left: 9, right: 8),
+                              child: FittedBox(
+                                  fit: BoxFit.fitWidth,
+                                  child: Text(
+                                    eventlist[num].eventname,
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold),
+                                  )),
                             ),
-                        ),
-                        SizedBox(
-                           width: 90,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top:7,left:9,right:8),
-                            child: FittedBox(fit:BoxFit.fitWidth,child: Text(eventlist[num].eventtime,style:  TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold,color: Color.fromARGB(255, 238, 97, 2)),)),
                           ),
-                        ),
-                        SizedBox(
-                          width: 100,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top:7,left:9,right:8),
-                            child: FittedBox(fit:BoxFit.fitWidth,child: Text(eventlist[num].eventlocation,style:  TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold,color: Color.fromARGB(255, 138, 136, 136)),)),
+                          SizedBox(
+                            width: 90,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 7, left: 9, right: 8),
+                              child: FittedBox(
+                                  fit: BoxFit.fitWidth,
+                                  child: Text(
+                                    eventlist[num].eventtime,
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color.fromARGB(255, 238, 97, 2)),
+                                  )),
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          width:90,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top:7,left:9,right:8),
-                            child: FittedBox(fit:BoxFit.scaleDown,child: Text(eventlist[num].eventorg,style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold,color: Colors.black),)),
+                          SizedBox(
+                            width: 100,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 7, left: 9, right: 8),
+                              child: FittedBox(
+                                  fit: BoxFit.fitWidth,
+                                  child: Text(
+                                    eventlist[num].eventlocation,
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color:
+                                            Color.fromARGB(255, 138, 136, 136)),
+                                  )),
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          width: 90,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top:7,left:9,right:8),
-                            child: FittedBox(fit:BoxFit.contain,child: Text(eventlist[num].eventfollowers,)),
+                          SizedBox(
+                            width: 90,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 7, left: 9, right: 8),
+                              child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text(
+                                    eventlist[num].eventorg,
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                  )),
+                            ),
                           ),
-                        ),
-                        ]
-                  
-                              )),
+                          SizedBox(
+                            width: 90,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 7, left: 9, right: 8),
+                              child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: Text(
+                                    eventlist[num].eventfollowers,
+                                  )),
+                            ),
+                          ),
+                        ])),
               )),
-    ));
+        ));
   }
 }

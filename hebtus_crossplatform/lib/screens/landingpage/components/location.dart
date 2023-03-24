@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hebtus_crossplatform/constants.dart' as constants;
 
 class Location extends StatelessWidget {
@@ -11,7 +10,6 @@ class Location extends StatelessWidget {
     return Container(
       width: double.infinity,
       child: Row(
-        
         children: [
           IconButton(
             onPressed: () {},
@@ -26,10 +24,11 @@ class Location extends StatelessWidget {
           ),
           Container(
             margin: const EdgeInsets.only(left: 20),
-            width: 120.w,
-            child:  TextField(
+            width: 120,
+            child: TextField(
               decoration: InputDecoration(
-                hintText: "Enter location",hintStyle: TextStyle(fontSize:15.sp),
+                hintText: "Enter location",
+                hintStyle: TextStyle(fontSize: 15),
               ),
             ),
           )

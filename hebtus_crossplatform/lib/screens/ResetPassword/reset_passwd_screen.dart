@@ -4,9 +4,7 @@ import 'package:hebtus_crossplatform/constants.dart' as constants;
 import 'package:hebtus_crossplatform/screens/ResetPassword/components/reset_passwd_form.dart';
 
 class ResetPasswdScreen extends StatelessWidget {
-  ResetPasswdScreen({super.key});
-
-  final _formKey = GlobalKey<FormState>();
+  const ResetPasswdScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
