@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Components/creator_components.dart';
+import 'package:hebtus_crossplatform/screens/Creator/Tickets/add_more_tickets.dart';
 
-String pageTitle='Tickets';
-bool  buttonAdmission=true;
-bool  buttonAddons=false;
-bool  buttonPromoCode=false;
-bool  buttonHold=false;
-bool  buttonSettings=false;
+String pageTitle = 'Tickets';
+bool buttonAdmission = true;
+bool buttonAddons = false;
+bool buttonPromoCode = false;
+bool buttonHold = false;
+bool buttonSettings = false;
 
-bool checkBoxDisplaySettings=false;
-
+bool checkBoxDisplaySettings = false;
 
 enum SingingCharacter { ticketEvent, RegEvent }
+
 enum SampleItem { itemOne, itemTwo, itemThree }
+
 SampleItem? selectedMenu;
 SingingCharacter? _character = SingingCharacter.ticketEvent;
+
 class Tickets extends StatefulWidget {
   const Tickets({Key? key}) : super(key: key);
 
@@ -24,129 +27,99 @@ class Tickets extends StatefulWidget {
 
 class _TicketsState extends State<Tickets> {
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
-  Column tabMenu(){
-
+  Column tabMenu() {
     return Column(
       children: [
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              ElevatedButton(onPressed: (){
-                setState(() {
-                  buttonAdmission=true;
-                  buttonAddons=  buttonAddons?false:false;
-                  buttonPromoCode= buttonPromoCode?false:false;
-                  buttonHold=buttonHold?false:false;
-                  buttonSettings=buttonSettings?false:false;
-                  pageTitle='Tickets';
-                });
-
-              },
+              ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      buttonAdmission = true;
+                      buttonAddons = buttonAddons ? false : false;
+                      buttonPromoCode = buttonPromoCode ? false : false;
+                      buttonHold = buttonHold ? false : false;
+                      buttonSettings = buttonSettings ? false : false;
+                      pageTitle = 'Tickets';
+                    });
+                  },
                   child: Text('Admission'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
-                  )
-
-
-
-              ),
-              ElevatedButton(onPressed: (){
-                setState(() {
-                  buttonAdmission=buttonAdmission?false:false;
-                  buttonAddons=  true;
-                  buttonPromoCode= buttonPromoCode?false:false;
-                  buttonHold=buttonHold?false:false;
-                  buttonSettings=buttonSettings?false:false;
-                  pageTitle='Add-ons';
-                });
-
-              },
+                  )),
+              ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      buttonAdmission = buttonAdmission ? false : false;
+                      buttonAddons = true;
+                      buttonPromoCode = buttonPromoCode ? false : false;
+                      buttonHold = buttonHold ? false : false;
+                      buttonSettings = buttonSettings ? false : false;
+                      pageTitle = 'Add-ons';
+                    });
+                  },
                   child: Text('Add-ons'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
-                  )
-
-
-
-              ),
-              ElevatedButton(onPressed: (){
-                setState(() {
-                  buttonAdmission=buttonAdmission?false:false;
-                  buttonAddons=  buttonAddons?false:false;
-                  buttonPromoCode= true;
-                  buttonHold=buttonHold?false:false;
-                  buttonSettings=buttonSettings?false:false;
-                  pageTitle='Promo code';
-                });
-
-              },
+                  )),
+              ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      buttonAdmission = buttonAdmission ? false : false;
+                      buttonAddons = buttonAddons ? false : false;
+                      buttonPromoCode = true;
+                      buttonHold = buttonHold ? false : false;
+                      buttonSettings = buttonSettings ? false : false;
+                      pageTitle = 'Promo code';
+                    });
+                  },
                   child: Text('Promo code'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
-                  )
-
-
-
-              ),
-              ElevatedButton(onPressed: (){
-                setState(() {
-                  buttonAdmission=buttonAdmission?false:false;
-                  buttonAddons=  buttonAddons?false:false;
-                  buttonPromoCode= buttonPromoCode?false:false;
-                  buttonHold=true;
-                  buttonSettings=buttonSettings?false:false;
-                  pageTitle='Holds';
-                });
-
-              },
+                  )),
+              ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      buttonAdmission = buttonAdmission ? false : false;
+                      buttonAddons = buttonAddons ? false : false;
+                      buttonPromoCode = buttonPromoCode ? false : false;
+                      buttonHold = true;
+                      buttonSettings = buttonSettings ? false : false;
+                      pageTitle = 'Holds';
+                    });
+                  },
                   child: Text('Holds'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
-                  )
-
-
-
-              ),
-              ElevatedButton(onPressed: (){
-                setState(() {
-                  buttonAdmission=buttonAdmission?false:false;
-                  buttonAddons=  buttonAddons?false:false;
-                  buttonPromoCode= buttonPromoCode?false:false;
-                  buttonHold=buttonHold?false:false;
-                  buttonSettings=true;
-                  pageTitle='Settings';
-                });
-
-              },
+                  )),
+              ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      buttonAdmission = buttonAdmission ? false : false;
+                      buttonAddons = buttonAddons ? false : false;
+                      buttonPromoCode = buttonPromoCode ? false : false;
+                      buttonHold = buttonHold ? false : false;
+                      buttonSettings = true;
+                      pageTitle = 'Settings';
+                    });
+                  },
                   child: Text('Settings'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
-                  )
-
-
-
-              ),
-
-
-
-
-
-
-
-
+                  )),
             ],
-
           ),
         ),
       ],
     );
   }
-  Column tabSettings(){
+
+  Column tabSettings() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         const Text(
           'Display settings',
           style: TextStyle(
@@ -165,13 +138,12 @@ class _TicketsState extends State<Tickets> {
               checkBoxDisplaySettings = newValue!;
             });
           },
-          controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+          controlAffinity:
+              ListTileControlAffinity.leading, //  <-- leading Checkbox
         ),
-
         const SizedBox(
           height: 20,
         ),
-
         const Text(
           'Event type',
           style: TextStyle(
@@ -226,58 +198,49 @@ class _TicketsState extends State<Tickets> {
           height: 10,
         ),
         TextFormField(
-
           onChanged: (String value) {
-            setState(() {
-
-            });
+            setState(() {});
           },
           decoration: InputDecoration(
             //hint addressa dispappers while the lable remains
             border: const OutlineInputBorder(),
-
           ),
         ),
-
-
       ],
-
     );
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         bottomSheet: Container(
           width: MediaQuery.of(context).size.width,
-          child: ElevatedButton(onPressed: () {  }, child: Text('Next'),),
+          child: ElevatedButton(
+            onPressed: () {},
+            child: Text('Next'),
+          ),
         ),
         key: _globalKey,
         appBar: appBarModule(),
         drawer: appDrawer(context),
         body: SingleChildScrollView(
             child: Column(
-              children: [
-                sideMenuModule(_globalKey, pageTitle),
-                //for ( var i = 0; i < 10; i++ )  tabMenu(),
-                SizedBox(
-                  height: 10,
-                ),
-                tabMenu(),
+          children: [
+            sideMenuModule(_globalKey, pageTitle),
+            //for ( var i = 0; i < 10; i++ )  tabMenu(),
+            SizedBox(
+              height: 10,
+            ),
+            tabMenu(),
 
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     SizedBox(
                       height: 10,
                     ),
-
                     if (buttonAdmission) ...[
                       Material(
                         elevation: 5,
@@ -285,9 +248,9 @@ class _TicketsState extends State<Tickets> {
                           height: 200,
                           padding: const EdgeInsets.all(25.0),
                           decoration: BoxDecoration(
-                            border: Border.all( color: Colors.grey),
-                            borderRadius: BorderRadius.all(Radius.circular(5))
-                          ),
+                              border: Border.all(color: Colors.grey),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5))),
                           child: Column(
                             children: [
                               Row(
@@ -295,53 +258,53 @@ class _TicketsState extends State<Tickets> {
                                   const Text(
                                     "General admission",
                                     style: TextStyle(fontSize: 20.0),
-
                                   ),
                                   Spacer(),
-                          PopupMenuButton<SampleItem>(
-                            initialValue: selectedMenu,
-                            // Callback that sets the selected popup menu item.
-                            onSelected: (SampleItem item) {
-                              setState(() {
-                                selectedMenu = item;
-                              });
-                            },
-                            itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
-                              const PopupMenuItem<SampleItem>(
-                                value: SampleItem.itemOne,
-                                child: Text('edit'),
-                              ),
-                              const PopupMenuItem<SampleItem>(
-                                value: SampleItem.itemTwo,
-                                child: Text('copy'),
-                              ),
-                              const PopupMenuItem<SampleItem>(
-                                value: SampleItem.itemThree,
-                                child: Text('delete'),
-                              ),
-                            ],
-                          ),
+                                  PopupMenuButton<SampleItem>(
+                                    initialValue: selectedMenu,
+                                    // Callback that sets the selected popup menu item.
+                                    onSelected: (SampleItem item) {
+                                      setState(() {
+                                        selectedMenu = item;
+                                      });
+                                    },
+                                    itemBuilder: (BuildContext context) =>
+                                        <PopupMenuEntry<SampleItem>>[
+                                      const PopupMenuItem<SampleItem>(
+                                        value: SampleItem.itemOne,
+                                        child: Text('edit'),
+                                      ),
+                                      const PopupMenuItem<SampleItem>(
+                                        value: SampleItem.itemTwo,
+                                        child: Text('copy'),
+                                      ),
+                                      const PopupMenuItem<SampleItem>(
+                                        value: SampleItem.itemThree,
+                                        child: Text('delete'),
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
                               Row(
                                 children: [
-                                  CircleAvatar(backgroundColor: Colors.green,
-                                  radius: 4,
+                                  CircleAvatar(
+                                    backgroundColor: Colors.green,
+                                    radius: 4,
                                   ),
-                                  SizedBox(width: 5,),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
                                   const Text(
                                     "On Sale",
-                                    style: TextStyle(fontSize: 20.0,
-                                    color: Colors.grey),
-
+                                    style: TextStyle(
+                                        fontSize: 20.0, color: Colors.grey),
                                   ),
                                   Spacer(),
                                   const Text(
                                     "Free",
                                     style: TextStyle(fontSize: 20.0),
-
                                   ),
-
                                 ],
                               ),
                               const Divider(
@@ -351,88 +314,122 @@ class _TicketsState extends State<Tickets> {
                                 children: [
                                   const Text(
                                     "Available Quantity ",
-                                    style: TextStyle(fontSize: 20.0,
-                                        color: Colors.grey),
-
+                                    style: TextStyle(
+                                        fontSize: 20.0, color: Colors.grey),
                                   ),
                                   const Text(
                                     "20 ",
-                                    style: TextStyle(fontSize: 20.0,
-                                        color: Colors.black),
-
+                                    style: TextStyle(
+                                        fontSize: 20.0, color: Colors.black),
                                   ),
                                 ],
-
                               )
-
-
                             ],
                           ),
                         ),
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width,
-                        child: ElevatedButton(onPressed: () {
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => addMoreTickets()),);
 
-                          
-                        },
+                          },
                           style: ElevatedButton.styleFrom(
-                           backgroundColor: Colors.white, // Background colo// r
+                            backgroundColor:
+                                Colors.white, // Background colo// r
                           ),
-                          child: Text('+ Add more tickets',
-                          style: TextStyle(
-                            color: Colors.blueAccent
-                          ),),
-
-
+                          child: Text(
+                            '+ Add more tickets',
+                            style: TextStyle(color: Colors.blueAccent),
+                          ),
                         ),
                       ),
-
-
-
                     ],
                     if (buttonAddons) ...[],
-                    if (buttonPromoCode) ...[],
+                    if (buttonPromoCode) ...[
+                      ElevatedButton(onPressed: (){}, child: Text('Add a code')),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: DataTable(columns: [
+                          DataColumn(
+                              label: Text('Name',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold))),
+                          DataColumn(
+                              label: Text('Code type',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold))),
+                          DataColumn(
+                              label: Text('Discount',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold))),
+                          DataColumn(
+                              label: Text('Uses',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold))),
+                          DataColumn(
+                              label: Text('Status',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold))),
+                          DataColumn(
+                              label: Text('Options',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold))),
+
+
+
+                        ], rows: [
+                          DataRow(cells: [
+                            DataCell(Text('911223')),
+                            DataCell(Text('Applies discount')),
+                            DataCell(Text('\$12.00')),
+                            DataCell(Text('0/unlimited')),
+                            DataCell(Text('Active')),
+                            DataCell(                                  PopupMenuButton<SampleItem>(
+                              initialValue: selectedMenu,
+                              // Callback that sets the selected popup menu item.
+                              onSelected: (SampleItem item) {
+                                setState(() {
+                                  selectedMenu = item;
+                                });
+                              },
+                              itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry<SampleItem>>[
+                                const PopupMenuItem<SampleItem>(
+                                  value: SampleItem.itemOne,
+                                  child: Text('edit'),
+                                ),
+                                const PopupMenuItem<SampleItem>(
+                                  value: SampleItem.itemThree,
+                                  child: Text('delete'),
+                                ),
+                              ],
+                            ),),
+                          ]),
+
+
+
+
+
+                        ]),
+                      )
+                    ],
                     if (buttonHold) ...[],
                     if (buttonSettings) ...[
                       tabSettings(),
-
-
-
-
                     ],
-
-
-
-
-
-        ]
-                  ),
-                ),
-              ],
-            )
-        )
-    );
+                  ]),
+            ),
+          ],
+        )));
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
