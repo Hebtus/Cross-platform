@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// This class returns cover image of the landing page including button for finding events according to location
 class CoverImage extends StatelessWidget {
   const CoverImage({super.key});
 

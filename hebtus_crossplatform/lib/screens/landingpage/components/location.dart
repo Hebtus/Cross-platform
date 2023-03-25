@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+///This class returns textfield for entering location
 class Location extends StatelessWidget {
   const Location({super.key});
 

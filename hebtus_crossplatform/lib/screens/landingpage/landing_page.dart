@@ -9,13 +9,14 @@ import 'package:hebtus_crossplatform/screens/landingpage/components/tab_bar.dart
 import 'package:hebtus_crossplatform/screens/LandingPage/components/categories.dart';
 import 'package:hebtus_crossplatform/screens/landingpage/components/event_list.dart';
 
+/// This class returns landingpage which is the homepage of the app
 class LandingPageScreen extends StatelessWidget {
   const LandingPageScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: Color.fromARGB(255, 141, 58, 58),
       child: Scaffold(
           appBar: MainAppBar(context),
           body: SingleChildScrollView(
@@ -35,7 +36,7 @@ class LandingPageScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  const Location(),
+                  const Location(), // class that returns textfield for entering location
                   NavBar(),
                   const Padding(
                     padding: EdgeInsets.only(left: 30, top: 30),

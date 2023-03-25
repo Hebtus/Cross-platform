@@ -1,3 +1,4 @@
+/// This is a class that constructs event with members : image,name,time,locatiom.organization and followers
 class Events {
   final String eventimage;
   final String eventname;

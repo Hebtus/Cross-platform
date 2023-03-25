@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hebtus_crossplatform/components/app_bar.dart';
 import 'package:hebtus_crossplatform/screens/SeeMorePage/component/events.dart';
 
+///This class returns page that opens after clicking on see more button
 class SeeMore extends StatelessWidget {
   const SeeMore({super.key});
 
@@ -11,7 +12,7 @@ class SeeMore extends StatelessWidget {
     return Scaffold(
         appBar: MainAppBar(context),
         backgroundColor: Colors.white,
-        body: SingleChildScrollView(
+        body: SingleChildScrollView(  /// page
           physics: const BouncingScrollPhysics(),
           child: Container(
             child: Column(children: [
@@ -26,7 +27,7 @@ class SeeMore extends StatelessWidget {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  for (var i = 0; i < 6; i++) EventSeeMore(num: i),
+                  for (var i = 0; i < 6; i++) EventSeeMore(num: i), 
                 ],
               ),
             ]),
