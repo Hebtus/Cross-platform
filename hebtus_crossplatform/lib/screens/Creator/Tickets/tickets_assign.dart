@@ -24,7 +24,29 @@ List _itemsPromo = [];
 
 SampleItem? selectedMenu;
 SingingCharacter? _character = SingingCharacter.ticketEvent;
-
+///name:readJson
+///Description:read a json file for tickets list from assets and added to a global variable
+///return type:non
+///--------------------------------------
+///name:read promo
+///Description:read a json file for promo code list from assets and added to a global variable
+///return type:non
+///---------------------------------------
+///tabMenu
+///Description:this method returns the row of button tabs to navigate the tickets page
+/// return type:Column
+/// ----------------------------------------
+/// name:tabsettings
+///Description:this contains the settings page field
+/// return type:Column
+/// --------------------------------------------------
+/// name ticketCard
+///Description:this methode tickets list and draws the container with the contained data
+/// return type:Column
+/// -----------------------------------------------
+/// promoCodeTable
+///Description:this methode promo code list and draws the container with the contained data
+/// return type:Column
 class Tickets extends StatefulWidget {
   const Tickets({Key? key}) : super(key: key);
 
