@@ -1,29 +1,25 @@
 import 'package:flutter/material.dart';
 
-
-TextEditingController _date = new TextEditingController();
+TextEditingController _date = TextEditingController();
 DateTime selectedDate = DateTime.now();
-bool DisplayStartTime=false;
-bool DisplayEndTime=false;
-bool buttonPaid=true;
-bool buttonFree=false;
-bool buttonDonation=false;
+bool displayStartTime = false;
+bool displayEndTime = false;
+bool buttonPaid = true;
+bool buttonFree = false;
+bool buttonDonation = false;
 
-class addMoreTickets extends StatefulWidget {
-  const addMoreTickets({Key? key}) : super(key: key);
+class AddMoreTickets extends StatefulWidget {
+  const AddMoreTickets({Key? key}) : super(key: key);
 
   @override
-  State<addMoreTickets> createState() => _addMoreTicketsState();
+  State<AddMoreTickets> createState() => _AddMoreTicketsState();
 }
 
-class _addMoreTicketsState extends State<addMoreTickets> {
+class _AddMoreTicketsState extends State<AddMoreTickets> {
   String dropdownvalue = 'Date & time';
 
   // List of items in our dropdown menu
-  var items = [
-    'Date & time',
-    'When sales end'
-  ];
+  var items = ['Date & time', 'When sales end'];
   Future _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
@@ -33,21 +29,17 @@ class _addMoreTicketsState extends State<addMoreTickets> {
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
-        _date.value = TextEditingValue(
-            text: "${selectedDate.toLocal()}".split(' ')[0]);
+        _date.value =
+            TextEditingValue(text: "${selectedDate.toLocal()}".split(' ')[0]);
       });
     }
   }
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add tickets'),
+        title: const Text('Add tickets'),
         backgroundColor: Colors.white,
         elevation: 1,
       ),
@@ -57,79 +49,68 @@ class _addMoreTicketsState extends State<addMoreTickets> {
           children: [
             Row(
               children: [
-                ElevatedButton(onPressed: (){
-                  setState(() {
-                    buttonPaid=true;
-                    buttonFree=false;
-                    buttonDonation=false;
-
-                  });
-
-                }, child:Text('Paid'
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      buttonPaid = true;
+                      buttonFree = false;
+                      buttonDonation = false;
+                    });
+                  },
+                  child: const Text('Paid'),
                 ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      buttonPaid = false;
+                      buttonFree = true;
+                      buttonDonation = false;
+                    });
+                  },
+                  child: const Text('Free'),
                 ),
-                ElevatedButton(onPressed: (){
-                  setState(() {
-                    buttonPaid=false;
-                    buttonFree=true;
-                    buttonDonation=false;
-
-                  });
-                }, child:Text('Free'
-                ),
-                ),
-                ElevatedButton(onPressed: (){
-                  setState(() {
-
-                    buttonFree=false;
-                    buttonPaid=false;
-                    buttonDonation=true;
-
-                  });
-
-                }, child:Text('Donation'
-                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      buttonFree = false;
+                      buttonPaid = false;
+                      buttonDonation = true;
+                    });
+                  },
+                  child: const Text('Donation'),
                 ),
               ],
             ),
-
-
-            if(buttonPaid)...[
+            if (buttonPaid) ...[
               TextFormField(
                 maxLength: 50,
-
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
                   hintText: 'Name',
                 ),
               ),
-              SizedBox(
-                height: 10 ,
+              const SizedBox(
+                height: 10,
               ),
               TextFormField(
-
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
                   hintText: 'Price \$',
                 ),
               ),
-              SizedBox(
-                height: 10 ,
+              const SizedBox(
+                height: 10,
               ),
               TextFormField(
-
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
                   hintText: 'Available quantity',
                 ),
               ),
               DropdownButton(
                 isExpanded: true,
                 value: dropdownvalue,
-
                 icon: const Icon(Icons.keyboard_arrow_down),
-
-
                 items: items.map((String items) {
                   return DropdownMenuItem(
                     value: items,
@@ -155,28 +136,19 @@ class _addMoreTicketsState extends State<addMoreTickets> {
                   ),
                 ),
               ),
-
-
-
               const SizedBox(
                 height: 20,
               ),
-
-
               TextFormField(
                 controller: _date,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
                   hintText: 'Start time',
                 ),
               ),
-
-
               const SizedBox(
                 height: 20,
               ),
-
-
               TextFormField(
                 controller: _date,
                 decoration: InputDecoration(
@@ -190,155 +162,132 @@ class _addMoreTicketsState extends State<addMoreTickets> {
                   ),
                 ),
               ),
-
               const SizedBox(
                 height: 20,
               ),
               TextFormField(
                 controller: _date,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
                   hintText: 'End time',
                 ),
               ),
-
             ],
-            if(buttonFree)...[
+            if (buttonFree) ...[
               TextFormField(
                 maxLength: 50,
-
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
                   hintText: 'Name',
                 ),
               ),
-              SizedBox(
-                height: 10 ,
-              ),
-              TextFormField(
-enabled: false,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  hintText: 'Price \$(free)',
-                ),
-              ),
-              SizedBox(
-                height: 10 ,
-              ),
-              TextFormField(
-
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  hintText: 'Available quantity',
-                ),
-              ),
-              DropdownButton(
-                isExpanded: true,
-                value: dropdownvalue,
-
-                icon: const Icon(Icons.keyboard_arrow_down),
-
-
-                items: items.map((String items) {
-                  return DropdownMenuItem(
-                    value: items,
-                    child: Text(items),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    dropdownvalue = newValue!;
-                  });
-                },
-              ),
-              TextFormField(
-                controller: _date,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  hintText: 'Event starts',
-                  prefixIcon: IconButton(
-                    icon: const Icon(Icons.calendar_today),
-                    onPressed: () {
-                      _selectDate(context);
-                    },
-                  ),
-                ),
-              ),
-
-
-
               const SizedBox(
-                height: 20,
-              ),
-
-
-              TextFormField(
-                controller: _date,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  hintText: 'Start time',
-                ),
-              ),
-
-
-              const SizedBox(
-                height: 20,
-              ),
-
-
-              TextFormField(
-                controller: _date,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  hintText: 'Event ends',
-                  prefixIcon: IconButton(
-                    icon: const Icon(Icons.calendar_today),
-                    onPressed: () {
-                      _selectDate(context);
-                    },
-                  ),
-                ),
-              ),
-
-              const SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                controller: _date,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  hintText: 'End time',
-                ),
-              ),
-
-            ],
-            if(buttonDonation)...[
-              TextFormField(
-                maxLength: 50,
-
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  hintText: 'Name',
-                ),
-              ),
-              SizedBox(
-                height: 10 ,
+                height: 10,
               ),
               TextFormField(
                 enabled: false,
-
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Price \$(free)',
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextFormField(
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Available quantity',
+                ),
+              ),
+              DropdownButton(
+                isExpanded: true,
+                value: dropdownvalue,
+                icon: const Icon(Icons.keyboard_arrow_down),
+                items: items.map((String items) {
+                  return DropdownMenuItem(
+                    value: items,
+                    child: Text(items),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dropdownvalue = newValue!;
+                  });
+                },
+              ),
+              TextFormField(
+                controller: _date,
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
+                  hintText: 'Event starts',
+                  prefixIcon: IconButton(
+                    icon: const Icon(Icons.calendar_today),
+                    onPressed: () {
+                      _selectDate(context);
+                    },
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                controller: _date,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Start time',
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                controller: _date,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  hintText: 'Event ends',
+                  prefixIcon: IconButton(
+                    icon: const Icon(Icons.calendar_today),
+                    onPressed: () {
+                      _selectDate(context);
+                    },
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                controller: _date,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'End time',
+                ),
+              ),
+            ],
+            if (buttonDonation) ...[
+              TextFormField(
+                maxLength: 50,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Name',
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextFormField(
+                enabled: false,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
                   hintText: 'Available quantity(unlimited)',
                 ),
               ),
               DropdownButton(
                 isExpanded: true,
                 value: dropdownvalue,
-
                 icon: const Icon(Icons.keyboard_arrow_down),
-
-
                 items: items.map((String items) {
                   return DropdownMenuItem(
                     value: items,
@@ -364,28 +313,19 @@ enabled: false,
                   ),
                 ),
               ),
-
-
-
               const SizedBox(
                 height: 20,
               ),
-
-
               TextFormField(
                 controller: _date,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
                   hintText: 'Start time',
                 ),
               ),
-
-
               const SizedBox(
                 height: 20,
               ),
-
-
               TextFormField(
                 controller: _date,
                 decoration: InputDecoration(
@@ -399,32 +339,20 @@ enabled: false,
                   ),
                 ),
               ),
-
               const SizedBox(
                 height: 20,
               ),
               TextFormField(
                 controller: _date,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
                   hintText: 'End time',
                 ),
               ),
-
             ],
-
-
-
-
           ],
-
-
         ),
       ),
-
-
     );
   }
 }
-
-

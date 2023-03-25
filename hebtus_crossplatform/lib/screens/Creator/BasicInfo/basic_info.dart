@@ -8,10 +8,12 @@ bool buttonOnlineEvent = false;
 bool buttonToBeAnnounced = false;
 bool buttonSingleEvent=false;
 bool buttonRecurringEvent=false;
-TextEditingController _date = new TextEditingController();
+TextEditingController _date = TextEditingController();
 DateTime selectedDate = DateTime.now();
-bool DisplayStartTime=false;
-bool DisplayEndTime=false;
+TextEditingController _date2 = TextEditingController();
+DateTime selectedDate2 = DateTime.now();
+bool displayStartTime=false;
+bool displayEndTime=false;
 
 
 
@@ -44,6 +46,23 @@ class _BasicInfoState extends State<BasicInfo> {
       });
     }
   }
+
+
+
+  Future _selectDate2(BuildContext context) async {
+    final DateTime? picked2 = await showDatePicker(
+        context: context,
+        initialDate: selectedDate2,
+        firstDate: DateTime(1900),
+        lastDate: DateTime(2100));
+    if (picked2 != null && picked2 != selectedDate2) {
+      setState(() {
+        selectedDate2 = picked2;
+        _date2.value = TextEditingValue(
+            text: "${selectedDate2.toLocal()}".split(' ')[0]);
+      });
+    }
+  }
   ///Description:this method contains the basic info field in the page,contains only textfieldform
   ///Return Type:Column
   Column basicInfoField() {
@@ -57,7 +76,7 @@ class _BasicInfoState extends State<BasicInfo> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         const Text(
@@ -278,7 +297,7 @@ class _BasicInfoState extends State<BasicInfo> {
         ),
 
         if (buttonSingleEvent) ...[
-          Text(
+          const Text(
               'Single event happens once and can last multiple days '
           ),
 
@@ -307,9 +326,8 @@ class _BasicInfoState extends State<BasicInfo> {
 
 
           TextFormField(
-            controller: _date,
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
               hintText: 'Start time',
             ),
           ),
@@ -321,14 +339,14 @@ class _BasicInfoState extends State<BasicInfo> {
 
 
           TextFormField(
-            controller: _date,
+            controller: _date2,
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
               hintText: 'Event ends',
               prefixIcon: IconButton(
                 icon: const Icon(Icons.calendar_today),
                 onPressed: () {
-                  _selectDate(context);
+                  _selectDate2(context);
                 },
               ),
             ),
@@ -338,44 +356,44 @@ class _BasicInfoState extends State<BasicInfo> {
             height: 20,
           ),
           TextFormField(
-            controller: _date,
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
+            decoration:const InputDecoration(
+              border: OutlineInputBorder(),
               hintText: 'End time',
             ),
           ),
           CheckboxListTile(
-            title: Text("Display start time"),
-            value: DisplayStartTime,
+            title: const Text("Display start time"),
+            value: displayStartTime,
             onChanged: (newValue) {
               setState(() {
-                DisplayStartTime = newValue!;
+                displayStartTime = newValue!;
               });
             },
             controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
           ),
           CheckboxListTile(
-            title: Text("Display end time"),
-            value: DisplayEndTime,
+            title: const Text("Display end time"),
+            value: displayEndTime,
             onChanged: (newValue) {
               setState(() {
-                DisplayEndTime = newValue!;
+                displayEndTime = newValue!;
               });
             },
             controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
           ),
 
           TextFormField(
-            controller: _date,
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
+            decoration: const InputDecoration(
+              border:  OutlineInputBorder(),
               hintText: 'Time zone',
             ),
           ),
+          const SizedBox(
+            width: 10,
+          ),
           TextFormField(
-            controller: _date,
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
               hintText: 'Event page languge',
             ),
           ),
@@ -385,31 +403,32 @@ class _BasicInfoState extends State<BasicInfo> {
 
 
         if (buttonRecurringEvent) ...[
-          Text(
+          const Text(
               'You’ll be able to set a schedule for your recurring event in the next step. Event details and ticket types will apply to all instances.'
           ),
           CheckboxListTile(
-            title: Text("Display end time"),
-            value: DisplayEndTime,
+            title: const Text("Display end time"),
+            value: displayEndTime,
             onChanged: (newValue) {
               setState(() {
-                DisplayEndTime = newValue!;
+                displayEndTime = newValue!;
               });
             },
             controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
           ),
 
           TextFormField(
-            controller: _date,
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
+            decoration: const InputDecoration(
+              border:  OutlineInputBorder(),
               hintText: 'Time zone',
             ),
           ),
+          const SizedBox(
+            width: 10,
+          ),
           TextFormField(
-            controller: _date,
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
               hintText: 'Event page languge',
             ),
           ),

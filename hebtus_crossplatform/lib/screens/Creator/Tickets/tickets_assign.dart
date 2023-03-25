@@ -15,7 +15,7 @@ bool buttonSettings = false;
 
 bool checkBoxDisplaySettings = false;
 
-enum SingingCharacter { ticketEvent, RegEvent }
+enum SingingCharacter { ticketEvent, regEvent }
 
 enum SampleItem { itemOne, itemTwo, itemThree }
 
@@ -34,7 +34,8 @@ class Tickets extends StatefulWidget {
 
 class _TicketsState extends State<Tickets> {
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
-///Description:read a json file for tickets list from assets and added to a global variable
+
+  ///Description:read a json file for tickets list from assets and added to a global variable
   ///return type:non
   Future<void> readJson() async {
     final String response =
@@ -44,6 +45,7 @@ class _TicketsState extends State<Tickets> {
       _items = data["items"];
     });
   }
+
   ///Description:read a json file for promo code list from assets and added to a global variable
   ///return type:non
   Future<void> readJsonPromo() async {
@@ -52,10 +54,10 @@ class _TicketsState extends State<Tickets> {
     final data = await json.decode(response);
     setState(() {
       _itemsPromo = data["items"];
-      print(_itemsPromo);
     });
   }
-///Description:this method returns the row of button tabs to navigate the tickets page
+
+  ///Description:this method returns the row of button tabs to navigate the tickets page
   /// return type:Column
   Column tabMenu() {
     return Column(
@@ -76,10 +78,10 @@ class _TicketsState extends State<Tickets> {
                       readJson();
                     });
                   },
-                  child: Text('Admission'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
-                  )),
+                  ),
+                  child: const Text('Admission')),
               ElevatedButton(
                   onPressed: () {
                     setState(() {
@@ -91,10 +93,10 @@ class _TicketsState extends State<Tickets> {
                       pageTitle = 'Add-ons';
                     });
                   },
-                  child: Text('Add-ons'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
-                  )),
+                  ),
+                  child: const Text('Add-ons')),
               ElevatedButton(
                   onPressed: () {
                     setState(() {
@@ -107,10 +109,10 @@ class _TicketsState extends State<Tickets> {
                       readJsonPromo();
                     });
                   },
-                  child: Text('Promo code'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
-                  )),
+                  ),
+                  child: const Text('Promo code')),
               ElevatedButton(
                   onPressed: () {
                     setState(() {
@@ -122,10 +124,10 @@ class _TicketsState extends State<Tickets> {
                       pageTitle = 'Holds';
                     });
                   },
-                  child: Text('Holds'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
-                  )),
+                  ),
+                  child: const Text('Holds')),
               ElevatedButton(
                   onPressed: () {
                     setState(() {
@@ -137,16 +139,17 @@ class _TicketsState extends State<Tickets> {
                       pageTitle = 'Settings';
                     });
                   },
-                  child: Text('Settings'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
-                  )),
+                  ),
+                  child: const Text('Settings')),
             ],
           ),
         ),
       ],
     );
   }
+
   ///Description:this contains the settings page field
   /// return type:Column
   Column tabSettings() {
@@ -160,11 +163,11 @@ class _TicketsState extends State<Tickets> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         CheckboxListTile(
-          title: Text("Display number of tickets remaining."),
+          title: const Text("Display number of tickets remaining."),
           value: checkBoxDisplaySettings,
           onChanged: (newValue) {
             setState(() {
@@ -184,7 +187,7 @@ class _TicketsState extends State<Tickets> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         ListTile(
@@ -202,7 +205,7 @@ class _TicketsState extends State<Tickets> {
         ListTile(
           title: const Text('Registration Event'),
           leading: Radio<SingingCharacter>(
-            value: SingingCharacter.RegEvent,
+            value: SingingCharacter.regEvent,
             groupValue: _character,
             onChanged: (SingingCharacter? value) {
               setState(() {
@@ -218,7 +221,7 @@ class _TicketsState extends State<Tickets> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         const Text(
@@ -227,21 +230,22 @@ class _TicketsState extends State<Tickets> {
             fontSize: 13,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         TextFormField(
           onChanged: (String value) {
             setState(() {});
           },
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             //hint addressa dispappers while the lable remains
-            border: const OutlineInputBorder(),
+            border: OutlineInputBorder(),
           ),
         ),
       ],
     );
   }
+
   ///Description:this methode tickets list and draws the container with the contained data
   /// return type:Column
 
@@ -255,16 +259,16 @@ class _TicketsState extends State<Tickets> {
             padding: const EdgeInsets.all(25.0),
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.all(Radius.circular(5))),
+                borderRadius: const BorderRadius.all(Radius.circular(5))),
             child: Column(
               children: [
                 Row(
                   children: [
                     Text(
                       ticketsList[i]["name"],
-                      style: TextStyle(fontSize: 20.0),
+                      style: const TextStyle(fontSize: 20.0),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     PopupMenuButton<SampleItem>(
                       initialValue: selectedMenu,
                       // Callback that sets the selected popup menu item.
@@ -293,21 +297,21 @@ class _TicketsState extends State<Tickets> {
                 ),
                 Row(
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       backgroundColor: Colors.green,
                       radius: 4,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
                     const Text(
                       "On Sale",
                       style: TextStyle(fontSize: 20.0, color: Colors.grey),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Text(
                       ticketsList[i]["cost"],
-                      style: TextStyle(fontSize: 20.0),
+                      style: const TextStyle(fontSize: 20.0),
                     ),
                   ],
                 ),
@@ -322,7 +326,8 @@ class _TicketsState extends State<Tickets> {
                     ),
                     Text(
                       ticketsList[i]["quantity"],
-                      style: TextStyle(fontSize: 20.0, color: Colors.black),
+                      style:
+                          const TextStyle(fontSize: 20.0, color: Colors.black),
                     ),
                   ],
                 )
@@ -330,12 +335,13 @@ class _TicketsState extends State<Tickets> {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         )
       ],
     );
   }
+
   ///Description:this methode promo code list and draws the container with the contained data
   /// return type:Column
   DataRow promoCodetable(List promoList, int i) {
@@ -372,11 +378,11 @@ class _TicketsState extends State<Tickets> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomSheet: Container(
+        bottomSheet: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: ElevatedButton(
             onPressed: () {},
-            child: Text('Next'),
+            child: const Text('Next'),
           ),
         ),
         key: _globalKey,
@@ -387,7 +393,7 @@ class _TicketsState extends State<Tickets> {
           children: [
             sideMenuModule(_globalKey, pageTitle),
             //for ( var i = 0; i < 10; i++ )  tabMenu(),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             tabMenu(),
@@ -397,36 +403,36 @@ class _TicketsState extends State<Tickets> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     if (buttonAdmission) ...[
                       for (int i = 0; i < _items.length; i++)
                         ticketCard(_items, i),
-                      SizedBox(
+                      const SizedBox(
                         height: 50,
                       ),
-                      Container(
+                      SizedBox(
                         width: MediaQuery.of(context).size.width,
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => addMoreTickets()),
+                                  builder: (context) => const AddMoreTickets()),
                             );
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
                                 Colors.white, // Background colo// r
                           ),
-                          child: Text(
+                          child: const Text(
                             '+ Add more tickets',
                             style: TextStyle(color: Colors.blueAccent),
                           ),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         width: MediaQuery.of(context).size.width,
                         child: ElevatedButton(
                           onPressed: () {
@@ -436,13 +442,13 @@ class _TicketsState extends State<Tickets> {
                             backgroundColor:
                                 Colors.white, // Background colo// r
                           ),
-                          child: Text(
+                          child: const Text(
                             'Refresh',
                             style: TextStyle(color: Colors.blueAccent),
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 50,
                       ),
                     ],
@@ -453,13 +459,13 @@ class _TicketsState extends State<Tickets> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => addPromoCode()),
+                                  builder: (context) => const AddPromoCode()),
                             );
                           },
-                          child: Text('Add a code')),
+                          child: const Text('Add a code')),
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-                        child: DataTable(columns: [
+                        child: DataTable(columns: const [
                           DataColumn(
                               label: Text('Name',
                                   style: TextStyle(
