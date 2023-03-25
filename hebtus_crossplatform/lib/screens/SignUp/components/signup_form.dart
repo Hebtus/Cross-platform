@@ -27,13 +27,14 @@ class _SignupFormState extends State<SignupForm> {
         key: SignupForm._formKey,
         child: Column(
           children: [
-            const EmailTextField(),
+            const EmailTextField(myKey: "signupEmailField"),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
                   Flexible(
                     child: TextFormField(
+                        key: const Key("firstNameField"),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (firstName) {
                           if (firstName != null && firstName.isEmpty) {
@@ -50,6 +51,7 @@ class _SignupFormState extends State<SignupForm> {
                   const SizedBox(width: 5),
                   Flexible(
                     child: TextFormField(
+                        key: const Key("lastNameField"),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (lastName) {
                           if (lastName != null && lastName.isEmpty) {
@@ -66,11 +68,18 @@ class _SignupFormState extends State<SignupForm> {
                 ],
               ),
             ),
-            PasswordTextfield(controller: _passwdController),
-            ConfirmPasswordTextfield(passwdController: _passwdController),
+            PasswordTextfield(
+              controller: _passwdController,
+              myKey: "signupPassField",
+            ),
+            ConfirmPasswordTextfield(
+              passwdController: _passwdController,
+              myKey: "signupConfirmField",
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
+                  key: const Key("SignUp"),
                   onPressed: () {
                     if (SignupForm._formKey.currentState!.validate()) {
                       return context.go("/");

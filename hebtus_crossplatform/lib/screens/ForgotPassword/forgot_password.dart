@@ -66,7 +66,9 @@ class _ForgotPasswdScreenState extends State<ForgotPasswdScreen> {
                             children: [
                               const Padding(
                                   padding: EdgeInsets.all(8.0),
-                                  child: EmailTextField()),
+                                  child: EmailTextField(
+                                    myKey: "forgotPassEmailField",
+                                  )),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: ElevatedButton(

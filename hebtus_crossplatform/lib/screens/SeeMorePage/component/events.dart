@@ -3,13 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:hebtus_crossplatform/Models/events.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../models/events.dart';
 
 class EventSeeMore extends StatelessWidget {
   int num;
-  EventSeeMore({super.key,required this.num});
-  
+  EventSeeMore({super.key, required this.num});
+
   List<Events> eventlist = [
     Events(
         "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F379763539%2F987590164623%2F1%2Foriginal.20221025-041417?w=940&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C14%2C1200%2C600&s=bdac27032911508738b2393efb19700e",

@@ -24,8 +24,14 @@ class _ForgotPasswdFormState extends State<ForgotPasswdForm> {
         key: ForgotPasswdForm._formKey,
         child: Column(
           children: [
-            PasswordTextfield(controller: _passwdController),
-            ConfirmPasswordTextfield(passwdController: _passwdController),
+            PasswordTextfield(
+              controller: _passwdController,
+              myKey: "resetPassPasswordField",
+            ),
+            ConfirmPasswordTextfield(
+              passwdController: _passwdController,
+              myKey: "resetPassConfirmField",
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(

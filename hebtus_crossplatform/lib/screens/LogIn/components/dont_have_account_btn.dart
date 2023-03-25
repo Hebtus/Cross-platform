@@ -9,6 +9,7 @@ class RegisterNowBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
+      key: const Key("dontHaveAccountBtn"),
       onPressed: () {
         return context.go("/signup");
       },

@@ -25,11 +25,15 @@ class _LoginFormState extends State<LoginForm> {
         key: LoginForm._formKey,
         child: Column(
           children: [
-            const EmailTextField(),
-            PasswordTextfield(controller: _passwdController),
+            const EmailTextField(myKey: "loginEmailField"),
+            PasswordTextfield(
+              controller: _passwdController,
+              myKey: "loginPassField",
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
+                  key: const Key("LogIn"),
                   onPressed: () {
                     if (LoginForm._formKey.currentState!.validate()) {
                       return context.go("/home");

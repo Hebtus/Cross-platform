@@ -6,5 +6,5 @@ class Events {
   final String eventorg;
   final String eventfollowers;
   Events(this.eventimage, this.eventname, this.eventtime, this.eventlocation,
-      this.eventorg, this.eventfollowers) {}
+      this.eventorg, this.eventfollowers);
 }

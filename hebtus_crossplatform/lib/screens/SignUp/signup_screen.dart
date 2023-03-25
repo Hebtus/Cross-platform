@@ -28,6 +28,7 @@ class SignupScreen extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text("Sign Up",
+                        key: Key("SignUpTitle"),
                         style: TextStyle(fontSize: 50, color: Colors.white)),
                   ),
                   Container(
@@ -39,7 +40,7 @@ class SignupScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(5)),
-                    child: SignupForm(),
+                    child: const SignupForm(),
                   )
                 ],
               ),
