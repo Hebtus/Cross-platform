@@ -67,94 +67,92 @@ class EventSeeMore extends StatelessWidget {
               onTap: () {
                 return context.go("/events");
               },
-              child: Flexible(
-                child: Container(
-                    height: double.infinity,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Image(
-                            image: NetworkImage(eventlist[num].eventimage),
-                            fit: BoxFit.cover,
+              child: Container(
+                  height: double.infinity,
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Image(
+                          image: NetworkImage(eventlist[num].eventimage),
+                          fit: BoxFit.cover,
+                        ),
+                        SizedBox(
+                          width: 250,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10, left: 9, right: 8),
+                            child: FittedBox(
+                                fit: BoxFit.fitWidth,
+                                child: Text(
+                                  eventlist[num].eventname,
+                                  style: const TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold),
+                                )),
                           ),
-                          SizedBox(
-                            width: 250,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 10, left: 9, right: 8),
-                              child: FittedBox(
-                                  fit: BoxFit.fitWidth,
-                                  child: Text(
-                                    eventlist[num].eventname,
-                                    style: const TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold),
-                                  )),
-                            ),
+                        ),
+                        SizedBox(
+                          width: 90,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 7, left: 9, right: 8),
+                            child: FittedBox(
+                                fit: BoxFit.fitWidth,
+                                child: Text(
+                                  eventlist[num].eventtime,
+                                  style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(255, 238, 97, 2)),
+                                )),
                           ),
-                          SizedBox(
-                            width: 90,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 7, left: 9, right: 8),
-                              child: FittedBox(
-                                  fit: BoxFit.fitWidth,
-                                  child: Text(
-                                    eventlist[num].eventtime,
-                                    style: const TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color.fromARGB(255, 238, 97, 2)),
-                                  )),
-                            ),
+                        ),
+                        SizedBox(
+                          width: 100,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 7, left: 9, right: 8),
+                            child: FittedBox(
+                                fit: BoxFit.fitWidth,
+                                child: Text(
+                                  eventlist[num].eventlocation,
+                                  style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color:
+                                          Color.fromARGB(255, 138, 136, 136)),
+                                )),
                           ),
-                          SizedBox(
-                            width: 100,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 7, left: 9, right: 8),
-                              child: FittedBox(
-                                  fit: BoxFit.fitWidth,
-                                  child: Text(
-                                    eventlist[num].eventlocation,
-                                    style: const TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                        color:
-                                            Color.fromARGB(255, 138, 136, 136)),
-                                  )),
-                            ),
+                        ),
+                        SizedBox(
+                          width: 90,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 7, left: 9, right: 8),
+                            child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  eventlist[num].eventorg,
+                                  style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                )),
                           ),
-                          SizedBox(
-                            width: 90,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 7, left: 9, right: 8),
-                              child: FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  child: Text(
-                                    eventlist[num].eventorg,
-                                    style: const TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black),
-                                  )),
-                            ),
+                        ),
+                        SizedBox(
+                          width: 90,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 7, left: 9, right: 8),
+                            child: FittedBox(
+                                fit: BoxFit.contain,
+                                child: Text(
+                                  eventlist[num].eventfollowers,
+                                )),
                           ),
-                          SizedBox(
-                            width: 90,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 7, left: 9, right: 8),
-                              child: FittedBox(
-                                  fit: BoxFit.contain,
-                                  child: Text(
-                                    eventlist[num].eventfollowers,
-                                  )),
-                            ),
-                          ),
-                        ])),
-              )),
+                        ),
+                      ]))),
         ));
   }
 }
