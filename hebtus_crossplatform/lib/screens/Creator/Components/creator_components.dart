@@ -5,28 +5,23 @@ import 'package:hebtus_crossplatform/screens/Creator/Details/details.dart';
 import 'package:hebtus_crossplatform/screens/Creator/OnlineEventPage/online_event_page.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Publish/publish.dart';
 
-
 ///description:this methode will draw the upper appbar for all the event making pages
 ///return type:AppBar
 AppBar appBarModule() {
   return AppBar(
     automaticallyImplyLeading: false,
-    title:Text(
+    title: const Text(
       '   Hebtus',
       style: TextStyle(
         color: Colors.deepOrange,
         fontSize: 20,
-
       ),
-
-    ),// Image.asset('assets/hebtus.jpg', fit: BoxFit.contain, scale: 4),
+    ), // Image.asset('assets/hebtus.jpg', fit: BoxFit.contain, scale: 4),
     backgroundColor: Colors.white,
     elevation: 0.5,
     actions: [
       IconButton(
-          onPressed: () {
-            print('hellp');
-          },
+          onPressed: () {},
           icon: Icon(
             Icons.visibility,
             color: Colors.grey[400],
@@ -56,7 +51,7 @@ AppBar appBarModule() {
           ),
         ),
       ),
-      SizedBox(
+      const SizedBox(
         width: 10,
       ),
     ],
@@ -66,6 +61,7 @@ AppBar appBarModule() {
     //this will
   );
 }
+
 ///description:this methode will make the side bar for all pages to navigate between them
 ///return type:Drawer
 Drawer appDrawer(BuildContext context) {
@@ -87,7 +83,7 @@ Drawer appDrawer(BuildContext context) {
           title: const Text('Basic info'),
           onTap: () {
             Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => BasicInfo()));
+                MaterialPageRoute(builder: (context) => const BasicInfo()));
           },
         ),
         ListTile(
@@ -96,8 +92,8 @@ Drawer appDrawer(BuildContext context) {
           ),
           title: const Text('Details'),
           onTap: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => Details()));
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => const Details()));
           },
         ),
         ListTile(
@@ -106,8 +102,8 @@ Drawer appDrawer(BuildContext context) {
           ),
           title: const Text('Online event page'),
           onTap: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => OnlineEventPage()));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const OnlineEventPage()));
           },
         ),
         ListTile(
@@ -116,8 +112,8 @@ Drawer appDrawer(BuildContext context) {
           ),
           title: const Text('Tickets'),
           onTap: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => Tickets()));
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => const Tickets()));
           },
         ),
         ListTile(
@@ -126,18 +122,19 @@ Drawer appDrawer(BuildContext context) {
           ),
           title: const Text('Publish'),
           onTap: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => Publish()));
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => const Publish()));
           },
         ),
       ],
     ),
   );
 }
+
 ///description:this function opens the drawer of the app bar to make the side menu apperar when a specific button other than the standered is pressed
 ///return type:material
-Material sideMenuModule(final GlobalKey<ScaffoldState> globalKey,String fieldName){
-
+Material sideMenuModule(
+    final GlobalKey<ScaffoldState> globalKey, String fieldName) {
   return Material(
     elevation: 2.0,
     child: Container(
@@ -155,7 +152,7 @@ Material sideMenuModule(final GlobalKey<ScaffoldState> globalKey,String fieldNam
               )),
           Text(
             '$fieldName',
-            style: TextStyle(
+            style: const TextStyle(
               //fontWeight: FontWeight.bold,
               fontSize: 25,
             ),

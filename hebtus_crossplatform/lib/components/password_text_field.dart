@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+///The textfield for password in login and signup page, contains the necessary validations as well as obscure text option
 class PasswordTextfield extends StatefulWidget {
   final TextEditingController controller;
   final String myKey;

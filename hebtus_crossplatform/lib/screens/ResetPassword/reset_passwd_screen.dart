@@ -3,6 +3,7 @@ import 'package:hebtus_crossplatform/components/signup_pages_appbar.dart';
 import 'package:hebtus_crossplatform/constants.dart' as constants;
 import 'package:hebtus_crossplatform/screens/ResetPassword/components/reset_passwd_form.dart';
 
+///The screen contians the reset password form and logic
 class ResetPasswdScreen extends StatelessWidget {
   const ResetPasswdScreen({super.key});
 
@@ -43,7 +44,7 @@ class ResetPasswdScreen extends StatelessWidget {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(5)),
                     child: Column(
-                      children: [
+                      children: const [
                         ForgotPasswdForm(),
                       ],
                     ),

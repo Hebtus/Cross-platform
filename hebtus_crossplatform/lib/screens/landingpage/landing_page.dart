@@ -24,7 +24,7 @@ class LandingPageScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CoverImage(),
+                  const CoverImage(),
                   const Padding(
                     padding: EdgeInsets.only(top: 15, left: 15),
                     child: Text(

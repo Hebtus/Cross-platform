@@ -4,6 +4,7 @@ import 'package:hebtus_crossplatform/constants.dart' as constants;
 import '../../components/signup_pages_appbar.dart';
 import 'components/signup_form.dart';
 
+///The screen contains the signup form and signup logic
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
 

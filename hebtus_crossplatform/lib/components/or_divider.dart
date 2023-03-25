@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+///Divider with "OR" text in the middle, to be inserted between blocks or widgets
 class OrDivider extends StatelessWidget {
   const OrDivider({
     super.key,

@@ -1,8 +1,6 @@
 // ignore_for_file: sized_box_for_whitespace, must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../models/events.dart';
