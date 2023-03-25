@@ -15,6 +15,25 @@ DateTime selectedDate2 = DateTime.now();
 bool displayStartTime = false;
 bool displayEndTime = false;
 
+///name:_selectDate
+///Description:add a calender with start and end date to an icon
+///return type:non
+///--------------------------------------------------------
+///name:basicInfoField()
+///Description:this method contains the basic info field in the page,contains only textfieldform
+///Return Type:Column
+///---------------------------------------------------------
+///name:tagsfield
+///Description:this method contains the Tags module ,textfieldform & an add button
+///Return Type:Column
+///---------------------------------------------------------
+///name:locationField
+///Description:This methode has 3 buttons that change the field according to th button pressed
+///Return Type:Column
+///---------------------------------------------------------
+///name:dateAndtime
+///Description:This methode has 3 buttons that change the field according to th button pressed
+///Return Type:Column
 class BasicInfo extends StatefulWidget {
   const BasicInfo({super.key});
 
@@ -102,7 +121,6 @@ class _BasicInfoState extends State<BasicInfo> {
 
   ///Description:this method contains the Tags module ,textfieldform & an add button
   ///Return Type:Column
-
   Column tagsField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,7 +172,6 @@ class _BasicInfoState extends State<BasicInfo> {
 
   ///Description:This methode has 3 buttons that change the field according to th button pressed
   ///Return Type:Column
-
   Column locationsField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -245,7 +262,6 @@ class _BasicInfoState extends State<BasicInfo> {
 
   ///Description:This methode has 3 buttons that change the field according to th button pressed
   ///Return Type:Column
-
   Column dateAndTimeField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
