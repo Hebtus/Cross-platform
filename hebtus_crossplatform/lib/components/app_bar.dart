@@ -1,7 +1,7 @@
+// ignore_for_file: non_constant_identifier_names
 import 'package:flutter/material.dart';
-import 'package:hebtus_crossplatform/screens/LandingPage/landing_page.dart';
-
-PreferredSizeWidget mainappbar() {
+import 'package:go_router/go_router.dart';
+PreferredSizeWidget MainAppBar(BuildContext context) {
   return AppBar(
     backgroundColor: Colors.transparent,
     elevation: 0,
@@ -11,7 +11,7 @@ PreferredSizeWidget mainappbar() {
             fontSize: 25, fontWeight: FontWeight.bold, color: Colors.orange),
       ),
       onPressed: () {
-        LandingPageScreen();
+        return context.go("/home");
       },
       child: const Text('Hebtus'),
     ),
@@ -40,39 +40,16 @@ PreferredSizeWidget mainappbar() {
               "Manage my events",
               style: TextStyle(fontSize: 12),
             )),
-            const PopupMenuItem(
-                child: Text(
-              "Tickets",
-              style: TextStyle(fontSize: 12),
-            )),
-            const PopupMenuItem(
-                child: Text(
-              "Credits",
-              style: TextStyle(fontSize: 12),
-            )),
-            const PopupMenuItem(
-                child: Text(
-              "Liked",
-              style: TextStyle(fontSize: 12),
-            )),
-            const PopupMenuItem(
-                child: Text(
-              "Following",
-              style: TextStyle(fontSize: 12),
-            )),
-            const PopupMenuItem(
-                child: Text(
-              "Interests",
-              style: TextStyle(fontSize: 12),
-            )),
+            
             const PopupMenuItem(
                 child: Text(
               "salma.ahmed01@eng-st.cu.edu.eg",
               style: TextStyle(fontSize: 12, color: Colors.grey),
             )),
+            
             const PopupMenuItem(
                 child: Text(
-              "Account settings",
+              "Sign Out",
               style: TextStyle(fontSize: 12),
             )),
           ],

@@ -22,13 +22,15 @@ class Location extends StatelessWidget {
             highlightColor: Colors.transparent,
             hoverColor: Colors.transparent,
           ),
-          Container(
-            margin: const EdgeInsets.only(left: 20),
-            width: 120,
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: "Enter location",
-                hintStyle: TextStyle(fontSize: 15),
+          Flexible(
+            child: Container(
+              margin: const EdgeInsets.only(left: 20),
+              width: MediaQuery.of(context).size.width*0.5,
+              child: const TextField(
+                decoration: InputDecoration(
+                  hintText: "Enter location",
+                  hintStyle: TextStyle(fontSize: 15),
+                ),
               ),
             ),
           )

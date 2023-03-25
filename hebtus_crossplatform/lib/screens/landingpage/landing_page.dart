@@ -1,12 +1,13 @@
-// ignore_for_file: sized_box_for_whitespace, duplicate_ignore
+// ignore_for_file: sized_box_for_whitespace, duplicate_ignore, avoid_unnecessary_containers
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hebtus_crossplatform/components/app_bar.dart';
 import 'package:hebtus_crossplatform/screens/LandingPage/components/location.dart';
-import 'package:hebtus_crossplatform/screens/LandingPage/components/cover_image.dart';
-import 'package:hebtus_crossplatform/screens/LandingPage/components/tab_bar.dart';
+import 'package:hebtus_crossplatform/screens/landingpage/components/cover_image.dart';
+import 'package:hebtus_crossplatform/screens/landingpage/components/tab_bar.dart';
 import 'package:hebtus_crossplatform/screens/LandingPage/components/categories.dart';
-import 'package:hebtus_crossplatform/screens/LandingPage/components/event_list.dart';
+import 'package:hebtus_crossplatform/screens/landingpage/components/event_list.dart';
 
 class LandingPageScreen extends StatelessWidget {
   const LandingPageScreen({super.key});
@@ -16,14 +17,14 @@ class LandingPageScreen extends StatelessWidget {
     return Container(
       color: Colors.white,
       child: Scaffold(
-          appBar: mainappbar(),
+          appBar: MainAppBar(context),
           body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Container(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Coverimage(),
+                  CoverImage(),
                   const Padding(
                     padding: EdgeInsets.only(top: 15, left: 15),
                     child: Text(
@@ -35,9 +36,9 @@ class LandingPageScreen extends StatelessWidget {
                     ),
                   ),
                   const Location(),
-                  Tabbar(),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 30, top: 30),
+                  NavBar(),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 30, top: 30),
                     child: Text(
                       "Check out trending categories",
                       style:
@@ -62,21 +63,18 @@ class LandingPageScreen extends StatelessWidget {
                     mainAxisSpacing: 10,
                     crossAxisSpacing: 1,
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     children: [
-                      eventcard(num: 0),
-                      eventcard(num: 1),
-                      eventcard(num: 2),
-                      eventcard(num: 3),
-                      eventcard(num: 4),
-                      eventcard(num: 5),
+                      for (var i = 0; i < 6; i++) EventCard(num: i),
                     ],
                   ),
                   Center(
                     child: Padding(
                       padding: const EdgeInsets.all(15),
                       child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            return context.go("/seemore");
+                          },
                           child: const Text(
                             "See more",
                             style: TextStyle(color: Colors.white),

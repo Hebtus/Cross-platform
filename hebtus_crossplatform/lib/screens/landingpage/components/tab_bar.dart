@@ -1,8 +1,8 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
 
-class Tabbar extends StatelessWidget {
+class NavBar extends StatelessWidget {
   List<Widget> tablist = [
     Container(
         width: 60,
@@ -61,7 +61,7 @@ class Tabbar extends StatelessWidget {
         )),
   ];
 
-  Tabbar({super.key});
+  NavBar({super.key});
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Coverimage extends StatelessWidget {
-  const Coverimage({super.key});
+class CoverImage extends StatelessWidget {
+  const CoverImage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +34,12 @@ class Coverimage extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 20),
                 child: ElevatedButton(
                   onPressed: () {},
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: Colors.orange),
                   child: const Text(
                     "find your next event",
                     style: TextStyle(color: Colors.white),
                   ),
-                  style:
-                      ElevatedButton.styleFrom(backgroundColor: Colors.orange),
                 ),
               )
             ],

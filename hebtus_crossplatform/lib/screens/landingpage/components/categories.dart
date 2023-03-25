@@ -1,3 +1,5 @@
+// ignore_for_file: sized_box_for_whitespace, avoid_unnecessary_containers
+
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
@@ -15,16 +17,16 @@ class Categories extends StatelessWidget {
             mainAxisSpacing: 10,
             crossAxisSpacing: 20,
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             children: [
               Container(
                   padding: const EdgeInsets.only(top: 20, left: 10),
                   height: 10,
                   child: Card(
                     clipBehavior: Clip.hardEdge,
-                    color: Color.fromARGB(255, 255, 249, 249),
+                    color: const Color.fromARGB(255, 255, 249, 249),
                     child: InkWell(
-                      splashColor: Color.fromARGB(255, 250, 195, 188),
+                      splashColor: const Color.fromARGB(255, 250, 195, 188),
                       onTap: () {},
                       child: Container(
                         child: Row(
@@ -39,7 +41,7 @@ class Categories extends StatelessWidget {
                                     color: Colors.pink,
                                     size: 30,
                                   )),
-                              Expanded(
+                              const Expanded(
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 5, right: 5),
                                   child: Center(
@@ -62,9 +64,9 @@ class Categories extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 20, left: 10),
                   child: Card(
                     clipBehavior: Clip.hardEdge,
-                    color: Color.fromARGB(255, 255, 249, 249),
+                    color: const Color.fromARGB(255, 255, 249, 249),
                     child: InkWell(
-                      splashColor: Color.fromARGB(255, 250, 195, 188),
+                      splashColor: const Color.fromARGB(255, 250, 195, 188),
                       onTap: () {},
                       child: Container(
                         width: double.infinity,
@@ -80,7 +82,7 @@ class Categories extends StatelessWidget {
                                     color: Colors.pink,
                                     size: 30,
                                   )),
-                              Expanded(
+                              const Expanded(
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 3, right: 5),
                                   child: Center(
@@ -103,9 +105,9 @@ class Categories extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 20, left: 10),
                   child: Card(
                     clipBehavior: Clip.hardEdge,
-                    color: Color.fromARGB(255, 255, 249, 249),
+                    color: const Color.fromARGB(255, 255, 249, 249),
                     child: InkWell(
-                      splashColor: Color.fromARGB(255, 250, 195, 188),
+                      splashColor: const Color.fromARGB(255, 250, 195, 188),
                       onTap: () {},
                       child: Container(
                         child: Row(
@@ -120,7 +122,7 @@ class Categories extends StatelessWidget {
                                     color: Colors.pink,
                                     size: 30,
                                   )),
-                              Expanded(
+                              const Expanded(
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 9, right: 5),
                                   child: Center(
@@ -143,9 +145,9 @@ class Categories extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 20, left: 10),
                   child: Card(
                     clipBehavior: Clip.hardEdge,
-                    color: Color.fromARGB(255, 255, 249, 249),
+                    color: const Color.fromARGB(255, 255, 249, 249),
                     child: InkWell(
-                      splashColor: Color.fromARGB(255, 250, 195, 188),
+                      splashColor: const Color.fromARGB(255, 250, 195, 188),
                       onTap: () {},
                       child: Container(
                         child: Row(
@@ -160,7 +162,7 @@ class Categories extends StatelessWidget {
                                     color: Colors.pink,
                                     size: 30,
                                   )),
-                              Expanded(
+                              const Expanded(
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 9, right: 5),
                                   child: Center(
@@ -183,9 +185,9 @@ class Categories extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 20, left: 10),
                   child: Card(
                     clipBehavior: Clip.hardEdge,
-                    color: Color.fromARGB(255, 255, 249, 249),
+                    color: const Color.fromARGB(255, 255, 249, 249),
                     child: InkWell(
-                      splashColor: Color.fromARGB(255, 250, 195, 188),
+                      splashColor: const Color.fromARGB(255, 250, 195, 188),
                       onTap: () {},
                       child: Container(
                         child: Row(
@@ -200,7 +202,7 @@ class Categories extends StatelessWidget {
                                     color: Colors.pink,
                                     size: 30,
                                   )),
-                              Expanded(
+                              const Expanded(
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 9, right: 5),
                                   child: Center(
@@ -223,9 +225,9 @@ class Categories extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 20, left: 10),
                   child: Card(
                     clipBehavior: Clip.hardEdge,
-                    color: Color.fromARGB(255, 255, 249, 249),
+                    color: const Color.fromARGB(255, 255, 249, 249),
                     child: InkWell(
-                      splashColor: Color.fromARGB(255, 250, 195, 188),
+                      splashColor: const Color.fromARGB(255, 250, 195, 188),
                       onTap: () {},
                       child: Container(
                         child: Row(
@@ -240,7 +242,7 @@ class Categories extends StatelessWidget {
                                     color: Colors.pink,
                                     size: 30,
                                   )),
-                              Expanded(
+                              const Expanded(
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 9, right: 5),
                                   child: Center(
@@ -263,9 +265,9 @@ class Categories extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 10, left: 10),
                   child: Card(
                     clipBehavior: Clip.hardEdge,
-                    color: Color.fromARGB(255, 255, 249, 249),
+                    color: const Color.fromARGB(255, 255, 249, 249),
                     child: InkWell(
-                      splashColor: Color.fromARGB(255, 250, 195, 188),
+                      splashColor: const Color.fromARGB(255, 250, 195, 188),
                       onTap: () {},
                       child: Container(
                         child: Row(
@@ -280,7 +282,7 @@ class Categories extends StatelessWidget {
                                     color: Colors.pink,
                                     size: 30,
                                   )),
-                              Expanded(
+                              const Expanded(
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 9, right: 5),
                                   child: Center(
@@ -303,9 +305,9 @@ class Categories extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 10, left: 10),
                   child: Card(
                     clipBehavior: Clip.hardEdge,
-                    color: Color.fromARGB(255, 255, 249, 249),
+                    color: const Color.fromARGB(255, 255, 249, 249),
                     child: InkWell(
-                      splashColor: Color.fromARGB(255, 250, 195, 188),
+                      splashColor: const Color.fromARGB(255, 250, 195, 188),
                       onTap: () {},
                       child: Container(
                         child: Row(
@@ -320,7 +322,7 @@ class Categories extends StatelessWidget {
                                     color: Colors.pink,
                                     size: 30,
                                   )),
-                              Expanded(
+                              const Expanded(
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 9, right: 5),
                                   child: Center(
