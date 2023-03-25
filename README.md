@@ -10,10 +10,10 @@
     An Eventbrite cross-platform clone
     <br/>
     <br/>
-    <a href="https://github.com//"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/Hebtus/Cross-platform/tree/main/hebtus_crossplatform"><strong>Explore the docs »</strong></a>
     <br/>
     <br/>
-    <a href="https://github.com//">View Demo</a>
+    <a href="https://github.com/Hebtus/Cross-platform/tree/main/hebtus_crossplatform">View Demo</a>
     .
   </p>
 </p>
