@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
-bool checkListRevealHiddenTickets=false;
+
+bool checkListRevealHiddenTickets = false;
+
 enum promoCodeStart { now, scheduledTime }
+
 promoCodeStart? _character = promoCodeStart.now;
 
 enum promoCodeEnd { ticketEnd, scheduledTim }
+
 promoCodeEnd? _character2 = promoCodeEnd.ticketEnd;
 
 enum applyCode { allVisible, onlyCertine }
+
 applyCode? _character3 = applyCode.allVisible;
 
 class addPromoCode extends StatefulWidget {
@@ -20,10 +25,7 @@ class _addPromoCodeState extends State<addPromoCode> {
   String dropdownvalue = 'Ticket limit:Unlimited';
 
   // List of items in our dropdown menu
-  var items = [
-    'Ticket limit:Unlimited',
-    'Ticket limit:limited to'
-  ];
+  var items = ['Ticket limit:Unlimited', 'Ticket limit:limited to'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,14 +34,13 @@ class _addPromoCodeState extends State<addPromoCode> {
         backgroundColor: Colors.white,
         elevation: 1,
       ),
-      body:Padding(
-     padding: const EdgeInsets.all(10.0),
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
-
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
                   hintText: 'Code name',
@@ -55,10 +56,7 @@ class _addPromoCodeState extends State<addPromoCode> {
               DropdownButton(
                 isExpanded: true,
                 value: dropdownvalue,
-
                 icon: const Icon(Icons.keyboard_arrow_down),
-
-
                 items: items.map((String items) {
                   return DropdownMenuItem(
                     value: items,
@@ -74,7 +72,8 @@ class _addPromoCodeState extends State<addPromoCode> {
               SizedBox(
                 height: 5,
               ),
-              Text('Total number of tickets that can be purchased with this code'),
+              Text(
+                  'Total number of tickets that can be purchased with this code'),
               SizedBox(
                 height: 10,
               ),
@@ -87,9 +86,8 @@ class _addPromoCodeState extends State<addPromoCode> {
                   });
                 },
                 controlAffinity:
-                ListTileControlAffinity.leading, //  <-- leading Checkbox
+                    ListTileControlAffinity.leading, //  <-- leading Checkbox
               ),
-
               const Text(
                 'Discount amount',
                 style: TextStyle(
@@ -98,7 +96,6 @@ class _addPromoCodeState extends State<addPromoCode> {
                 ),
               ),
               TextFormField(
-
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
                   hintText: '\$',
@@ -120,7 +117,6 @@ class _addPromoCodeState extends State<addPromoCode> {
                 height: 10,
               ),
               TextFormField(
-
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
                   hintText: '%',
@@ -136,7 +132,6 @@ class _addPromoCodeState extends State<addPromoCode> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
               ListTile(
                 title: const Text('Now'),
                 leading: Radio<promoCodeStart>(
@@ -152,7 +147,7 @@ class _addPromoCodeState extends State<addPromoCode> {
               ListTile(
                 title: const Text('Scheduled time'),
                 leading: Radio<promoCodeStart>(
-                  value:promoCodeStart.scheduledTime,
+                  value: promoCodeStart.scheduledTime,
                   groupValue: _character,
                   onChanged: (promoCodeStart? value) {
                     setState(() {
@@ -161,15 +156,9 @@ class _addPromoCodeState extends State<addPromoCode> {
                   },
                 ),
               ),
-
               SizedBox(
                 height: 10,
               ),
-
-
-
-
-
               const Text(
                 'Promo code ends',
                 style: TextStyle(
@@ -177,7 +166,6 @@ class _addPromoCodeState extends State<addPromoCode> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
               ListTile(
                 title: const Text('when tickets sales end'),
                 leading: Radio<promoCodeEnd>(
@@ -193,7 +181,7 @@ class _addPromoCodeState extends State<addPromoCode> {
               ListTile(
                 title: const Text('Scheduled time'),
                 leading: Radio<promoCodeEnd>(
-                  value:promoCodeEnd.scheduledTim,
+                  value: promoCodeEnd.scheduledTim,
                   groupValue: _character2,
                   onChanged: (promoCodeEnd? value) {
                     setState(() {
@@ -202,8 +190,6 @@ class _addPromoCodeState extends State<addPromoCode> {
                   },
                 ),
               ),
-
-
               const Text(
                 'Apply code to:',
                 style: TextStyle(
@@ -211,8 +197,6 @@ class _addPromoCodeState extends State<addPromoCode> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
-
               ListTile(
                 title: const Text('All visible tickets'),
                 leading: Radio<applyCode>(
@@ -228,7 +212,7 @@ class _addPromoCodeState extends State<addPromoCode> {
               ListTile(
                 title: const Text('Only certain visible tickets'),
                 leading: Radio<applyCode>(
-                  value:applyCode.onlyCertine,
+                  value: applyCode.onlyCertine,
                   groupValue: _character3,
                   onChanged: (applyCode? value) {
                     setState(() {
@@ -237,31 +221,10 @@ class _addPromoCodeState extends State<addPromoCode> {
                   },
                 ),
               ),
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             ],
-
-
-
           ),
         ),
-      ) ,
+      ),
     );
   }
 }

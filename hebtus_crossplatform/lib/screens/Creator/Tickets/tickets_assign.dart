@@ -18,8 +18,9 @@ bool checkBoxDisplaySettings = false;
 enum SingingCharacter { ticketEvent, RegEvent }
 
 enum SampleItem { itemOne, itemTwo, itemThree }
-List _items=[];
-List _itemsPromo=[];
+
+List _items = [];
+List _itemsPromo = [];
 
 SampleItem? selectedMenu;
 SingingCharacter? _character = SingingCharacter.ticketEvent;
@@ -29,31 +30,33 @@ class Tickets extends StatefulWidget {
 
   @override
   State<Tickets> createState() => _TicketsState();
-
 }
 
 class _TicketsState extends State<Tickets> {
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
-
-
+///Description:read a json file for tickets list from assets and added to a global variable
+  ///return type:non
   Future<void> readJson() async {
-    final String response = await rootBundle.loadString('assets/json/tickets_test.json');
+    final String response =
+        await rootBundle.loadString('assets/json/tickets_test.json');
     final data = await json.decode(response);
     setState(() {
- _items=data["items"];
-
-
+      _items = data["items"];
     });
   }
+  ///Description:read a json file for promo code list from assets and added to a global variable
+  ///return type:non
   Future<void> readJsonPromo() async {
-    final String response = await rootBundle.loadString('assets/json/promo_code.json');
+    final String response =
+        await rootBundle.loadString('assets/json/promo_code.json');
     final data = await json.decode(response);
     setState(() {
-      _itemsPromo=data["items"];
+      _itemsPromo = data["items"];
       print(_itemsPromo);
-
     });
   }
+///Description:this method returns the row of button tabs to navigate the tickets page
+  /// return type:Column
   Column tabMenu() {
     return Column(
       children: [
@@ -70,7 +73,7 @@ class _TicketsState extends State<Tickets> {
                       buttonHold = buttonHold ? false : false;
                       buttonSettings = buttonSettings ? false : false;
                       pageTitle = 'Tickets';
-                     readJson();
+                      readJson();
                     });
                   },
                   child: Text('Admission'),
@@ -144,7 +147,8 @@ class _TicketsState extends State<Tickets> {
       ],
     );
   }
-
+  ///Description:this contains the settings page field
+  /// return type:Column
   Column tabSettings() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -238,9 +242,11 @@ class _TicketsState extends State<Tickets> {
       ],
     );
   }
-  Column ticketCard(List ticketsList,int i){
+  ///Description:this methode tickets list and draws the container with the contained data
+  /// return type:Column
 
-    return  Column(
+  Column ticketCard(List ticketsList, int i) {
+    return Column(
       children: [
         Material(
           elevation: 5,
@@ -249,13 +255,12 @@ class _TicketsState extends State<Tickets> {
             padding: const EdgeInsets.all(25.0),
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
-                borderRadius:
-                BorderRadius.all(Radius.circular(5))),
+                borderRadius: BorderRadius.all(Radius.circular(5))),
             child: Column(
               children: [
                 Row(
                   children: [
-                     Text(
+                    Text(
                       ticketsList[i]["name"],
                       style: TextStyle(fontSize: 20.0),
                     ),
@@ -269,7 +274,7 @@ class _TicketsState extends State<Tickets> {
                         });
                       },
                       itemBuilder: (BuildContext context) =>
-                      <PopupMenuEntry<SampleItem>>[
+                          <PopupMenuEntry<SampleItem>>[
                         const PopupMenuItem<SampleItem>(
                           value: SampleItem.itemOne,
                           child: Text('edit'),
@@ -297,8 +302,7 @@ class _TicketsState extends State<Tickets> {
                     ),
                     const Text(
                       "On Sale",
-                      style: TextStyle(
-                          fontSize: 20.0, color: Colors.grey),
+                      style: TextStyle(fontSize: 20.0, color: Colors.grey),
                     ),
                     Spacer(),
                     Text(
@@ -314,13 +318,11 @@ class _TicketsState extends State<Tickets> {
                   children: [
                     const Text(
                       "Available Quantity ",
-                      style: TextStyle(
-                          fontSize: 20.0, color: Colors.grey),
+                      style: TextStyle(fontSize: 20.0, color: Colors.grey),
                     ),
-                     Text(
+                    Text(
                       ticketsList[i]["quantity"],
-                      style: TextStyle(
-                          fontSize: 20.0, color: Colors.black),
+                      style: TextStyle(fontSize: 20.0, color: Colors.black),
                     ),
                   ],
                 )
@@ -334,34 +336,36 @@ class _TicketsState extends State<Tickets> {
       ],
     );
   }
-  DataRow promoCodetable(List promoList,int i){
-
-    return  DataRow(cells: [
+  ///Description:this methode promo code list and draws the container with the contained data
+  /// return type:Column
+  DataRow promoCodetable(List promoList, int i) {
+    return DataRow(cells: [
       DataCell(Text(promoList[i]["name"])),
       DataCell(Text(promoList[i]["codeType"])),
       DataCell(Text(promoList[i]["discount"])),
       DataCell(Text(promoList[i]["uses"])),
       DataCell(Text(promoList[i]["status"])),
-      DataCell(                                  PopupMenuButton<SampleItem>(
-        initialValue: selectedMenu,
-        // Callback that sets the selected popup menu item.
-        onSelected: (SampleItem item) {
-          setState(() {
-            selectedMenu = item;
-          });
-        },
-        itemBuilder: (BuildContext context) =>
-        <PopupMenuEntry<SampleItem>>[
-          const PopupMenuItem<SampleItem>(
-            value: SampleItem.itemOne,
-            child: Text('edit'),
-          ),
-          const PopupMenuItem<SampleItem>(
-            value: SampleItem.itemThree,
-            child: Text('delete'),
-          ),
-        ],
-      ),),
+      DataCell(
+        PopupMenuButton<SampleItem>(
+          initialValue: selectedMenu,
+          // Callback that sets the selected popup menu item.
+          onSelected: (SampleItem item) {
+            setState(() {
+              selectedMenu = item;
+            });
+          },
+          itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
+            const PopupMenuItem<SampleItem>(
+              value: SampleItem.itemOne,
+              child: Text('edit'),
+            ),
+            const PopupMenuItem<SampleItem>(
+              value: SampleItem.itemThree,
+              child: Text('delete'),
+            ),
+          ],
+        ),
+      ),
     ]);
   }
 
@@ -397,20 +401,20 @@ class _TicketsState extends State<Tickets> {
                       height: 10,
                     ),
                     if (buttonAdmission) ...[
-                   for(int i=0;i<_items.length;i++) ticketCard(_items,i),
+                      for (int i = 0; i < _items.length; i++)
+                        ticketCard(_items, i),
                       SizedBox(
                         height: 50,
                       ),
-
-
                       Container(
                         width: MediaQuery.of(context).size.width,
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => addMoreTickets()),);
-
+                              MaterialPageRoute(
+                                  builder: (context) => addMoreTickets()),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
@@ -422,19 +426,15 @@ class _TicketsState extends State<Tickets> {
                           ),
                         ),
                       ),
-
-
                       Container(
                         width: MediaQuery.of(context).size.width,
                         child: ElevatedButton(
                           onPressed: () {
                             readJson();
-
-
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
-                            Colors.white, // Background colo// r
+                                Colors.white, // Background colo// r
                           ),
                           child: Text(
                             'Refresh',
@@ -448,12 +448,15 @@ class _TicketsState extends State<Tickets> {
                     ],
                     if (buttonAddons) ...[],
                     if (buttonPromoCode) ...[
-                      ElevatedButton(onPressed: (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => addPromoCode()),);
-
-                      }, child: Text('Add a code')),
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => addPromoCode()),
+                            );
+                          },
+                          child: Text('Add a code')),
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: DataTable(columns: [
@@ -487,18 +490,9 @@ class _TicketsState extends State<Tickets> {
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold))),
-
-
-
                         ], rows: [
-                          for(int i=0;i<_itemsPromo.length;i++)   promoCodetable(_itemsPromo,i),
-
-
-
-
-
-
-
+                          for (int i = 0; i < _itemsPromo.length; i++)
+                            promoCodetable(_itemsPromo, i),
                         ]),
                       )
                     ],

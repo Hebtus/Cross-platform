@@ -6,6 +6,8 @@ import 'package:hebtus_crossplatform/screens/Creator/OnlineEventPage/online_even
 import 'package:hebtus_crossplatform/screens/Creator/Publish/publish.dart';
 
 
+///description:this methode will draw the upper appbar for all the event making pages
+///return type:AppBar
 AppBar appBarModule() {
   return AppBar(
     automaticallyImplyLeading: false,
@@ -64,7 +66,8 @@ AppBar appBarModule() {
     //this will
   );
 }
-
+///description:this methode will make the side bar for all pages to navigate between them
+///return type:Drawer
 Drawer appDrawer(BuildContext context) {
   return Drawer(
     child: ListView(
@@ -131,7 +134,8 @@ Drawer appDrawer(BuildContext context) {
     ),
   );
 }
-
+///description:this function opens the drawer of the app bar to make the side menu apperar when a specific button other than the standered is pressed
+///return type:material
 Material sideMenuModule(final GlobalKey<ScaffoldState> globalKey,String fieldName){
 
   return Material(
