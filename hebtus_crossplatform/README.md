@@ -1,3 +1,0 @@
-# Hebtus Cross-Platform App
-
-
