@@ -1,0 +1,25 @@
+{
+  "items": [
+    {
+      "name": "asdasfa",
+      "codeType": "applies discount",
+      "discount": "30",
+      "uses": "unlimited",
+      "status": "active"
+    },
+    {
+      "name": "fffds",
+      "codeType": "0.1$",
+      "discount": "30",
+      "uses": "30",
+      "status": "30"
+    },
+    {
+      "name": "kdkdkdks",
+      "codeType": "0.1$",
+      "discount": "30",
+      "uses": "30",
+      "status": "30"
+    }
+  ]
+}

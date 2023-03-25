@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "name": "General add",
+      "cost": "0.1$",
+      "quantity": "30"
+    },
+    {
+      "name": "General add",
+      "cost": "0.1$",
+      "quantity": "30"
+    },
+    {
+      "name": "General add",
+      "cost": "0.1$",
+      "quantity": "unlimited"
+    }
+  ]
+}
