@@ -3,6 +3,7 @@ import 'package:hebtus_crossplatform/components/signup_pages_appbar.dart';
 import 'package:hebtus_crossplatform/constants.dart' as constants;
 import 'components/login_form.dart';
 
+///The screen contains the login form and logic
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
@@ -39,7 +40,7 @@ class LoginScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(5)),
-                    child: LoginForm(),
+                    child: const LoginForm(),
                   )
                 ],
               ),

@@ -24,6 +24,7 @@ List _itemsPromo = [];
 
 SampleItem? selectedMenu;
 SingingCharacter? _character = SingingCharacter.ticketEvent;
+
 ///name:readJson
 ///Description:read a json file for tickets list from assets and added to a global variable
 ///return type:non
@@ -270,7 +271,6 @@ class _TicketsState extends State<Tickets> {
 
   ///Description:this methode tickets list and draws the container with the contained data
   /// return type:Column
-
   Column ticketCard(List ticketsList, int i) {
     return Column(
       children: [

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../components/confirm_passwd_text_field.dart';
 import '../../../components/password_text_field.dart';
 
+///Forgot password form, contains text fields for entering and confirming the new password to reset it
 class ForgotPasswdForm extends StatefulWidget {
   const ForgotPasswdForm({
     super.key,

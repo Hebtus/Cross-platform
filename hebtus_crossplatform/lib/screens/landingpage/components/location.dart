@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hebtus_crossplatform/constants.dart' as constants;
 
+///This class returns textfield for entering location
 class Location extends StatelessWidget {
   const Location({super.key});
 
@@ -25,7 +25,7 @@ class Location extends StatelessWidget {
           Flexible(
             child: Container(
               margin: const EdgeInsets.only(left: 20),
-              width: MediaQuery.of(context).size.width*0.5,
+              width: MediaQuery.of(context).size.width * 0.5,
               child: const TextField(
                 decoration: InputDecoration(
                   hintText: "Enter location",

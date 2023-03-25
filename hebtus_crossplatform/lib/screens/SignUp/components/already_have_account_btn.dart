@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+///Button that displays the text "already have an account? Sign in" and when clicked redirects to sign in page
 class AlreadyRegisteredBtn extends StatelessWidget {
   const AlreadyRegisteredBtn({
     super.key,

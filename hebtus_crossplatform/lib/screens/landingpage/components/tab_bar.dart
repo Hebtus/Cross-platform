@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
-
+///This class returns the navigation bar for choosing events according to different categories
 class NavBar extends StatelessWidget {
   List<Widget> tablist = [
     Container(

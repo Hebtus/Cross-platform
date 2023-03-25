@@ -7,6 +7,7 @@ import 'already_have_account_btn.dart';
 import '../../../components/socialmedia_icon.dart';
 import 'package:go_router/go_router.dart';
 
+///Sign up form, contains signup text fields: email, password, confirm password, first name, last name.
 class SignupForm extends StatefulWidget {
   const SignupForm({
     super.key,

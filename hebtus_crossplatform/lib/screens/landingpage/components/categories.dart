@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
+/// This class returns cards that represent different categories 
 class Categories extends StatelessWidget {
   const Categories({super.key});
   @override

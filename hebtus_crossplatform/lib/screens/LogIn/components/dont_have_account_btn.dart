@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+///Button that displays the text "Don't have an account? Sign up" and when clicked redirects to sign up page
 class RegisterNowBtn extends StatelessWidget {
   const RegisterNowBtn({
     super.key,

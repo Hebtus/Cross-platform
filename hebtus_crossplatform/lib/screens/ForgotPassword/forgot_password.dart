@@ -4,6 +4,7 @@ import 'package:hebtus_crossplatform/components/signup_pages_appbar.dart';
 import 'package:hebtus_crossplatform/constants.dart' as constants;
 import 'package:go_router/go_router.dart';
 
+///Forgot password, the screen contains the textfield for entering email, to send an email to the account for password resetting
 class ForgotPasswdScreen extends StatefulWidget {
   const ForgotPasswdScreen({super.key});
 

@@ -6,6 +6,7 @@ import 'package:hebtus_crossplatform/screens/LogIn/components/dont_have_account_
 import '../../../components/socialmedia_icon.dart';
 import 'package:go_router/go_router.dart';
 
+///The login form contains textfields for the email and password, with necessary validations
 class LoginForm extends StatefulWidget {
   const LoginForm({
     super.key,

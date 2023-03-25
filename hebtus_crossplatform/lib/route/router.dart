@@ -36,7 +36,13 @@ class AppRouter {
     GoRoute(
       path: '/seemore',
       builder: (context, state) {
-        return SeeMore();
+        return const SeeMore();
+      },
+    ),
+    GoRoute(
+      path: '/basicinfo',
+      builder: (context, state) {
+        return const BasicInfo();
       },
     ),
   ]);

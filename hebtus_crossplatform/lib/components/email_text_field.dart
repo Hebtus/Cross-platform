@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 
+///a textfield component for entering email address, contains the necessary validations for ensuring that the entered text is a valid email
 class EmailTextField extends StatefulWidget {
   final String myKey;
   const EmailTextField({

@@ -6,16 +6,14 @@ int tagsCount = 0;
 bool buttonVenue = false;
 bool buttonOnlineEvent = false;
 bool buttonToBeAnnounced = false;
-bool buttonSingleEvent=false;
-bool buttonRecurringEvent=false;
+bool buttonSingleEvent = false;
+bool buttonRecurringEvent = false;
 TextEditingController _date = TextEditingController();
 DateTime selectedDate = DateTime.now();
 TextEditingController _date2 = TextEditingController();
 DateTime selectedDate2 = DateTime.now();
-bool displayStartTime=false;
-bool displayEndTime=false;
-
-
+bool displayStartTime = false;
+bool displayEndTime = false;
 
 ///name:_selectDate
 ///Description:add a calender with start and end date to an icon
@@ -41,15 +39,12 @@ class BasicInfo extends StatefulWidget {
 
   @override
   State<BasicInfo> createState() => _BasicInfoState();
-
 }
 
-
 class _BasicInfoState extends State<BasicInfo> {
-
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
 
-///Description:add a calender with start and end date to an icon
+  ///Description:add a calender with start and end date to an icon
   ///return type:non
   Future _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -60,13 +55,11 @@ class _BasicInfoState extends State<BasicInfo> {
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
-        _date.value = TextEditingValue(
-            text: "${selectedDate.toLocal()}".split(' ')[0]);
+        _date.value =
+            TextEditingValue(text: "${selectedDate.toLocal()}".split(' ')[0]);
       });
     }
   }
-
-
 
   Future _selectDate2(BuildContext context) async {
     final DateTime? picked2 = await showDatePicker(
@@ -77,11 +70,12 @@ class _BasicInfoState extends State<BasicInfo> {
     if (picked2 != null && picked2 != selectedDate2) {
       setState(() {
         selectedDate2 = picked2;
-        _date2.value = TextEditingValue(
-            text: "${selectedDate2.toLocal()}".split(' ')[0]);
+        _date2.value =
+            TextEditingValue(text: "${selectedDate2.toLocal()}".split(' ')[0]);
       });
     }
   }
+
   ///Description:this method contains the basic info field in the page,contains only textfieldform
   ///Return Type:Column
   Column basicInfoField() {
@@ -124,9 +118,9 @@ class _BasicInfoState extends State<BasicInfo> {
       ],
     );
   }
+
   ///Description:this method contains the Tags module ,textfieldform & an add button
   ///Return Type:Column
-
   Column tagsField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,7 +132,7 @@ class _BasicInfoState extends State<BasicInfo> {
             fontWeight: FontWeight.bold,
           ),
         ),
-       const SizedBox(
+        const SizedBox(
           height: 10,
         ),
         const Text(
@@ -175,9 +169,9 @@ class _BasicInfoState extends State<BasicInfo> {
       ],
     );
   }
+
   ///Description:This methode has 3 buttons that change the field according to th button pressed
   ///Return Type:Column
-
   Column locationsField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,10 +183,9 @@ class _BasicInfoState extends State<BasicInfo> {
             fontWeight: FontWeight.bold,
           ),
         ),
-      const SizedBox(
+        const SizedBox(
           height: 10,
         ),
-
         const Text(
           'Help people in the area discover your event and let attendees know where to show up.',
           style: TextStyle(
@@ -208,21 +201,20 @@ class _BasicInfoState extends State<BasicInfo> {
                 onPressed: () {
                   setState(() {
                     buttonVenue = true;
-                    buttonOnlineEvent=buttonVenue?false:false;
-                    buttonToBeAnnounced = buttonToBeAnnounced?false:false;
+                    buttonOnlineEvent = buttonVenue ? false : false;
+                    buttonToBeAnnounced = buttonToBeAnnounced ? false : false;
                   });
                 },
                 child: const Text('Venue')),
-           const SizedBox(
+            const SizedBox(
               width: 10,
             ),
             OutlinedButton(
                 onPressed: () {
                   setState(() {
-                    buttonOnlineEvent =  true;
-                    buttonVenue = buttonVenue?false:false;
-                    buttonToBeAnnounced = buttonToBeAnnounced?false:false;
-
+                    buttonOnlineEvent = true;
+                    buttonVenue = buttonVenue ? false : false;
+                    buttonToBeAnnounced = buttonToBeAnnounced ? false : false;
                   });
                 },
                 child: const Text('Online event')),
@@ -232,9 +224,9 @@ class _BasicInfoState extends State<BasicInfo> {
             OutlinedButton(
                 onPressed: () {
                   setState(() {
-                    buttonToBeAnnounced =  true;
-                    buttonVenue = buttonVenue?false:false;
-                    buttonOnlineEvent=buttonVenue?false:false;
+                    buttonToBeAnnounced = true;
+                    buttonVenue = buttonVenue ? false : false;
+                    buttonOnlineEvent = buttonVenue ? false : false;
                   });
                 },
                 child: const Text('To be annonced')),
@@ -267,9 +259,9 @@ class _BasicInfoState extends State<BasicInfo> {
       ],
     );
   }
+
   ///Description:This methode has 3 buttons that change the field according to th button pressed
   ///Return Type:Column
-
   Column dateAndTimeField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -293,7 +285,7 @@ class _BasicInfoState extends State<BasicInfo> {
                 onPressed: () {
                   setState(() {
                     buttonSingleEvent = !buttonSingleEvent;
-                    buttonRecurringEvent=buttonRecurringEvent?false:false;
+                    buttonRecurringEvent = buttonRecurringEvent ? false : false;
                   });
                 },
                 child: const Text('Single event')),
@@ -304,22 +296,17 @@ class _BasicInfoState extends State<BasicInfo> {
                 onPressed: () {
                   setState(() {
                     buttonRecurringEvent = !buttonRecurringEvent;
-                    buttonSingleEvent = buttonSingleEvent?false:false;
+                    buttonSingleEvent = buttonSingleEvent ? false : false;
                   });
                 },
                 child: const Text('Recurring Event')),
-
           ],
         ),
         const SizedBox(
           height: 20,
         ),
-
         if (buttonSingleEvent) ...[
-          const Text(
-              'Single event happens once and can last multiple days '
-          ),
-
+          const Text('Single event happens once and can last multiple days '),
           const SizedBox(
             height: 20,
           ),
@@ -336,27 +323,18 @@ class _BasicInfoState extends State<BasicInfo> {
               ),
             ),
           ),
-
-
-
           const SizedBox(
             height: 20,
           ),
-
-
           TextFormField(
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               hintText: 'Start time',
             ),
           ),
-
-
           const SizedBox(
             height: 20,
           ),
-
-
           TextFormField(
             controller: _date2,
             decoration: InputDecoration(
@@ -370,12 +348,11 @@ class _BasicInfoState extends State<BasicInfo> {
               ),
             ),
           ),
-
           const SizedBox(
             height: 20,
           ),
           TextFormField(
-            decoration:const InputDecoration(
+            decoration: const InputDecoration(
               border: OutlineInputBorder(),
               hintText: 'End time',
             ),
@@ -388,7 +365,8 @@ class _BasicInfoState extends State<BasicInfo> {
                 displayStartTime = newValue!;
               });
             },
-            controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+            controlAffinity:
+                ListTileControlAffinity.leading, //  <-- leading Checkbox
           ),
           CheckboxListTile(
             title: const Text("Display end time"),
@@ -398,12 +376,12 @@ class _BasicInfoState extends State<BasicInfo> {
                 displayEndTime = newValue!;
               });
             },
-            controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+            controlAffinity:
+                ListTileControlAffinity.leading, //  <-- leading Checkbox
           ),
-
           TextFormField(
             decoration: const InputDecoration(
-              border:  OutlineInputBorder(),
+              border: OutlineInputBorder(),
               hintText: 'Time zone',
             ),
           ),
@@ -416,15 +394,10 @@ class _BasicInfoState extends State<BasicInfo> {
               hintText: 'Event page languge',
             ),
           ),
-
-
         ],
-
-
         if (buttonRecurringEvent) ...[
           const Text(
-              'You’ll be able to set a schedule for your recurring event in the next step. Event details and ticket types will apply to all instances.'
-          ),
+              'You’ll be able to set a schedule for your recurring event in the next step. Event details and ticket types will apply to all instances.'),
           CheckboxListTile(
             title: const Text("Display end time"),
             value: displayEndTime,
@@ -433,12 +406,12 @@ class _BasicInfoState extends State<BasicInfo> {
                 displayEndTime = newValue!;
               });
             },
-            controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+            controlAffinity:
+                ListTileControlAffinity.leading, //  <-- leading Checkbox
           ),
-
           TextFormField(
             decoration: const InputDecoration(
-              border:  OutlineInputBorder(),
+              border: OutlineInputBorder(),
               hintText: 'Time zone',
             ),
           ),
@@ -451,22 +424,13 @@ class _BasicInfoState extends State<BasicInfo> {
               hintText: 'Event page languge',
             ),
           ),
-
-
         ],
-
-
       ],
-
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
-
-
-
     return Scaffold(
       key: _globalKey,
       appBar: appBarModule(),
@@ -474,8 +438,7 @@ class _BasicInfoState extends State<BasicInfo> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            sideMenuModule(_globalKey,'Basic info'),
-
+            sideMenuModule(_globalKey, 'Basic info'),
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
@@ -489,7 +452,6 @@ class _BasicInfoState extends State<BasicInfo> {
                   const SizedBox(
                     height: 20,
                   ),
-
                   const Divider(
                     thickness: 1,
                   ),
@@ -501,7 +463,6 @@ class _BasicInfoState extends State<BasicInfo> {
                     height: 20,
                   ),
                   dateAndTimeField(),
-
                 ],
               ),
             ),

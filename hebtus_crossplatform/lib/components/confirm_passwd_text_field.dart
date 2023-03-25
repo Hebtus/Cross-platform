@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+///The textfield for confirming password, contains the necessary validations to ensure that the password written here matches
+///the password written in the password textfield whose controller is passed as an argument to this widget
 class ConfirmPasswordTextfield extends StatefulWidget {
   final TextEditingController passwdController;
   final String myKey;
