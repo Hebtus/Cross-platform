@@ -14,7 +14,7 @@ class _DetailsState extends State<Details> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _globalKey,
-        appBar: appBarModule(),
+        appBar: appBarModule(context),
         drawer: appDrawer(context),
         body: SingleChildScrollView(
             child: Column(

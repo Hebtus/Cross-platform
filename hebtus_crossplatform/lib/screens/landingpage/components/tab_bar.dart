@@ -62,19 +62,21 @@ class NavBar extends StatelessWidget {
   ];
 
   NavBar({super.key});
+  
+  
   @override
   Widget build(BuildContext context) {
+   
     return DefaultTabController(
       length: tablist.length,
       child: Container(
           width: MediaQuery.of(context).size.width * 0.9,
           margin: const EdgeInsets.only(top: 20, left: 10),
-          child: Scrollbar(
-              child: TabBar(
+          child: TabBar(
             tabs: tablist,
             isScrollable: true,
             padding: const EdgeInsets.only(right: 10),
-          ))),
+          )),
     );
   }
 }
