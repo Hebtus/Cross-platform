@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 /// return type: Preferredsizewidget
 PreferredSizeWidget MainAppBar(BuildContext context) {
   return AppBar(
-    backgroundColor: Colors.transparent,
+    backgroundColor: Colors.white,
     elevation: 0,
     title: TextButton(
       style: TextButton.styleFrom(

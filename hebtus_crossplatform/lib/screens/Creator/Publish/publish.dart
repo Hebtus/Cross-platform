@@ -13,7 +13,7 @@ class _PublishState extends State<Publish> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _globalKey,
-        appBar: appBarModule(),
+        appBar: appBarModule(context),
         drawer: appDrawer(context),
         body: SingleChildScrollView(
             child: Column(

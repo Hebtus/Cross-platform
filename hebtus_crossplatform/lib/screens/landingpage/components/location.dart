@@ -11,21 +11,26 @@ class Location extends StatelessWidget {
       width: double.infinity,
       child: Row(
         children: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.arrow_drop_down_sharp,
-              color: Color.fromARGB(255, 122, 190, 245),
-              size: 47,
+          Padding(
+            padding: const EdgeInsets.only(top:8),
+            child: IconButton(
+              onPressed: () {},
+              iconSize: 50,
+              icon: const Padding(
+                padding: EdgeInsets.only(left:4),
+                child: Icon(
+                  Icons.arrow_drop_down_sharp,
+                  color: Color.fromARGB(255, 122, 190, 245),
+                ),
+              ),
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              hoverColor: Colors.transparent,
             ),
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            hoverColor: Colors.transparent,
           ),
           Flexible(
             child: Container(
-              margin: const EdgeInsets.only(left: 20),
-              width: MediaQuery.of(context).size.width * 0.5,
+              width: MediaQuery.of(context).size.width * 0.28,
               child: const TextField(
                 decoration: InputDecoration(
                   hintText: "Enter location",

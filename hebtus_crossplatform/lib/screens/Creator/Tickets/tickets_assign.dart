@@ -408,7 +408,7 @@ class _TicketsState extends State<Tickets> {
           ),
         ),
         key: _globalKey,
-        appBar: appBarModule(),
+        appBar: appBarModule(context),
         drawer: appDrawer(context),
         body: SingleChildScrollView(
             child: Column(

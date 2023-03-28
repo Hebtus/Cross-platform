@@ -433,7 +433,7 @@ class _BasicInfoState extends State<BasicInfo> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _globalKey,
-      appBar: appBarModule(),
+      appBar: appBarModule(context),
       drawer: appDrawer(context),
       body: SingleChildScrollView(
         child: Column(

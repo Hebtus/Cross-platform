@@ -4,21 +4,26 @@ import 'package:hebtus_crossplatform/screens/Creator/BasicInfo/basic_info.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Details/details.dart';
 import 'package:hebtus_crossplatform/screens/Creator/OnlineEventPage/online_event_page.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Publish/publish.dart';
-
+import 'package:go_router/go_router.dart';
 ///description:this methode will draw the upper appbar for all the event making pages
 ///return type:AppBar
-AppBar appBarModule() {
+AppBar appBarModule(BuildContext context) {
   return AppBar(
     automaticallyImplyLeading: false,
-    title: const Text(
-      '   Hebtus',
-      style: TextStyle(
-        color: Colors.deepOrange,
-        fontSize: 20,
-      ),
+    title: Padding(
+      padding: const EdgeInsets.only(left:16),
+      child: TextButton(
+        style: TextButton.styleFrom(
+          textStyle: const TextStyle(
+              fontSize: 25, fontWeight: FontWeight.bold, color: Colors.orange),
+        ),
+        onPressed: () {
+          return context.go("/home"); // navigates to homescreen when hebtus is clicked
+        },
+        child: const Text('Hebtus'),),
     ), // Image.asset('assets/hebtus.jpg', fit: BoxFit.contain, scale: 4),
     backgroundColor: Colors.white,
-    elevation: 0.5,
+    elevation: 0,
     actions: [
       IconButton(
           onPressed: () {},
