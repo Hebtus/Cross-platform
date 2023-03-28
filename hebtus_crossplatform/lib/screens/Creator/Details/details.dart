@@ -15,7 +15,7 @@ class _DetailsState extends State<Details> {
     return Scaffold(
         key: _globalKey,
         appBar: appBarModule(context),
-        drawer: appDrawer(context),
+        drawer: appDrawer(context,"Details"),
         body: SingleChildScrollView(
             child: Column(
                 children: [

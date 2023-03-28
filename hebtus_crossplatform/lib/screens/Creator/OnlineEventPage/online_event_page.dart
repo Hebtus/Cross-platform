@@ -14,7 +14,7 @@ class _OnlineEventPageState extends State<OnlineEventPage> {
     return Scaffold(
         key: _globalKey,
         appBar: appBarModule(context),
-        drawer: appDrawer(context),
+        drawer: appDrawer(context,"Online event page"),
         body: SingleChildScrollView(
             child: Column(
                 children: [

@@ -195,42 +195,45 @@ class _BasicInfoState extends State<BasicInfo> {
         const SizedBox(
           height: 10,
         ),
-        Row(
-          children: [
-            OutlinedButton(
-                onPressed: () {
-                  setState(() {
-                    buttonVenue = true;
-                    buttonOnlineEvent = buttonVenue ? false : false;
-                    buttonToBeAnnounced = buttonToBeAnnounced ? false : false;
-                  });
-                },
-                child: const Text('Venue')),
-            const SizedBox(
-              width: 10,
-            ),
-            OutlinedButton(
-                onPressed: () {
-                  setState(() {
-                    buttonOnlineEvent = true;
-                    buttonVenue = buttonVenue ? false : false;
-                    buttonToBeAnnounced = buttonToBeAnnounced ? false : false;
-                  });
-                },
-                child: const Text('Online event')),
-            const SizedBox(
-              width: 10,
-            ),
-            OutlinedButton(
-                onPressed: () {
-                  setState(() {
-                    buttonToBeAnnounced = true;
-                    buttonVenue = buttonVenue ? false : false;
-                    buttonOnlineEvent = buttonVenue ? false : false;
-                  });
-                },
-                child: const Text('To be annonced')),
-          ],
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              OutlinedButton(
+                  onPressed: () {
+                    setState(() {
+                      buttonVenue = true;
+                      buttonOnlineEvent = buttonVenue ? false : false;
+                      buttonToBeAnnounced = buttonToBeAnnounced ? false : false;
+                    });
+                  },
+                  child: const Text('Venue')),
+              const SizedBox(
+                width: 10,
+              ),
+              OutlinedButton(
+                  onPressed: () {
+                    setState(() {
+                      buttonOnlineEvent = true;
+                      buttonVenue = buttonVenue ? false : false;
+                      buttonToBeAnnounced = buttonToBeAnnounced ? false : false;
+                    });
+                  },
+                  child: const Text('Online event')),
+              const SizedBox(
+                width: 10,
+              ),
+              OutlinedButton(
+                  onPressed: () {
+                    setState(() {
+                      buttonToBeAnnounced = true;
+                      buttonVenue = buttonVenue ? false : false;
+                      buttonOnlineEvent = buttonVenue ? false : false;
+                    });
+                  },
+                  child: const Text('To be annonced')),
+            ],
+          ),
         ),
         const SizedBox(
           height: 20,
@@ -273,34 +276,44 @@ class _BasicInfoState extends State<BasicInfo> {
             fontWeight: FontWeight.bold,
           ),
         ),
+        const SizedBox(
+          height: 10,
+        ),
+
         const Text(
           'Tell event-goers when your event starts and ends so they can make plans to attend.',
           style: TextStyle(
             fontSize: 13,
           ),
         ),
-        Row(
-          children: [
-            OutlinedButton(
-                onPressed: () {
-                  setState(() {
-                    buttonSingleEvent = !buttonSingleEvent;
-                    buttonRecurringEvent = buttonRecurringEvent ? false : false;
-                  });
-                },
-                child: const Text('Single event')),
-            const SizedBox(
-              width: 10,
-            ),
-            OutlinedButton(
-                onPressed: () {
-                  setState(() {
-                    buttonRecurringEvent = !buttonRecurringEvent;
-                    buttonSingleEvent = buttonSingleEvent ? false : false;
-                  });
-                },
-                child: const Text('Recurring Event')),
-          ],
+        const SizedBox(
+          height: 10,
+        ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              OutlinedButton(
+                  onPressed: () {
+                    setState(() {
+                      buttonSingleEvent = !buttonSingleEvent;
+                      buttonRecurringEvent = buttonRecurringEvent ? false : false;
+                    });
+                  },
+                  child: const Text('Single event')),
+              const SizedBox(
+                width: 10,
+              ),
+              OutlinedButton(
+                  onPressed: () {
+                    setState(() {
+                      buttonRecurringEvent = !buttonRecurringEvent;
+                      buttonSingleEvent = buttonSingleEvent ? false : false;
+                    });
+                  },
+                  child: const Text('Recurring Event')),
+            ],
+          ),
         ),
         const SizedBox(
           height: 20,
@@ -385,9 +398,10 @@ class _BasicInfoState extends State<BasicInfo> {
               hintText: 'Time zone',
             ),
           ),
-          const SizedBox(
-            width: 10,
+       const  SizedBox(
+            height: 10,
           ),
+
           TextFormField(
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
@@ -416,7 +430,7 @@ class _BasicInfoState extends State<BasicInfo> {
             ),
           ),
           const SizedBox(
-            width: 10,
+            height: 20,
           ),
           TextFormField(
             decoration: const InputDecoration(
@@ -434,7 +448,7 @@ class _BasicInfoState extends State<BasicInfo> {
     return Scaffold(
       key: _globalKey,
       appBar: appBarModule(context),
-      drawer: appDrawer(context),
+      drawer: appDrawer(context,"basicInfo"),
       body: SingleChildScrollView(
         child: Column(
           children: [

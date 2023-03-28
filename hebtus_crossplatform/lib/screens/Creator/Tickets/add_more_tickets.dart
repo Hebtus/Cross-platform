@@ -47,39 +47,42 @@ class _AddMoreTicketsState extends State<AddMoreTickets> {
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            Row(
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      buttonPaid = true;
-                      buttonFree = false;
-                      buttonDonation = false;
-                    });
-                  },
-                  child: const Text('Paid'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      buttonPaid = false;
-                      buttonFree = true;
-                      buttonDonation = false;
-                    });
-                  },
-                  child: const Text('Free'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      buttonFree = false;
-                      buttonPaid = false;
-                      buttonDonation = true;
-                    });
-                  },
-                  child: const Text('Donation'),
-                ),
-              ],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        buttonPaid = true;
+                        buttonFree = false;
+                        buttonDonation = false;
+                      });
+                    },
+                    child: const Text('Paid'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        buttonPaid = false;
+                        buttonFree = true;
+                        buttonDonation = false;
+                      });
+                    },
+                    child: const Text('Free'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        buttonFree = false;
+                        buttonPaid = false;
+                        buttonDonation = true;
+                      });
+                    },
+                    child: const Text('Donation'),
+                  ),
+                ],
+              ),
             ),
             if (buttonPaid) ...[
               TextFormField(
@@ -350,6 +353,24 @@ class _AddMoreTicketsState extends State<AddMoreTickets> {
                 ),
               ),
             ],
+            const SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: ElevatedButton(
+                onPressed: () {
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:
+                  Colors.white, // Background colo// r
+                ),
+                child: const Text(
+                  'Add',
+                  style: TextStyle(color: Colors.blueAccent),
+                ),
+              ),
+            ),
           ],
         ),
       ),

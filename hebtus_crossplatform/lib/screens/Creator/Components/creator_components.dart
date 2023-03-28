@@ -69,7 +69,7 @@ AppBar appBarModule(BuildContext context) {
 
 ///description:this methode will make the side bar for all pages to navigate between them
 ///return type:Drawer
-Drawer appDrawer(BuildContext context) {
+Drawer appDrawer(BuildContext context,String nameModule) {
   return Drawer(
     child: ListView(
       // Important: Remove any padding from the ListView.
@@ -82,8 +82,9 @@ Drawer appDrawer(BuildContext context) {
           child: Text('Drawer Header'),
         ),
         ListTile(
-          leading: const Icon(
+          leading: Icon(
             Icons.circle,
+            color: nameModule=="basicInfo"?Colors.orange:Colors.grey,
           ),
           title: const Text('Basic info'),
           onTap: () {
@@ -92,8 +93,9 @@ Drawer appDrawer(BuildContext context) {
           },
         ),
         ListTile(
-          leading: const Icon(
+          leading: Icon(
             Icons.circle,
+            color: nameModule=="Details"?Colors.orange:Colors.grey,
           ),
           title: const Text('Details'),
           onTap: () {
@@ -102,8 +104,10 @@ Drawer appDrawer(BuildContext context) {
           },
         ),
         ListTile(
-          leading: const Icon(
+          leading: Icon(
             Icons.circle,
+            color: nameModule=="Online event page"?Colors.orange:Colors.grey,
+
           ),
           title: const Text('Online event page'),
           onTap: () {
@@ -112,8 +116,10 @@ Drawer appDrawer(BuildContext context) {
           },
         ),
         ListTile(
-          leading: const Icon(
+          leading:  Icon(
             Icons.circle,
+            color: nameModule=="Tickets"?Colors.orange:Colors.grey,
+
           ),
           title: const Text('Tickets'),
           onTap: () {
@@ -122,8 +128,9 @@ Drawer appDrawer(BuildContext context) {
           },
         ),
         ListTile(
-          leading: const Icon(
+          leading: Icon(
             Icons.circle,
+            color: nameModule=="publish"?Colors.orange:Colors.grey,
           ),
           title: const Text('Publish'),
           onTap: () {

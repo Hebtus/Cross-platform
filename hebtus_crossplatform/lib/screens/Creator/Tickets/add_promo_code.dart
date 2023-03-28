@@ -221,6 +221,24 @@ class _AddPromoCodeState extends State<AddPromoCode> {
                   },
                 ),
               ),
+              const SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: ElevatedButton(
+                  onPressed: () {
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                    Colors.white, // Background colo// r
+                  ),
+                  child: const Text(
+                    'Add',
+                    style: TextStyle(color: Colors.blueAccent),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

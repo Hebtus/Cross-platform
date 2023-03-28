@@ -14,7 +14,7 @@ class _PublishState extends State<Publish> {
     return Scaffold(
         key: _globalKey,
         appBar: appBarModule(context),
-        drawer: appDrawer(context),
+        drawer: appDrawer(context,"publish"),
         body: SingleChildScrollView(
             child: Column(
                 children: [

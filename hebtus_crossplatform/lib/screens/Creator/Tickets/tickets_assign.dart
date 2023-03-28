@@ -282,78 +282,93 @@ class _TicketsState extends State<Tickets> {
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
                 borderRadius: const BorderRadius.all(Radius.circular(5))),
-            child: Column(
-              children: [
-                Row(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Container(
+                child: Column(
                   children: [
-                    Text(
-                      ticketsList[i]["name"],
-                      style: const TextStyle(fontSize: 20.0),
-                    ),
-                    const Spacer(),
-                    PopupMenuButton<SampleItem>(
-                      initialValue: selectedMenu,
-                      // Callback that sets the selected popup menu item.
-                      onSelected: (SampleItem item) {
-                        setState(() {
-                          selectedMenu = item;
-                        });
-                      },
-                      itemBuilder: (BuildContext context) =>
-                          <PopupMenuEntry<SampleItem>>[
-                        const PopupMenuItem<SampleItem>(
-                          value: SampleItem.itemOne,
-                          child: Text('edit'),
+                    Row(
+                      children: [
+                        Text(
+                          ticketsList[i]["name"],
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontSize: 20.0),
                         ),
-                        const PopupMenuItem<SampleItem>(
-                          value: SampleItem.itemTwo,
-                          child: Text('copy'),
-                        ),
-                        const PopupMenuItem<SampleItem>(
-                          value: SampleItem.itemThree,
-                          child: Text('delete'),
+                        const Spacer(),
+                        PopupMenuButton<SampleItem>(
+                          initialValue: selectedMenu,
+                          // Callback that sets the selected popup menu item.
+                          onSelected: (SampleItem item) {
+                            setState(() {
+                              selectedMenu = item;
+                            });
+                          },
+                          itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry<SampleItem>>[
+                            const PopupMenuItem<SampleItem>(
+                              value: SampleItem.itemOne,
+                              child: Text('edit'),
+                            ),
+                            const PopupMenuItem<SampleItem>(
+                              value: SampleItem.itemTwo,
+                              child: Text('copy'),
+                            ),
+                            const PopupMenuItem<SampleItem>(
+                              value: SampleItem.itemThree,
+                              child: Text('delete'),
+                            ),
+                          ],
                         ),
                       ],
                     ),
+                    Row(
+                      children: [
+                        const CircleAvatar(
+                          backgroundColor: Colors.green,
+                          radius: 4,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        const Text(
+                          "On Sale",
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontSize: 20.0, color: Colors.grey),
+                        ),
+                        const Spacer(),
+                        Text(
+                          ticketsList[i]["cost"],
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontSize: 20.0),
+                        ),
+                      ],
+                    ),
+                    const Divider(
+                      thickness: 1,
+                    ),
+                    Row(
+                      children: [
+                        const Text(
+                          "Quantity ",
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontSize: 20.0, color: Colors.grey),
+                        ),
+                        Text(
+                          ticketsList[i]["quantity"],
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style:
+                              const TextStyle(fontSize: 20.0, color: Colors.black),
+                        ),
+                      ],
+                    )
                   ],
                 ),
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      backgroundColor: Colors.green,
-                      radius: 4,
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    const Text(
-                      "On Sale",
-                      style: TextStyle(fontSize: 20.0, color: Colors.grey),
-                    ),
-                    const Spacer(),
-                    Text(
-                      ticketsList[i]["cost"],
-                      style: const TextStyle(fontSize: 20.0),
-                    ),
-                  ],
-                ),
-                const Divider(
-                  thickness: 1,
-                ),
-                Row(
-                  children: [
-                    const Text(
-                      "Available Quantity ",
-                      style: TextStyle(fontSize: 20.0, color: Colors.grey),
-                    ),
-                    Text(
-                      ticketsList[i]["quantity"],
-                      style:
-                          const TextStyle(fontSize: 20.0, color: Colors.black),
-                    ),
-                  ],
-                )
-              ],
+              ),
             ),
           ),
         ),
@@ -409,128 +424,130 @@ class _TicketsState extends State<Tickets> {
         ),
         key: _globalKey,
         appBar: appBarModule(context),
-        drawer: appDrawer(context),
+        drawer: appDrawer(context,"Tickets"),
         body: SingleChildScrollView(
-            child: Column(
-          children: [
-            sideMenuModule(_globalKey, pageTitle),
-            //for ( var i = 0; i < 10; i++ )  tabMenu(),
-            const SizedBox(
-              height: 10,
-            ),
-            tabMenu(),
-
-            Padding(
-              padding: const EdgeInsets.all(10.0),
+            child: SingleChildScrollView(
               child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    if (buttonAdmission) ...[
-                      for (int i = 0; i < _items.length; i++)
-                        ticketCard(_items, i),
+          children: [
+              sideMenuModule(_globalKey, pageTitle),
+              //for ( var i = 0; i < 10; i++ )  tabMenu(),
+              const SizedBox(
+                height: 10,
+              ),
+              tabMenu(),
+
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       const SizedBox(
-                        height: 50,
+                        height: 10,
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const AddMoreTickets()),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Colors.white, // Background colo// r
-                          ),
-                          child: const Text(
-                            '+ Add more tickets',
-                            style: TextStyle(color: Colors.blueAccent),
+                      if (buttonAdmission) ...[
+                        for (int i = 0; i < _items.length; i++)
+                          ticketCard(_items, i),
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const AddMoreTickets()),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Colors.white, // Background colo// r
+                            ),
+                            child: const Text(
+                              '+ Add more tickets',
+                              style: TextStyle(color: Colors.blueAccent),
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            readJson();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Colors.white, // Background colo// r
-                          ),
-                          child: const Text(
-                            'Refresh',
-                            style: TextStyle(color: Colors.blueAccent),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              readJson();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Colors.white, // Background colo// r
+                            ),
+                            child: const Text(
+                              'Refresh',
+                              style: TextStyle(color: Colors.blueAccent),
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 50,
-                      ),
-                    ],
-                    if (buttonAddons) ...[],
-                    if (buttonPromoCode) ...[
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const AddPromoCode()),
-                            );
-                          },
-                          child: const Text('Add a code')),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: DataTable(columns: const [
-                          DataColumn(
-                              label: Text('Name',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold))),
-                          DataColumn(
-                              label: Text('Code type',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold))),
-                          DataColumn(
-                              label: Text('Discount',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold))),
-                          DataColumn(
-                              label: Text('Uses',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold))),
-                          DataColumn(
-                              label: Text('Status',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold))),
-                          DataColumn(
-                              label: Text('Options',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold))),
-                        ], rows: [
-                          for (int i = 0; i < _itemsPromo.length; i++)
-                            promoCodetable(_itemsPromo, i),
-                        ]),
-                      )
-                    ],
-                    if (buttonHold) ...[],
-                    if (buttonSettings) ...[
-                      tabSettings(),
-                    ],
-                  ]),
-            ),
+                        const SizedBox(
+                          height: 50,
+                        ),
+                      ],
+                      if (buttonAddons) ...[],
+                      if (buttonPromoCode) ...[
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const AddPromoCode()),
+                              );
+                            },
+                            child: const Text('Add a code')),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: DataTable(columns: const [
+                            DataColumn(
+                                label: Text('Name',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold))),
+                            DataColumn(
+                                label: Text('Code type',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold))),
+                            DataColumn(
+                                label: Text('Discount',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold))),
+                            DataColumn(
+                                label: Text('Uses',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold))),
+                            DataColumn(
+                                label: Text('Status',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold))),
+                            DataColumn(
+                                label: Text('Options',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold))),
+                          ], rows: [
+                            for (int i = 0; i < _itemsPromo.length; i++)
+                              promoCodetable(_itemsPromo, i),
+                          ]),
+                        )
+                      ],
+                      if (buttonHold) ...[],
+                      if (buttonSettings) ...[
+                        tabSettings(),
+                      ],
+                    ]),
+              ),
           ],
-        )));
+        ),
+            )));
   }
 }
