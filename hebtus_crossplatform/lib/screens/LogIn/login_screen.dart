@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hebtus_crossplatform/components/signup_pages_appbar.dart';
 import 'package:hebtus_crossplatform/constants.dart' as constants;
+import 'package:hebtus_crossplatform/services/auth_service.dart';
 import 'components/login_form.dart';
 
 ///The screen contains the login form and logic

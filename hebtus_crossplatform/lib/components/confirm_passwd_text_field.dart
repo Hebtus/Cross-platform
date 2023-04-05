@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 ///the password written in the password textfield whose controller is passed as an argument to this widget
 class ConfirmPasswordTextfield extends StatefulWidget {
   final TextEditingController passwdController;
+  final TextEditingController controller;
+
   final String myKey;
   const ConfirmPasswordTextfield({
     super.key,
     required this.passwdController,
+    required this.controller,
     required this.myKey,
   });
 
@@ -28,6 +31,7 @@ class _PasswordTextfieldState extends State<ConfirmPasswordTextfield> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
+          controller: widget.controller,
           key: Key(widget.myKey),
           autovalidateMode: AutovalidateMode.onUserInteraction,
           obscureText: !_passwordVisible,

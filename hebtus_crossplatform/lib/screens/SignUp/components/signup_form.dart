@@ -3,6 +3,7 @@ import 'package:hebtus_crossplatform/components/confirm_passwd_text_field.dart';
 import '../../../components/or_divider.dart';
 import '../../../components/password_text_field.dart';
 import '../../../components/email_text_field.dart';
+import '../../../services/auth_service.dart';
 import 'already_have_account_btn.dart';
 import '../../../components/socialmedia_icon.dart';
 import 'package:go_router/go_router.dart';
@@ -21,6 +22,10 @@ class SignupForm extends StatefulWidget {
 
 class _SignupFormState extends State<SignupForm> {
   final _passwdController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _confirmPassController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +33,17 @@ class _SignupFormState extends State<SignupForm> {
         key: SignupForm._formKey,
         child: Column(
           children: [
-            const EmailTextField(myKey: "signupEmailField"),
+            EmailTextField(
+              myKey: "signupEmailField",
+              controller: _emailController,
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
                   Flexible(
                     child: TextFormField(
+                        controller: _firstNameController,
                         key: const Key("firstNameField"),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (firstName) {
@@ -52,6 +61,7 @@ class _SignupFormState extends State<SignupForm> {
                   const SizedBox(width: 5),
                   Flexible(
                     child: TextFormField(
+                        controller: _lastNameController,
                         key: const Key("lastNameField"),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (lastName) {
@@ -75,15 +85,42 @@ class _SignupFormState extends State<SignupForm> {
             ),
             ConfirmPasswordTextfield(
               passwdController: _passwdController,
+              controller: _confirmPassController,
               myKey: "signupConfirmField",
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                   key: const Key("SignUp"),
-                  onPressed: () {
+                  onPressed: () async {
                     if (SignupForm._formKey.currentState!.validate()) {
-                      return context.go("/");
+                      try {
+                        final AuthService authService = AuthService();
+                        // String message = await authService.signup(
+                        //     _firstNameController.text,
+                        //     _lastNameController.text,
+                        //     _emailController.text,
+                        //     _passwdController.text,
+                        //     _confirmPassController.text);
+                        // debugPrint(message);
+                        return context.go("/");
+                      } catch (e) {
+                        //bad request
+                        if (e == 400) {
+                          debugPrint(e.toString());
+                        }
+                        //unauthorized
+                        else if (e == 401) {
+                          debugPrint(e.toString());
+                        }
+                        //internal server error
+                        else if (e == 500) {
+                          debugPrint(e.toString());
+                        } else {
+                          //other errors
+                          debugPrint(e.toString());
+                        }
+                      }
                     }
                   },
                   child: const Text("Sign Up",

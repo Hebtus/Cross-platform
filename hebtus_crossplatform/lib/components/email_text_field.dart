@@ -4,8 +4,10 @@ import 'package:email_validator/email_validator.dart';
 ///a textfield component for entering email address, contains the necessary validations for ensuring that the entered text is a valid email
 class EmailTextField extends StatefulWidget {
   final String myKey;
+  final TextEditingController controller;
   const EmailTextField({
     super.key,
+    required this.controller,
     required this.myKey,
   });
 
@@ -19,6 +21,7 @@ class _EmailTextFieldState extends State<EmailTextField> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
+          controller: widget.controller,
           key: Key(widget.myKey),
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (email) {

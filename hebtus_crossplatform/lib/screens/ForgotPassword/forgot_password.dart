@@ -4,6 +4,8 @@ import 'package:hebtus_crossplatform/components/signup_pages_appbar.dart';
 import 'package:hebtus_crossplatform/constants.dart' as constants;
 import 'package:go_router/go_router.dart';
 
+import '../../services/auth_service.dart';
+
 ///Forgot password, the screen contains the textfield for entering email, to send an email to the account for password resetting
 class ForgotPasswdScreen extends StatefulWidget {
   const ForgotPasswdScreen({super.key});
@@ -18,6 +20,7 @@ class _ForgotPasswdScreenState extends State<ForgotPasswdScreen> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
+    final TextEditingController emailController = TextEditingController();
     return Container(
       decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -65,10 +68,11 @@ class _ForgotPasswdScreenState extends State<ForgotPasswdScreen> {
                           key: ForgotPasswdScreen._formKey,
                           child: Column(
                             children: [
-                              const Padding(
-                                  padding: EdgeInsets.all(8.0),
+                              Padding(
+                                  padding: const EdgeInsets.all(8.0),
                                   child: EmailTextField(
                                     myKey: "forgotPassEmailField",
+                                    controller: emailController,
                                   )),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -91,8 +95,30 @@ class _ForgotPasswdScreenState extends State<ForgotPasswdScreen> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TextButton(
-                            onPressed: () {
-                              return context.go("/");
+                            onPressed: () async {
+                              try {
+                                final AuthService authService = AuthService();
+                                String message = await authService
+                                    .forgotPassword(emailController.text);
+                                debugPrint(message);
+                                return context.go("/");
+                              } catch (e) {
+                                //bad request
+                                if (e == 400) {
+                                  debugPrint(e.toString());
+                                }
+                                //unauthorized
+                                else if (e == 401) {
+                                  debugPrint(e.toString());
+                                }
+                                //internal server error
+                                else if (e == 500) {
+                                  debugPrint(e.toString());
+                                } else {
+                                  //other errors
+                                  debugPrint(e.toString());
+                                }
+                              }
                             },
                             child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,

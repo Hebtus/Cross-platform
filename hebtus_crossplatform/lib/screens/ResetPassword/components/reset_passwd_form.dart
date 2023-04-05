@@ -18,6 +18,7 @@ class ForgotPasswdForm extends StatefulWidget {
 
 class _ForgotPasswdFormState extends State<ForgotPasswdForm> {
   final _passwdController = TextEditingController();
+  final _confirmPassController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +31,7 @@ class _ForgotPasswdFormState extends State<ForgotPasswdForm> {
               myKey: "resetPassPasswordField",
             ),
             ConfirmPasswordTextfield(
+              controller: _confirmPassController,
               passwdController: _passwdController,
               myKey: "resetPassConfirmField",
             ),

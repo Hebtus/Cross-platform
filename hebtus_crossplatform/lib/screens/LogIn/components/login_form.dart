@@ -5,6 +5,8 @@ import 'package:hebtus_crossplatform/components/email_text_field.dart';
 import 'package:hebtus_crossplatform/screens/LogIn/components/dont_have_account_btn.dart';
 import '../../../components/socialmedia_icon.dart';
 import 'package:go_router/go_router.dart';
+import '../../../models/user.dart';
+import '../../../services/auth_service.dart';
 
 ///The login form contains textfields for the email and password, with necessary validations
 class LoginForm extends StatefulWidget {
@@ -19,6 +21,7 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final _passwdController = TextEditingController();
+  final _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,8 @@ class _LoginFormState extends State<LoginForm> {
         key: LoginForm._formKey,
         child: Column(
           children: [
-            const EmailTextField(myKey: "loginEmailField"),
+            EmailTextField(
+                myKey: "loginEmailField", controller: _emailController),
             PasswordTextfield(
               controller: _passwdController,
               myKey: "loginPassField",
@@ -35,9 +39,31 @@ class _LoginFormState extends State<LoginForm> {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                   key: const Key("LogIn"),
-                  onPressed: () {
+                  onPressed: () async {
                     if (LoginForm._formKey.currentState!.validate()) {
-                      return context.go("/home");
+                      try {
+                        final AuthService authService = AuthService();
+                        // User user = await authService.login(
+                        //     _emailController.text, _passwdController.text);
+                        // debugPrint("Successful login${user.firstName}");
+                        return context.go("/home");
+                      } catch (e) {
+                        //bad request
+                        if (e == 400) {
+                          debugPrint(e.toString());
+                        }
+                        //unauthorized
+                        else if (e == 401) {
+                          debugPrint(e.toString());
+                        }
+                        //internal server error
+                        else if (e == 500) {
+                          debugPrint(e.toString());
+                        } else {
+                          //other errors
+                          debugPrint(e.toString());
+                        }
+                      }
                     }
                   },
                   child: const Text("Log In",
