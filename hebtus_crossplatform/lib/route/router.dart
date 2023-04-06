@@ -45,5 +45,18 @@ class AppRouter {
         return const BasicInfo();
       },
     ),
+    GoRoute(
+      path: '/tickets',
+      builder: (context, state) {
+        return const Tickets();
+      },
+    ),
+    GoRoute(
+      path: '/publish',
+      builder: (context, state) {
+        return const Publish();
+      },
+    ),
+
   ]);
 }

@@ -38,6 +38,7 @@ class _PublishState extends State<Publish> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
         key: _globalKey,
         appBar: appBarModule(context),
         drawer: appDrawer(context,"publish"),

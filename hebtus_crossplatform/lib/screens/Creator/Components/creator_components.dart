@@ -88,8 +88,7 @@ Drawer appDrawer(BuildContext context,String nameModule) {
           ),
           title: const Text('Basic info'),
           onTap: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const BasicInfo()));
+            return context.go("/basicinfo");
           },
         ),
         ListTile(
@@ -123,8 +122,7 @@ Drawer appDrawer(BuildContext context,String nameModule) {
           ),
           title: const Text('Tickets'),
           onTap: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => const Tickets()));
+            return context.go("/tickets");
           },
         ),
         ListTile(
@@ -134,8 +132,7 @@ Drawer appDrawer(BuildContext context,String nameModule) {
           ),
           title: const Text('Publish'),
           onTap: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => const Publish()));
+            return context.go("/publish");
           },
         ),
       ],

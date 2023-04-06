@@ -14,6 +14,7 @@ TextEditingController _date2 = TextEditingController();
 DateTime selectedDate2 = DateTime.now();
 bool displayStartTime = false;
 bool displayEndTime = false;
+bool enableVar = true;
 
 ///name:_selectDate
 ///Description:add a calender with start and end date to an icon
@@ -102,6 +103,7 @@ class _BasicInfoState extends State<BasicInfo> {
           height: 20,
         ),
         TextFormField(
+          enabled: enableVar,
           maxLength: 75,
           onChanged: (String value) {
             setState(() {
@@ -145,6 +147,7 @@ class _BasicInfoState extends State<BasicInfo> {
           height: 20,
         ),
         TextFormField(
+          enabled: enableVar,
           maxLength: 25,
           onChanged: (String value) {
             setState(() {
@@ -244,6 +247,7 @@ class _BasicInfoState extends State<BasicInfo> {
             height: 10,
           ),
           TextFormField(
+            enabled: enableVar,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               labelText: 'serch for venue or address',
@@ -279,7 +283,6 @@ class _BasicInfoState extends State<BasicInfo> {
         const SizedBox(
           height: 10,
         ),
-
         const Text(
           'Tell event-goers when your event starts and ends so they can make plans to attend.',
           style: TextStyle(
@@ -297,7 +300,8 @@ class _BasicInfoState extends State<BasicInfo> {
                   onPressed: () {
                     setState(() {
                       buttonSingleEvent = !buttonSingleEvent;
-                      buttonRecurringEvent = buttonRecurringEvent ? false : false;
+                      buttonRecurringEvent =
+                          buttonRecurringEvent ? false : false;
                     });
                   },
                   child: const Text('Single event')),
@@ -324,6 +328,7 @@ class _BasicInfoState extends State<BasicInfo> {
             height: 20,
           ),
           TextFormField(
+            enabled: enableVar,
             controller: _date,
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
@@ -340,6 +345,7 @@ class _BasicInfoState extends State<BasicInfo> {
             height: 20,
           ),
           TextFormField(
+            enabled: enableVar,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               hintText: 'Start time',
@@ -349,6 +355,7 @@ class _BasicInfoState extends State<BasicInfo> {
             height: 20,
           ),
           TextFormField(
+            enabled: enableVar,
             controller: _date2,
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
@@ -365,6 +372,7 @@ class _BasicInfoState extends State<BasicInfo> {
             height: 20,
           ),
           TextFormField(
+            enabled: enableVar,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               hintText: 'End time',
@@ -393,16 +401,17 @@ class _BasicInfoState extends State<BasicInfo> {
                 ListTileControlAffinity.leading, //  <-- leading Checkbox
           ),
           TextFormField(
+            enabled: enableVar,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               hintText: 'Time zone',
             ),
           ),
-       const  SizedBox(
+          const SizedBox(
             height: 10,
           ),
-
           TextFormField(
+            enabled: enableVar,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               hintText: 'Event page languge',
@@ -424,6 +433,7 @@ class _BasicInfoState extends State<BasicInfo> {
                 ListTileControlAffinity.leading, //  <-- leading Checkbox
           ),
           TextFormField(
+            enabled: enableVar,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               hintText: 'Time zone',
@@ -433,6 +443,7 @@ class _BasicInfoState extends State<BasicInfo> {
             height: 20,
           ),
           TextFormField(
+            enabled: enableVar,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               hintText: 'Event page languge',
@@ -446,9 +457,20 @@ class _BasicInfoState extends State<BasicInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomSheet: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: ElevatedButton(
+          onPressed: () {
+            setState(() {
+              enableVar = false;
+            });
+          },
+          child: const Text('Save'),
+        ),
+      ),
       key: _globalKey,
       appBar: appBarModule(context),
-      drawer: appDrawer(context,"basicInfo"),
+      drawer: appDrawer(context, "basicInfo"),
       body: SingleChildScrollView(
         child: Column(
           children: [
