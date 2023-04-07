@@ -11,4 +11,4 @@ export 'Creator/Tickets/tickets_assign.dart';
 export 'package:hebtus_crossplatform/screens/LandingPage/landing_page.dart';
 export 'package:hebtus_crossplatform/screens/SeeMorePage/see_more.dart';
 export 'package:hebtus_crossplatform/screens/EventsPage/events_page.dart';
-
+export 'package:hebtus_crossplatform/screens/CreatorEvents/creator_events_screen.dart';

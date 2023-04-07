@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-/// This method returns app bar of the 
+/// This method returns app bar of the
 /// return type: Preferredsizewidget
 PreferredSizeWidget MainAppBar(BuildContext context) {
   return AppBar(
@@ -14,7 +14,8 @@ PreferredSizeWidget MainAppBar(BuildContext context) {
             fontSize: 25, fontWeight: FontWeight.bold, color: Colors.orange),
       ),
       onPressed: () {
-        return context.go("/home"); // navigates to homescreen when hebtus is clicked
+        return context
+            .go("/home"); // navigates to homescreen when hebtus is clicked
       },
       child: const Text('Hebtus'),
     ),

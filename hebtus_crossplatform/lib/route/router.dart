@@ -57,6 +57,11 @@ class AppRouter {
         return const Publish();
       },
     ),
-
+    GoRoute(
+      path: '/creatorhome',
+      builder: (context, state) {
+        return const CreatorEventsScreen();
+      },
+    ),
   ]);
 }
