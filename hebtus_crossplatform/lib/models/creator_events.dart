@@ -8,31 +8,32 @@ class CreatorEvent {
   final DateTime endTime;
   final Location location;
   final String locationName;
-  final String description;
-  final String category;
-  final bool isOnline;
   final bool isDraft;
-  final bool isPrivate;
-  final DateTime goPublicDate;
-  final int ticketsSold;
-  final List<String> tags;
+  final String? description;
+  final String? category;
+  final bool? isOnline;
+  final bool? isPrivate;
+  final DateTime? goPublicDate;
+  final int? ticketsSold;
+  final List<String>? tags;
 
+  //uses named parameters
   CreatorEvent(
-      this.eventID,
-      this.eventName,
-      this.imgURL,
-      this.startTime,
-      this.endTime,
-      this.location,
-      this.locationName,
+      {required this.eventID,
+      required this.eventName,
+      required this.imgURL,
+      required this.startTime,
+      required this.endTime,
+      required this.location,
+      required this.locationName,
       this.description,
       this.category,
       this.isOnline,
-      this.isDraft,
+      required this.isDraft,
       this.isPrivate,
       this.goPublicDate,
       this.ticketsSold,
-      this.tags);
+      this.tags});
 
   CreatorEvent.fromJson(Map<String, dynamic> json)
       : eventID = json['eventid'],
@@ -50,4 +51,25 @@ class CreatorEvent {
         goPublicDate = DateTime.parse(json['goPublicDate']),
         ticketsSold = int.parse(json['ticketsSold']),
         tags = List<String>.from(json['tags']);
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    //mandatory fields
+    data['eventName'] = eventName;
+    data['img_url'] = imgURL;
+    data['startTime'] = startTime;
+    data['endTime'] = endTime;
+    data['location'] = location.toJson();
+    data['locationName'] = locationName;
+    data['draft'] = isDraft;
+    //optional fields
+    if (description != null) data['description'] = description;
+    if (category != null) data['category'] = category;
+    if (isOnline != null) data['online'] = isOnline;
+    if (isPrivate != null) data['privacy'] = isPrivate;
+    if (goPublicDate != null) data['goPublicDate'] = goPublicDate;
+    if (tags != null) data['tags'] = tags;
+
+    return data;
+  }
 }

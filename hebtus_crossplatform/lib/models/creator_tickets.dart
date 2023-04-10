@@ -1,23 +1,24 @@
 class CreatorTicket {
-  final String ticketID;
+  final String? ticketID;
   final String name;
   final String type;
   final int price;
-  final int currentReservations;
+  final int? currentReservations;
   final int capacity;
   final DateTime sellingStartTime;
   final DateTime sellingEndTime;
 
-  CreatorTicket(
+  //uses named parameters
+  CreatorTicket({
     this.ticketID,
-    this.name,
-    this.type,
-    this.price,
+    required this.name,
+    required this.type,
+    required this.price,
     this.currentReservations,
-    this.capacity,
-    this.sellingStartTime,
-    this.sellingEndTime,
-  );
+    required this.capacity,
+    required this.sellingStartTime,
+    required this.sellingEndTime,
+  });
 
   CreatorTicket.fromJson(Map<String, dynamic> json)
       : ticketID = json['ticketID'],
@@ -28,4 +29,16 @@ class CreatorTicket {
         capacity = json['capacity'],
         sellingStartTime = DateTime.parse(json['sellingStartTime']),
         sellingEndTime = DateTime.parse(json['sellingEndTime']);
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+
+    data['name'] = name;
+    data['type'] = type;
+    data['price'] = price;
+    data['capacity'] = capacity;
+    data['sellingStartTime'] = sellingStartTime;
+    data['sellingEndTime'] = sellingEndTime;
+    return data;
+  }
 }

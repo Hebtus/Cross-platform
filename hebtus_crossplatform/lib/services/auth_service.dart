@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:hebtus_crossplatform/models/user.dart';
 import 'package:http/http.dart' as http;
 
-const String urlString = "https://009c-156-222-154-84.eu.ngrok.io";
+import '../constants.dart';
 
 class AuthService {
   Future<User> login(String email, String password) async {
@@ -19,13 +19,8 @@ class AuthService {
       'ngrok-skip-browser-warning': '1',
     };
 
-    // http.Response response = await http.post(url,
-    //     body: jsonEncode(loginData), headers: loginHeaders);
-    http.Response response = await http.get(
-        Uri.parse(
-            "https://009c-156-222-154-84.eu.ngrok.io/api/v1/events/2231/sales/"),
-        headers: loginHeaders);
-    print(response);
+    http.Response response = await http.post(url,
+        body: jsonEncode(loginData), headers: loginHeaders);
     if (response.statusCode == 200 || response.statusCode == 201) {
       Map userDataResponse = jsonDecode(response.body);
       dynamic userData = userDataResponse["data"];
@@ -49,7 +44,6 @@ class AuthService {
       "Accept": "application/json",
       'ngrok-skip-browser-warning': '1',
     };
-    print(jsonEncode(signupData));
     http.Response response = await http.post(url,
         body: jsonEncode(signupData), headers: signupHeaders);
     // http.Response response = await http.get(url, headers: signupHeaders);
@@ -65,12 +59,47 @@ class AuthService {
   Future<String> forgotPassword(String email) async {
     Uri url = Uri.parse("$urlString/api/v1/forgotpassword");
     final Map<String, dynamic> forgotPassData = {"email": email};
-    http.Response response =
-        await http.post(url, body: jsonEncode(forgotPassData));
+    final Map<String, String> forgotPassHeaders = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      'ngrok-skip-browser-warning': '1',
+    };
+    http.Response response = await http.post(url,
+        body: jsonEncode(forgotPassData), headers: forgotPassHeaders);
     if (response.statusCode == 200 || response.statusCode == 201) {
       Map forgotPassResponse = jsonDecode(response.body);
       String message = forgotPassResponse["message"];
       return message;
+    } else {
+      throw Exception(response.statusCode);
+    }
+  }
+
+  Future<String> googleLogin() async {
+    Uri url = Uri.parse("$urlString/api/v1/oauth/login/google");
+    final Map<String, String> googleLoginHeaders = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      'ngrok-skip-browser-warning': '1',
+    };
+    http.Response response = await http.get(url, headers: googleLoginHeaders);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return "sucess";
+    } else {
+      throw Exception(response.statusCode);
+    }
+  }
+
+  Future<String> facebookLogin() async {
+    Uri url = Uri.parse("$urlString/api/v1/oauth/login/facebook");
+    final Map<String, String> facebookLoginHeaders = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      'ngrok-skip-browser-warning': '1',
+    };
+    http.Response response = await http.get(url, headers: facebookLoginHeaders);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return "success";
     } else {
       throw Exception(response.statusCode);
     }

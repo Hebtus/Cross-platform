@@ -56,6 +56,22 @@ class _FilterEventsBttnState extends State<FilterEventsBttn> {
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
+        TextButton(
+            onPressed: () {},
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.download_rounded),
+                const SizedBox(width: 4),
+                Text(
+                  "Export to CSV",
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+              ],
+            ))
       ],
     );
   }
