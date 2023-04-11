@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Components/creator_components.dart';
-
+import 'package:image_picker/image_picker.dart';
+import 'dart:io' show File, Platform;
 int eventNameCount = 0;
 int tagsCount = 0;
 bool buttonVenue = false;
@@ -15,6 +17,11 @@ DateTime selectedDate2 = DateTime.now();
 bool displayStartTime = false;
 bool displayEndTime = false;
 bool enableVar = true;
+
+late ImagePicker picker;
+String? imageUrl;
+String? filePath;
+File? imageObj;
 
 ///name:_selectDate
 ///Description:add a calender with start and end date to an icon
@@ -47,6 +54,68 @@ class _BasicInfoState extends State<BasicInfo> {
 
   ///Description:add a calender with start and end date to an icon
   ///return type:non
+  @override
+  void initState() {
+    super.initState();
+    picker = ImagePicker();
+  }
+  Future getImage() async {
+    late var img;
+
+    img = await picker.pickImage(source: ImageSource.gallery);
+    imageObj=File(img.path);
+    filePath=imageObj?.path;
+
+    setState(() {
+      imageUrl = img?.path;
+    });
+  }
+  void myAlert() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            title: Text('Please choose media to select'),
+            content: Container(
+              height: MediaQuery.of(context).size.height / 6,
+              child: Column(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      getImage();
+                    },
+                    child: Row(
+                      children: [
+                        Icon(Icons.image),
+                        Text('From Gallery'),
+                      ],
+                    ),
+                  ),
+                  if (!kIsWeb)
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        getImage();
+                      },
+                      child: Row(
+                        children: [
+                          Icon(Icons.camera),
+                          Text('From Camera'),
+                        ],
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+
+
   Future _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
@@ -454,7 +523,58 @@ class _BasicInfoState extends State<BasicInfo> {
     );
   }
 
+  Column imageUpload(){
+return Column(
+  mainAxisAlignment: MainAxisAlignment.start,
+  children: [
+    const Text(
+      'Image upload',
+      style: TextStyle(
+        fontSize: 30,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    const SizedBox(
+      height: 10,
+    ),
+    ElevatedButton(
+      onPressed: () {
+        myAlert();
+        print(filePath);
+      },
+      child: Text('Upload Photo'),
+    ),
+    SizedBox(
+      height: 10,
+    ),
+    imageUrl != null
+        ? Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: kIsWeb
+            ? Image.network(
+          imageUrl!,
+          fit: BoxFit.cover,
+          height: 200,
+        )
+            : Image.file(
+          File(imageUrl!),
+          fit: BoxFit.cover,
+          height: 200,
+        ),
+      ),
+    )
+        : Container(),
+  ],
+);
+
+
+
+  }
+
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       bottomSheet: SizedBox(
@@ -499,6 +619,14 @@ class _BasicInfoState extends State<BasicInfo> {
                     height: 20,
                   ),
                   dateAndTimeField(),
+                  const Divider(
+                    thickness: 1,
+                  ),
+//////////////////////////////////////////////////////////////////////////
+                imageUpload(),
+                  const SizedBox(
+                    height: 20,
+                  ),
                 ],
               ),
             ),
