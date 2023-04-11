@@ -2,7 +2,7 @@ class Location {
   final double longitude;
   final double latitude;
 
-  Location(this.longitude, this.latitude);
+  Location({required this.longitude, required this.latitude});
 
   Location.fromJson(Map<String, dynamic> json)
       : longitude = json['longitude'],

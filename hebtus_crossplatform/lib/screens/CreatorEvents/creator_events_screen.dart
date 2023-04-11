@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hebtus_crossplatform/screens/all_screens.dart';
 
+import '../../models/creator_events.dart';
+import '../../models/location.dart';
+import 'components/creator_event_card.dart';
 import 'components/filter_events_bttn.dart';
 
 class CreatorEventsScreen extends StatefulWidget {
@@ -11,6 +14,54 @@ class CreatorEventsScreen extends StatefulWidget {
 }
 
 class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
+  final List<CreatorEvent> events = [
+    CreatorEvent(
+        eventID: "1",
+        eventName: "test",
+        imgURL: "assets/images/foodtruck.jpg",
+        startTime: DateTime(2023, 5, 5),
+        endTime: DateTime(2023, 6, 6),
+        location: Location(latitude: 23.23, longitude: 23.23),
+        locationName: "Cairo",
+        isDraft: false),
+    CreatorEvent(
+        eventID: "1",
+        eventName: "test",
+        imgURL: "assets/images/foodtruck.jpg",
+        startTime: DateTime(2023, 5, 5, 16, 0),
+        endTime: DateTime(2023, 6, 6),
+        location: Location(latitude: 23.23, longitude: 23.23),
+        locationName: "Cairo",
+        isDraft: false),
+    CreatorEvent(
+        eventID: "1",
+        eventName: "test",
+        imgURL: "assets/images/foodtruck.jpg",
+        startTime: DateTime(2023, 5, 5),
+        endTime: DateTime(2023, 6, 6),
+        location: Location(latitude: 23.23, longitude: 23.23),
+        locationName: "Cairo",
+        isDraft: false,
+        isPrivate: true),
+    CreatorEvent(
+        eventID: "1",
+        eventName: "test",
+        imgURL: "assets/images/foodtruck.jpg",
+        startTime: DateTime(2023, 5, 5),
+        endTime: DateTime(2023, 6, 6),
+        location: Location(latitude: 23.23, longitude: 23.23),
+        locationName: "Cairo",
+        isDraft: false),
+    CreatorEvent(
+        eventID: "1",
+        eventName: "test",
+        imgURL: "assets/images/foodtruck.jpg",
+        startTime: DateTime(2023, 5, 5),
+        endTime: DateTime(2023, 6, 6),
+        location: Location(latitude: 23.23, longitude: 23.23),
+        locationName: "Cairo",
+        isDraft: false),
+  ];
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -30,11 +81,22 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
                           fontSize: 40,
                           fontWeight: FontWeight.bold)), //TODO: add user name
                 ),
-                FilterEventsBttn(),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: FilterEventsBttn(),
+                ),
                 Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black, width: 1)),
-                  child: Column(children: const [Text("insert list here")]),
+                  constraints: BoxConstraints(maxHeight: 500),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.separated(
+                        padding: EdgeInsets.zero,
+                        itemBuilder: ((context, index) =>
+                            CreatorEventCard(event: events[index])),
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 5),
+                        itemCount: events.length),
+                  ),
                 )
               ],
             ),

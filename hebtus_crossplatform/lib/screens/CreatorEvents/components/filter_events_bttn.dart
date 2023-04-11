@@ -49,11 +49,13 @@ class _FilterEventsBttnState extends State<FilterEventsBttn> {
             itemBuilder: (context) {
               return dropDownMenuOptions;
             }),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            _selectedOption,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        Flexible(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              _selectedOption,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
           ),
         ),
         TextButton(
@@ -63,11 +65,12 @@ class _FilterEventsBttnState extends State<FilterEventsBttn> {
               children: [
                 const Icon(Icons.download_rounded),
                 const SizedBox(width: 4),
-                Text(
-                  "Export to CSV",
-                  style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    color: Theme.of(context).primaryColor,
+                Flexible(
+                  child: Text(
+                    "Export to CSV",
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
                   ),
                 ),
               ],
