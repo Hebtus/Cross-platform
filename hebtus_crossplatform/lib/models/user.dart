@@ -1,18 +1,16 @@
 class User {
-  String userName;
   String userID;
-  int longitude;
-  int latitude;
+  List<dynamic> coordinates;
   String firstName;
   String lastName;
   String locationName;
+  String email;
 
   User.fromJson(Map<String, dynamic> json)
-      : userName = json["user"]["userName"],
-        userID = json["user"]["userID"],
-        longitude = json["user"]["location"]["longitude"],
-        latitude = json["user"]["location"]["latitude"],
+      : userID = json["user"]["_id"],
+        coordinates = json["user"]["location"]["coordinates"],
         firstName = json["user"]["name"]["firstName"],
         lastName = json["user"]["name"]["lastName"],
-        locationName = json["user"]["locationName"];
+        locationName = json["user"]["locationName"],
+        email = json["user"]["email"];
 }

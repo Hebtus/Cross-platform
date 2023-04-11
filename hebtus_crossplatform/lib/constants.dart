@@ -1,2 +1,2 @@
 const double phoneWidth = 450;
-const String urlString = "https://009c-156-222-154-84.eu.ngrok.io";
+const String urlString = "http://16.170.37.222";

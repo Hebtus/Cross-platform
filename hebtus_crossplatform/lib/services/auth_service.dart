@@ -21,7 +21,17 @@ class AuthService {
 
     http.Response response = await http.post(url,
         body: jsonEncode(loginData), headers: loginHeaders);
-    if (response.statusCode == 200 || response.statusCode == 201) {
+    var cookies = response.headers['set-cookie'];
+    print(cookies);
+    print(response.statusCode);
+    // Map<String, String> headers = {'cookie': cookies!};
+    // var response2 = await http.get(
+    //     Uri.parse('$urlString/api/v1/events/2231/sales/'),
+    //     headers: headers);
+    // var cookies2 = response2.headers['set-cookie'];
+    // print(cookies2);
+
+    if (response.statusCode >= 200 || response.statusCode < 300) {
       Map userDataResponse = jsonDecode(response.body);
       dynamic userData = userDataResponse["data"];
       return User.fromJson(userData);

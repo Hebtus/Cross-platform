@@ -43,9 +43,10 @@ class _LoginFormState extends State<LoginForm> {
                     if (LoginForm._formKey.currentState!.validate()) {
                       try {
                         final AuthService authService = AuthService();
-                        // User user = await authService.login(
-                        //     _emailController.text, _passwdController.text);
-                        // debugPrint("Successful login${user.firstName}");
+                        User user = await authService.login(
+                            _emailController.text, _passwdController.text);
+                        debugPrint("Successful login${user.firstName}");
+
                         return context.go("/home");
                       } catch (e) {
                         //bad request
