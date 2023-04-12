@@ -6,6 +6,14 @@ class User {
   String locationName;
   String email;
 
+  User(
+      {required this.userID,
+      required this.email,
+      required this.firstName,
+      required this.lastName,
+      required this.locationName,
+      required this.coordinates});
+
   User.fromJson(Map<String, dynamic> json)
       : userID = json["user"]["_id"],
         coordinates = json["user"]["location"]["coordinates"],

@@ -33,6 +33,8 @@ class _PasswordTextfieldState extends State<PasswordTextfield> {
           validator: (password) {
             if (password != null && password.isEmpty) {
               return "Password field can't be empty";
+            } else if (password != null && password.length < 8) {
+              return "Password must be at least 8 characters";
             }
             return null;
           },

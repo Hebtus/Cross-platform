@@ -2,11 +2,21 @@
 import 'models/user.dart';
 
 class CurrentUser {
+  //class data members
   late String token;
   late User currentUser;
   bool isLoggedIn = false;
+
   //private constructor
-  CurrentUser._();
+  CurrentUser._() {
+    currentUser = User(
+        userID: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        locationName: "",
+        coordinates: List.empty());
+  }
   static final CurrentUser _instance = CurrentUser._();
 
   //whenever the class is called, the static variable is returned

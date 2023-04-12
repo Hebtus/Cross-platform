@@ -146,4 +146,28 @@ class AuthService {
       throw Exception(jsonDecode(response.body)["message"]);
     }
   }
+
+  Future<String> logout() async {
+    Uri url = Uri.parse("$urlString/api/v1/logout");
+    final Map<String, String> logoutHeaders = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      'ngrok-skip-browser-warning': '1',
+    };
+    CurrentUser currentUser = CurrentUser();
+    logoutHeaders['cookie:'] = currentUser.getToken();
+
+    http.Response response;
+    try {
+      response = await http.get(url, headers: logoutHeaders);
+    } catch (e) {
+      throw ("Something Went Wrong, Please Try Again Later");
+    }
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return "sucess";
+    } else {
+      throw Exception(jsonDecode(response.body)["message"]);
+    }
+  }
 }

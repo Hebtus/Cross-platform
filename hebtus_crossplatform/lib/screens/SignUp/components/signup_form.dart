@@ -26,123 +26,143 @@ class _SignupFormState extends State<SignupForm> {
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _confirmPassController = TextEditingController();
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return Form(
         key: SignupForm._formKey,
-        child: Column(
-          children: [
-            EmailTextField(
-              myKey: "signupEmailField",
-              controller: _emailController,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
+        child: _isLoading
+            ? const Center(
+                child: CircularProgressIndicator(
+                backgroundColor: Colors.transparent,
+              ))
+            : Column(
                 children: [
-                  Flexible(
-                    child: TextFormField(
-                        controller: _firstNameController,
-                        key: const Key("firstNameField"),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (firstName) {
-                          if (firstName != null && firstName.isEmpty) {
-                            return "First Name can't be empty";
-                          }
-                          return null;
-                        },
-                        decoration: const InputDecoration(
-                            label: Text("First name"),
-                            border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5))))),
+                  EmailTextField(
+                    myKey: "signupEmailField",
+                    controller: _emailController,
                   ),
-                  const SizedBox(width: 5),
-                  Flexible(
-                    child: TextFormField(
-                        controller: _lastNameController,
-                        key: const Key("lastNameField"),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (lastName) {
-                          if (lastName != null && lastName.isEmpty) {
-                            return "Last Name can't be empty";
-                          }
-                          return null;
-                        },
-                        decoration: const InputDecoration(
-                            label: Text("Last name"),
-                            border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5))))),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Flexible(
+                          child: TextFormField(
+                              controller: _firstNameController,
+                              key: const Key("firstNameField"),
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              validator: (firstName) {
+                                if (firstName != null && firstName.isEmpty) {
+                                  return "First Name can't be empty";
+                                }
+                                return null;
+                              },
+                              decoration: const InputDecoration(
+                                  label: Text("First name"),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5))))),
+                        ),
+                        const SizedBox(width: 5),
+                        Flexible(
+                          child: TextFormField(
+                              controller: _lastNameController,
+                              key: const Key("lastNameField"),
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              validator: (lastName) {
+                                if (lastName != null && lastName.isEmpty) {
+                                  return "Last Name can't be empty";
+                                }
+                                return null;
+                              },
+                              decoration: const InputDecoration(
+                                  label: Text("Last name"),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5))))),
+                        ),
+                      ],
+                    ),
                   ),
+                  PasswordTextfield(
+                    controller: _passwdController,
+                    myKey: "signupPassField",
+                  ),
+                  ConfirmPasswordTextfield(
+                    passwdController: _passwdController,
+                    controller: _confirmPassController,
+                    myKey: "signupConfirmField",
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                        key: const Key("SignUp"),
+                        onPressed: () async {
+                          if (SignupForm._formKey.currentState!.validate()) {
+                            setState(() {
+                              _isLoading = true;
+                            });
+                            try {
+                              final AuthService authService = AuthService();
+                              String message = await authService.signup(
+                                  _firstNameController.text,
+                                  _lastNameController.text,
+                                  _emailController.text,
+                                  _passwdController.text,
+                                  _confirmPassController.text);
+                              debugPrint(message);
+                              return context.go("/");
+                            } catch (e) {
+                              setState(() {
+                                _isLoading = false;
+                              });
+                              debugPrint(e.toString());
+                              showDialog(
+                                  barrierDismissible: true,
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text("Error"),
+                                      content: Text(e.toString()),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            }
+                          }
+                        },
+                        child: const Text("Sign Up",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold))),
+                  ),
+                  const OrDivider(),
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SocialMediaIcon(
+                            iconSource: "assets/icons/facebook.svg",
+                            press: () {}),
+                        const SizedBox(width: 15),
+                        SocialMediaIcon(
+                            iconSource: "assets/icons/google.svg",
+                            press: () {}),
+                      ],
+                    ),
+                  ),
+                  const AlreadyRegisteredBtn(),
                 ],
-              ),
-            ),
-            PasswordTextfield(
-              controller: _passwdController,
-              myKey: "signupPassField",
-            ),
-            ConfirmPasswordTextfield(
-              passwdController: _passwdController,
-              controller: _confirmPassController,
-              myKey: "signupConfirmField",
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                  key: const Key("SignUp"),
-                  onPressed: () async {
-                    if (SignupForm._formKey.currentState!.validate()) {
-                      try {
-                        final AuthService authService = AuthService();
-                        // String message = await authService.signup(
-                        //     _firstNameController.text,
-                        //     _lastNameController.text,
-                        //     _emailController.text,
-                        //     _passwdController.text,
-                        //     _confirmPassController.text);
-                        // debugPrint(message);
-                        return context.go("/");
-                      } catch (e) {
-                        //bad request
-                        if (e == 400) {
-                          debugPrint(e.toString());
-                        }
-                        //unauthorized
-                        else if (e == 401) {
-                          debugPrint(e.toString());
-                        }
-                        //internal server error
-                        else if (e == 500) {
-                          debugPrint(e.toString());
-                        } else {
-                          //other errors
-                          debugPrint(e.toString());
-                        }
-                      }
-                    }
-                  },
-                  child: const Text("Sign Up",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold))),
-            ),
-            const OrDivider(),
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SocialMediaIcon(
-                      iconSource: "assets/icons/facebook.svg", press: () {}),
-                  const SizedBox(width: 15),
-                  SocialMediaIcon(
-                      iconSource: "assets/icons/google.svg", press: () {}),
-                ],
-              ),
-            ),
-            const AlreadyRegisteredBtn(),
-          ],
-        ));
+              ));
   }
 }

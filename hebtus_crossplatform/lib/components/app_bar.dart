@@ -1,6 +1,9 @@
 // ignore_for_file: non_constant_identifier_names
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hebtus_crossplatform/services/auth_service.dart';
+
+import '../current_user.dart';
 
 /// This method returns app bar of the
 /// return type: Preferredsizewidget
@@ -51,8 +54,36 @@ PreferredSizeWidget MainAppBar(BuildContext context) {
               "salma.ahmed01@eng-st.cu.edu.eg",
               style: TextStyle(fontSize: 12, color: Colors.grey),
             )),
-             PopupMenuItem(
-                child: ElevatedButton(onPressed: (){}, child: const Text("Sign out"),style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent,elevation: 0,shadowColor: Colors.transparent),)),
+            PopupMenuItem(
+                onTap: () async {
+                  AuthService authService = AuthService();
+                  CurrentUser currentUser = CurrentUser();
+                  try {
+                    String message = await authService.logout();
+                    currentUser.logout();
+                    print(message);
+                    return context.go("/");
+                  } catch (e) {
+                    showDialog(
+                        barrierDismissible: true,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text("Error"),
+                            content: Text(e.toString()),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          );
+                        });
+                  }
+                },
+                child: const Text("Sign out")),
           ],
           child: const Icon(
             Icons.supervised_user_circle,
