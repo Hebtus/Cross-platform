@@ -53,7 +53,7 @@ class AttendeeService {
     }
   }
 
-  Future<AttendeeEvent> getEventByID(int eventID) async {
+  Future<AttendeeEvent> getEventByID(int eventID) async {         
     Uri url = Uri.parse("$urlString/api/v1/events/$eventID");
     final Map<String, String> getEventHeaders = {
       "Content-Type": "application/json",

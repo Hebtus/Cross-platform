@@ -51,11 +51,8 @@ PreferredSizeWidget MainAppBar(BuildContext context) {
               "salma.ahmed01@eng-st.cu.edu.eg",
               style: TextStyle(fontSize: 12, color: Colors.grey),
             )),
-            const PopupMenuItem(
-                child: Text(
-              "Sign Out",
-              style: TextStyle(fontSize: 12),
-            )),
+             PopupMenuItem(
+                child: ElevatedButton(onPressed: (){}, child: const Text("Sign out"),style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent,elevation: 0,shadowColor: Colors.transparent),)),
           ],
           child: const Icon(
             Icons.supervised_user_circle,
