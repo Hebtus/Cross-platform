@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:hebtus_crossplatform/current_user.dart';
 import 'package:hebtus_crossplatform/models/user.dart';
 import 'package:http/http.dart' as http;
 
@@ -21,15 +22,11 @@ class AuthService {
 
     http.Response response = await http.post(url,
         body: jsonEncode(loginData), headers: loginHeaders);
+
+    //setting the current user token
     var cookies = response.headers['set-cookie'];
-    print(cookies);
-    print(response.statusCode);
-    // Map<String, String> headers = {'cookie': cookies!};
-    // var response2 = await http.get(
-    //     Uri.parse('$urlString/api/v1/events/2231/sales/'),
-    //     headers: headers);
-    // var cookies2 = response2.headers['set-cookie'];
-    // print(cookies2);
+    CurrentUser currentUser = CurrentUser();
+    currentUser.setToken(cookies);
 
     if (response.statusCode >= 200 || response.statusCode < 300) {
       Map userDataResponse = jsonDecode(response.body);

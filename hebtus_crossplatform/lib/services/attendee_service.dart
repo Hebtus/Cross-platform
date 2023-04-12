@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../constants.dart';
+import '../current_user.dart';
 import '../models/attendee_event.dart';
 import '../models/attendee_tickets.dart';
 
@@ -35,6 +36,7 @@ class AttendeeService {
       "Accept": "application/json",
       'ngrok-skip-browser-warning': '1',
     };
+
     http.Response response = await http.get(url, headers: getEventsHeaders);
     if (response.statusCode == 200 || response.statusCode == 201) {
       Map getEventsResponse = jsonDecode(response.body);
@@ -79,6 +81,9 @@ class AttendeeService {
       "Accept": "application/json",
       'ngrok-skip-browser-warning': '1',
     };
+    CurrentUser currentUser = CurrentUser();
+    getTicketsHeaders['cookie:'] = currentUser.getToken();
+
     http.Response response = await http.get(url, headers: getTicketsHeaders);
     if (response.statusCode == 200 || response.statusCode == 201) {
       Map getTicketsResponse = jsonDecode(response.body);

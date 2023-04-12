@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:hebtus_crossplatform/current_user.dart';
 import 'package:http/http.dart' as http;
 
 import '../constants.dart';
@@ -15,6 +16,8 @@ class CreatorService {
       "Accept": "application/json",
       'ngrok-skip-browser-warning': '1',
     };
+    CurrentUser currentUser = CurrentUser();
+    createEventHeaders['cookie:'] = currentUser.getToken();
 
     http.Response response = await http.post(url,
         body: jsonEncode(event.toJson()), headers: createEventHeaders);
@@ -34,6 +37,8 @@ class CreatorService {
       "Accept": "application/json",
       'ngrok-skip-browser-warning': '1',
     };
+    CurrentUser currentUser = CurrentUser();
+    getEventHeaders['cookie:'] = currentUser.getToken();
 
     http.Response response = await http.get(url, headers: getEventHeaders);
     if (response.statusCode == 200 || response.statusCode == 201) {
@@ -54,8 +59,11 @@ class CreatorService {
       "Accept": "application/json",
       'ngrok-skip-browser-warning': '1',
     };
+    CurrentUser currentUser = CurrentUser();
+    getEventsHeaders['cookie:'] = currentUser.getToken();
 
     http.Response response = await http.get(url, headers: getEventsHeaders);
+
     if (response.statusCode == 200 || response.statusCode == 201) {
       Map getEventsResponse = jsonDecode(response.body);
       final data = getEventsResponse["data"]["events"] as List;
@@ -82,6 +90,9 @@ class CreatorService {
       "Accept": "application/json",
       'ngrok-skip-browser-warning': '1',
     };
+    CurrentUser currentUser = CurrentUser();
+    getTicketsHeaders['cookie:'] = currentUser.getToken();
+
     http.Response response = await http.get(url, headers: getTicketsHeaders);
     if (response.statusCode == 200 || response.statusCode == 201) {
       Map getTicketsResponse = jsonDecode(response.body);
@@ -100,6 +111,8 @@ class CreatorService {
       "Accept": "application/json",
       'ngrok-skip-browser-warning': '1',
     };
+    CurrentUser currentUser = CurrentUser();
+    createTicketHeaders['cookie:'] = currentUser.getToken();
 
     Map<String, dynamic> ticketMap = ticket.toJson();
     ticketMap['eventID'] = eventID;
