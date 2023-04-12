@@ -4,6 +4,7 @@ import 'models/user.dart';
 class CurrentUser {
   late String token;
   late User currentUser;
+  bool isLoggedIn = false;
   //private constructor
   CurrentUser._();
   static final CurrentUser _instance = CurrentUser._();
@@ -16,6 +17,7 @@ class CurrentUser {
   //when the user logs out, the cookie(which holds the token) is cleared
   void logout() {
     token = "";
+    isLoggedIn = false;
   }
 
   //returns the cookie string which holds the token to be sent with requests that require the token
@@ -29,6 +31,7 @@ class CurrentUser {
       token = "";
     } else {
       token = cookie;
+      isLoggedIn = true;
     }
   }
 

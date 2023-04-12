@@ -20,20 +20,27 @@ class AuthService {
       'ngrok-skip-browser-warning': '1',
     };
 
-    http.Response response = await http.post(url,
-        body: jsonEncode(loginData), headers: loginHeaders);
+    http.Response response;
+    try {
+      response = await http.post(url,
+          body: jsonEncode(loginData), headers: loginHeaders);
+    } catch (e) {
+      throw ("Something Went Wrong, Please Try Again Later");
+    }
 
-    //setting the current user token
-    var cookies = response.headers['set-cookie'];
-    CurrentUser currentUser = CurrentUser();
-    currentUser.setToken(cookies);
-
-    if (response.statusCode >= 200 || response.statusCode < 300) {
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       Map userDataResponse = jsonDecode(response.body);
       dynamic userData = userDataResponse["data"];
-      return User.fromJson(userData);
+      //setting the current user token
+      var cookies = response.headers['set-cookie'];
+      CurrentUser currentUser = CurrentUser();
+      currentUser.setToken(cookies);
+      //setting current user data
+      User user = User.fromJson(userData);
+      currentUser.setUser(user);
+      return user;
     } else {
-      throw Exception(response.statusCode);
+      throw Exception(jsonDecode(response.body)["message"]);
     }
   }
 
@@ -51,15 +58,22 @@ class AuthService {
       "Accept": "application/json",
       'ngrok-skip-browser-warning': '1',
     };
-    http.Response response = await http.post(url,
-        body: jsonEncode(signupData), headers: signupHeaders);
+
+    http.Response response;
+    try {
+      response = await http.post(url,
+          body: jsonEncode(signupData), headers: signupHeaders);
+    } catch (e) {
+      throw ("Something Went Wrong, Please Try Again Later");
+    }
+
     // http.Response response = await http.get(url, headers: signupHeaders);
-    if (response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       Map signUpResponse = jsonDecode(response.body);
       String message = signUpResponse["message"];
       return message;
     } else {
-      throw Exception(response.statusCode);
+      throw Exception(jsonDecode(response.body)["message"]);
     }
   }
 
@@ -71,14 +85,21 @@ class AuthService {
       "Accept": "application/json",
       'ngrok-skip-browser-warning': '1',
     };
-    http.Response response = await http.post(url,
-        body: jsonEncode(forgotPassData), headers: forgotPassHeaders);
-    if (response.statusCode == 200 || response.statusCode == 201) {
+
+    http.Response response;
+    try {
+      response = await http.post(url,
+          body: jsonEncode(forgotPassData), headers: forgotPassHeaders);
+    } catch (e) {
+      throw ("Something Went Wrong, Please Try Again Later");
+    }
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       Map forgotPassResponse = jsonDecode(response.body);
       String message = forgotPassResponse["message"];
       return message;
     } else {
-      throw Exception(response.statusCode);
+      throw Exception(jsonDecode(response.body)["message"]);
     }
   }
 
@@ -89,11 +110,18 @@ class AuthService {
       "Accept": "application/json",
       'ngrok-skip-browser-warning': '1',
     };
-    http.Response response = await http.get(url, headers: googleLoginHeaders);
-    if (response.statusCode == 200 || response.statusCode == 201) {
+
+    http.Response response;
+    try {
+      response = await http.get(url, headers: googleLoginHeaders);
+    } catch (e) {
+      throw ("Something Went Wrong, Please Try Again Later");
+    }
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       return "sucess";
     } else {
-      throw Exception(response.statusCode);
+      throw Exception(jsonDecode(response.body)["message"]);
     }
   }
 
@@ -104,11 +132,18 @@ class AuthService {
       "Accept": "application/json",
       'ngrok-skip-browser-warning': '1',
     };
-    http.Response response = await http.get(url, headers: facebookLoginHeaders);
-    if (response.statusCode == 200 || response.statusCode == 201) {
+
+    http.Response response;
+    try {
+      response = await http.get(url, headers: facebookLoginHeaders);
+    } catch (e) {
+      throw ("Something Went Wrong, Please Try Again Later");
+    }
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       return "success";
     } else {
-      throw Exception(response.statusCode);
+      throw Exception(jsonDecode(response.body)["message"]);
     }
   }
 }

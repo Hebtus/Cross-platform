@@ -19,12 +19,17 @@ class CreatorService {
     CurrentUser currentUser = CurrentUser();
     createEventHeaders['cookie:'] = currentUser.getToken();
 
-    http.Response response = await http.post(url,
-        body: jsonEncode(event.toJson()), headers: createEventHeaders);
-    if (response.statusCode == 200 || response.statusCode == 201) {
+    http.Response response;
+    try {
+      response = await http.post(url,
+          body: jsonEncode(event.toJson()), headers: createEventHeaders);
+    } catch (e) {
+      throw ("Something Went Wrong, Please Try Again Later");
+    }
+    if (response.statusCode >= 200 || response.statusCode < 300) {
       return jsonDecode(response.body)["message"];
     } else {
-      throw Exception(response.statusCode);
+      throw Exception(jsonDecode(response.body)["message"]);
     }
   }
 
@@ -40,13 +45,18 @@ class CreatorService {
     CurrentUser currentUser = CurrentUser();
     getEventHeaders['cookie:'] = currentUser.getToken();
 
-    http.Response response = await http.get(url, headers: getEventHeaders);
-    if (response.statusCode == 200 || response.statusCode == 201) {
+    http.Response response;
+    try {
+      response = await http.get(url, headers: getEventHeaders);
+    } catch (e) {
+      throw ("Something Went Wrong, Please Try Again Later");
+    }
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       Map eventDataResponse = jsonDecode(response.body);
       dynamic eventData = eventDataResponse["data"]["event"];
       return CreatorEvent.fromJson(eventData);
     } else {
-      throw Exception(response.statusCode);
+      throw Exception(jsonDecode(response.body)["message"]);
     }
   }
 
@@ -62,14 +72,19 @@ class CreatorService {
     CurrentUser currentUser = CurrentUser();
     getEventsHeaders['cookie:'] = currentUser.getToken();
 
-    http.Response response = await http.get(url, headers: getEventsHeaders);
+    http.Response response;
+    try {
+      response = await http.get(url, headers: getEventsHeaders);
+    } catch (e) {
+      throw ("Something Went Wrong, Please Try Again Later");
+    }
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       Map getEventsResponse = jsonDecode(response.body);
       final data = getEventsResponse["data"]["events"] as List;
       return data.map((json) => CreatorEvent.fromJson(json)).toList();
     } else {
-      throw Exception(response.statusCode);
+      throw Exception(jsonDecode(response.body)["message"]);
     }
   }
 
@@ -93,13 +108,18 @@ class CreatorService {
     CurrentUser currentUser = CurrentUser();
     getTicketsHeaders['cookie:'] = currentUser.getToken();
 
-    http.Response response = await http.get(url, headers: getTicketsHeaders);
-    if (response.statusCode == 200 || response.statusCode == 201) {
+    http.Response response;
+    try {
+      response = await http.get(url, headers: getTicketsHeaders);
+    } catch (e) {
+      throw ("Something Went Wrong, Please Try Again Later");
+    }
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       Map getTicketsResponse = jsonDecode(response.body);
       final data = getTicketsResponse["data"]["tickets"] as List;
       return data.map((json) => CreatorTicket.fromJson(json)).toList();
     } else {
-      throw Exception(response.statusCode);
+      throw Exception(jsonDecode(response.body)["message"]);
     }
   }
 
@@ -117,12 +137,18 @@ class CreatorService {
     Map<String, dynamic> ticketMap = ticket.toJson();
     ticketMap['eventID'] = eventID;
 
-    http.Response response = await http.post(url,
-        body: jsonEncode(ticketMap), headers: createTicketHeaders);
-    if (response.statusCode == 200 || response.statusCode == 201) {
+    http.Response response;
+    try {
+      response = await http.post(url,
+          body: jsonEncode(ticketMap), headers: createTicketHeaders);
+    } catch (e) {
+      throw ("Something Went Wrong, Please Try Again Later");
+    }
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       return jsonDecode(response.body)["message"];
     } else {
-      throw Exception(response.statusCode);
+      throw Exception(jsonDecode(response.body)["message"]);
     }
   }
 }

@@ -37,13 +37,19 @@ class AttendeeService {
       'ngrok-skip-browser-warning': '1',
     };
 
-    http.Response response = await http.get(url, headers: getEventsHeaders);
-    if (response.statusCode == 200 || response.statusCode == 201) {
+    http.Response response;
+    try {
+      response = await http.get(url, headers: getEventsHeaders);
+    } catch (e) {
+      throw ("Something Went Wrong, Please Try Again Later");
+    }
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       Map getEventsResponse = jsonDecode(response.body);
       final data = getEventsResponse["data"] as List;
       return data.map((json) => AttendeeEvent.fromJson(json)).toList();
     } else {
-      throw Exception(response.statusCode);
+      throw Exception(jsonDecode(response.body)["message"]);
     }
   }
 
@@ -54,13 +60,20 @@ class AttendeeService {
       "Accept": "application/json",
       'ngrok-skip-browser-warning': '1',
     };
-    http.Response response = await http.get(url, headers: getEventHeaders);
-    if (response.statusCode == 200 || response.statusCode == 201) {
+
+    http.Response response;
+    try {
+      response = await http.get(url, headers: getEventHeaders);
+    } catch (e) {
+      throw ("Something Went Wrong, Please Try Again Later");
+    }
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       Map getEventsResponse = jsonDecode(response.body);
       dynamic data = getEventsResponse["data"];
       return AttendeeEvent.fromJson(data);
     } else {
-      throw Exception(response.statusCode);
+      throw Exception(jsonDecode(response.body)["message"]);
     }
   }
 
@@ -84,13 +97,19 @@ class AttendeeService {
     CurrentUser currentUser = CurrentUser();
     getTicketsHeaders['cookie:'] = currentUser.getToken();
 
-    http.Response response = await http.get(url, headers: getTicketsHeaders);
-    if (response.statusCode == 200 || response.statusCode == 201) {
+    http.Response response;
+    try {
+      response = await http.get(url, headers: getTicketsHeaders);
+    } catch (e) {
+      throw ("Something Went Wrong, Please Try Again Later");
+    }
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       Map getTicketsResponse = jsonDecode(response.body);
       final data = getTicketsResponse["data"]["tickets"] as List;
       return data.map((json) => AttendeeTicket.fromJson(json)).toList();
     } else {
-      throw Exception(response.statusCode);
+      throw Exception(jsonDecode(response.body)["message"]);
     }
   }
 }

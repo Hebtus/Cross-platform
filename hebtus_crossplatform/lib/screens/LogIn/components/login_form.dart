@@ -41,29 +41,15 @@ class _LoginFormState extends State<LoginForm> {
                   key: const Key("LogIn"),
                   onPressed: () async {
                     if (LoginForm._formKey.currentState!.validate()) {
+                      final AuthService authService = AuthService();
                       try {
-                        final AuthService authService = AuthService();
                         User user = await authService.login(
                             _emailController.text, _passwdController.text);
                         debugPrint("Successful login${user.firstName}");
 
                         return context.go("/home");
                       } catch (e) {
-                        //bad request
-                        if (e == 400) {
-                          debugPrint(e.toString());
-                        }
-                        //unauthorized
-                        else if (e == 401) {
-                          debugPrint(e.toString());
-                        }
-                        //internal server error
-                        else if (e == 500) {
-                          debugPrint(e.toString());
-                        } else {
-                          //other errors
-                          debugPrint(e.toString());
-                        }
+                        debugPrint(e.toString());
                       }
                     }
                   },
