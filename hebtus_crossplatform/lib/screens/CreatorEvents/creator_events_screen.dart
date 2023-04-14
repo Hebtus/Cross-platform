@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hebtus_crossplatform/models/events.dart';
 import 'package:hebtus_crossplatform/screens/all_screens.dart';
+import 'package:hebtus_crossplatform/services/creator_service.dart';
 
 import '../../models/creator_events.dart';
 import '../../models/location.dart';
@@ -14,6 +16,13 @@ class CreatorEventsScreen extends StatefulWidget {
 }
 
 class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    CreatorService creatorService = CreatorService();
+    // events = creatorService.getMultipleEvents(eventID)
+  }
+
   final List<CreatorEvent> events = [
     CreatorEvent(
         eventID: "1",
