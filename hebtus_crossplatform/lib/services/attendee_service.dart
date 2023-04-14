@@ -19,7 +19,7 @@ class AttendeeService {
       DateTime? endDate}) async {
     var queryParams = {
       'category': category,
-      'location': longitude == null ? null : "$latitude,$longitude",
+      'location': longitude == null ? null : "$longitude,$latitude",
       'limit': limit,
       'page': page,
       'free': free,
@@ -28,9 +28,11 @@ class AttendeeService {
       'endDate': endDate?.toUtc()
     };
     queryParams.removeWhere((key, value) => value == null);
-
-    Uri url = Uri.parse(
-        "$urlString/api/v1/events/?${queryParams.entries.map((e) => '${e.key}=${e.value}').join('&')}");
+    Uri url = Uri.parse("$urlString/api/v1/events/");
+    if (queryParams.isNotEmpty) {
+      url = Uri.parse(
+          "$urlString/api/v1/events/?${queryParams.entries.map((e) => '${e.key}=${e.value}').join('&')}");
+    }
     final Map<String, String> getEventsHeaders = {
       "Content-Type": "application/json",
       "Accept": "application/json",
@@ -46,7 +48,7 @@ class AttendeeService {
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       Map getEventsResponse = jsonDecode(response.body);
-      final data = getEventsResponse["data"] as List;
+      final data = getEventsResponse["data"]["events"] as List;
       return data.map((json) => AttendeeEvent.fromJson(json)).toList();
     } else {
       throw Exception(jsonDecode(response.body)["message"]);

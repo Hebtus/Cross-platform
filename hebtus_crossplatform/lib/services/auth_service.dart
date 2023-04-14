@@ -1,11 +1,8 @@
 import 'dart:convert';
 import 'package:hebtus_crossplatform/current_user.dart';
 import 'package:hebtus_crossplatform/models/user.dart';
-import 'package:hebtus_crossplatform/services/attendee_service.dart';
 import 'package:http/http.dart' as http;
-
 import '../constants.dart';
-import '../models/attendee_event.dart';
 
 class AuthService {
   Future<User> login(String email, String password) async {
@@ -43,17 +40,6 @@ class AuthService {
       //setting current user data
       User user = User.fromJson(userData);
       currentUser.setUser(user);
-
-      ////////////////////////habal delete later////////////////////////////
-      ///
-      ///
-      ///
-      // AttendeeService attendeeService = AttendeeService();
-      // AttendeeEvent event =
-      //     await attendeeService.getEventByID("642fda172c9619b9850f7102");
-
-      ///
-      ////////////////////////////////////////////////////////////
       return user;
     } else {
       throw Exception(jsonDecode(response.body)["message"]);
