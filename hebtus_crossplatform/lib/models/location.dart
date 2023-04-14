@@ -5,13 +5,13 @@ class Location {
   Location({required this.longitude, required this.latitude});
 
   Location.fromJson(Map<String, dynamic> json)
-      : longitude = json['longitude'],
-        latitude = json['latitude'];
+      : longitude = json["coordinates"][0],
+        latitude = json["coordinates"][1];
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['longitude'] = longitude;
-    data['latitude'] = latitude;
+    data["coordinates"][0] = longitude;
+    data["coordinates"][1] = latitude;
     return data;
   }
 }

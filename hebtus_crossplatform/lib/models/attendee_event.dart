@@ -8,10 +8,11 @@ class AttendeeEvent {
   final DateTime endTime;
   final Location location;
   final String locationName;
-  final String description;
+  final String? description;
   final String category;
-  final bool isOnline;
-  final List<String> tags;
+  final bool? isOnline;
+  final List<String>? tags;
+  final bool? privacy;
 
   AttendeeEvent(
     this.eventID,
@@ -25,17 +26,21 @@ class AttendeeEvent {
     this.category,
     this.isOnline,
     this.tags,
+    this.privacy,
   );
   AttendeeEvent.fromJson(Map<String, dynamic> json)
-      : eventID = json['eventID'],
-        eventName = json['eventName'],
+      : eventID = json['_id'],
+        eventName = json['name'],
         imgURL = json['img_url'],
-        startTime = DateTime.parse(json['startTime']),
-        endTime = DateTime.parse(json['endTime']),
+        startTime = DateTime.parse(json['startDate']),
+        endTime = DateTime.parse(json['endDate']),
         location = Location.fromJson(json['location']),
         locationName = json['locationName'],
-        description = json['description'],
+        description =
+            json.containsKey('description') ? json['description'] : null,
         category = json['category'],
-        isOnline = json['online'],
-        tags = List<String>.from(json['tags']);
+        isOnline = json.containsKey('online') ? json['online'] : false,
+        tags =
+            json.containsKey('tags') ? List<String>.from(json['tags']) : null,
+        privacy = json.containsKey('privacy') ? json['privacy'] : false;
 }

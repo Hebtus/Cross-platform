@@ -53,13 +53,15 @@ class AttendeeService {
     }
   }
 
-  Future<AttendeeEvent> getEventByID(int eventID) async {         
+  Future<AttendeeEvent> getEventByID(String eventID) async {
     Uri url = Uri.parse("$urlString/api/v1/events/$eventID");
     final Map<String, String> getEventHeaders = {
       "Content-Type": "application/json",
       "Accept": "application/json",
       'ngrok-skip-browser-warning': '1',
     };
+    CurrentUser currentUser = CurrentUser();
+    getEventHeaders['token'] = currentUser.getToken();
 
     http.Response response;
     try {
@@ -89,13 +91,14 @@ class AttendeeService {
         "$urlString/api/v1/events/$eventID/tickets/?${queryParams.entries.map((e) => '${e.key}=${e.value}').join('&')}");
 
     //headers sent
+    CurrentUser currentUser = CurrentUser();
     final Map<String, String> getTicketsHeaders = {
       "Content-Type": "application/json",
       "Accept": "application/json",
       'ngrok-skip-browser-warning': '1',
+      'token': currentUser.getToken(),
     };
-    CurrentUser currentUser = CurrentUser();
-    getTicketsHeaders['cookie:'] = currentUser.getToken();
+    //getTicketsHeaders['cookie'] = currentUser.getToken();
 
     http.Response response;
     try {

@@ -3,13 +3,10 @@ import 'package:hebtus_crossplatform/components/or_divider.dart';
 import 'package:hebtus_crossplatform/components/password_text_field.dart';
 import 'package:hebtus_crossplatform/components/email_text_field.dart';
 import 'package:hebtus_crossplatform/screens/LogIn/components/dont_have_account_btn.dart';
-import 'package:hebtus_crossplatform/services/attendee_service.dart';
 import '../../../components/socialmedia_icon.dart';
 import 'package:go_router/go_router.dart';
-import '../../../constants.dart';
 import '../../../models/user.dart';
 import '../../../services/auth_service.dart';
-import 'package:http/http.dart' as http;
 
 ///The login form contains textfields for the email and password, with necessary validations
 class LoginForm extends StatefulWidget {
@@ -49,6 +46,7 @@ class _LoginFormState extends State<LoginForm> {
                     child: ElevatedButton(
                         key: const Key("LogIn"),
                         onPressed: () async {
+                          bool isCaught = false;
                           if (LoginForm._formKey.currentState!.validate()) {
                             setState(() {
                               _isLoading = true;
@@ -59,22 +57,8 @@ class _LoginFormState extends State<LoginForm> {
                                   _emailController.text,
                                   _passwdController.text);
                               debugPrint("Successful login${user.firstName}");
-                              // Uri url = Uri.parse("$urlString/api/v1/events/");
-                              // final Map<String, String> getEventsHeaders = {
-                              //   "Content-Type": "application/json",
-                              //   "Accept": "application/json",
-                              //   'ngrok-skip-browser-warning': '1',
-                              // };
-
-                              // http.Response response;
-                              // try {
-                              //   response = await http.get(url,
-                              //       headers: getEventsHeaders);
-                              // } catch (e) {
-                              //   throw ("Something Went Wrong, Please Try Again Later");
-                              // }
-                              return context.go("/home");
                             } catch (e) {
+                              isCaught = true;
                               setState(() {
                                 _isLoading = false;
                               });
@@ -96,6 +80,10 @@ class _LoginFormState extends State<LoginForm> {
                                       ],
                                     );
                                   });
+                            } finally {
+                              if (isCaught == false) {
+                                context.go("/home");
+                              }
                             }
                           }
                         },
@@ -118,11 +106,11 @@ class _LoginFormState extends State<LoginForm> {
                       children: [
                         SocialMediaIcon(
                             iconSource: "assets/icons/facebook.svg",
-                            press: () {}),
+                            press: () async {}),
                         const SizedBox(width: 15),
                         SocialMediaIcon(
                             iconSource: "assets/icons/google.svg",
-                            press: () {}),
+                            press: () async {}),
                       ],
                     ),
                   ),

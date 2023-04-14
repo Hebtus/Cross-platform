@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:hebtus_crossplatform/components/confirm_passwd_text_field.dart';
 import '../../../components/or_divider.dart';
 import '../../../components/password_text_field.dart';
@@ -101,6 +102,7 @@ class _SignupFormState extends State<SignupForm> {
                     child: ElevatedButton(
                         key: const Key("SignUp"),
                         onPressed: () async {
+                          bool isCaught = false;
                           if (SignupForm._formKey.currentState!.validate()) {
                             setState(() {
                               _isLoading = true;
@@ -114,8 +116,8 @@ class _SignupFormState extends State<SignupForm> {
                                   _passwdController.text,
                                   _confirmPassController.text);
                               debugPrint(message);
-                              return context.go("/");
                             } catch (e) {
+                              isCaught = true;
                               setState(() {
                                 _isLoading = false;
                               });
@@ -137,6 +139,28 @@ class _SignupFormState extends State<SignupForm> {
                                       ],
                                     );
                                   });
+                            } finally {
+                              if (isCaught == false) {
+                                showDialog(
+                                    barrierDismissible: true,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text("Welcome to Hebtus!"),
+                                        content: const Text(
+                                            "Thank you for signing up, please verify your address by clicking on the link we sent to your email."),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                              return context.go("/");
+                                            },
+                                            child: const Text('OK'),
+                                          ),
+                                        ],
+                                      );
+                                    });
+                              }
                             }
                           }
                         },
@@ -153,11 +177,11 @@ class _SignupFormState extends State<SignupForm> {
                       children: [
                         SocialMediaIcon(
                             iconSource: "assets/icons/facebook.svg",
-                            press: () {}),
+                            press: () async {}),
                         const SizedBox(width: 15),
                         SocialMediaIcon(
                             iconSource: "assets/icons/google.svg",
-                            press: () {}),
+                            press: () async {}),
                       ],
                     ),
                   ),

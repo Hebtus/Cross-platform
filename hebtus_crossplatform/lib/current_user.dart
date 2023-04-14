@@ -30,7 +30,7 @@ class CurrentUser {
     isLoggedIn = false;
   }
 
-  //returns the cookie string which holds the token to be sent with requests that require the token
+  //returns the token string to be sent with requests that require the token
   String getToken() {
     return token;
   }

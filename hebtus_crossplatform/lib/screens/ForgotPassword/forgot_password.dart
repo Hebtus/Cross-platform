@@ -17,6 +17,8 @@ class ForgotPasswdScreen extends StatefulWidget {
 }
 
 class _ForgotPasswdScreenState extends State<ForgotPasswdScreen> {
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -36,112 +38,166 @@ class _ForgotPasswdScreenState extends State<ForgotPasswdScreen> {
           body: Center(
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text("Forgot  Your Password?",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 40, color: Colors.white)),
-                  ),
-                  Container(
-                    width: mediaQuery.size.width < constants.phoneWidth
-                        ? mediaQuery.size.width * 0.9
-                        : constants.phoneWidth,
-                    margin: const EdgeInsets.all(10),
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5)),
-                    child: Column(
+              child: _isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                      backgroundColor: Colors.transparent,
+                    ))
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Padding(
                           padding: EdgeInsets.all(8.0),
-                          child: Text(
-                              "Enter your account email, and we'll send you a link to reset your password.",
+                          child: Text("Forgot  Your Password?",
                               textAlign: TextAlign.center,
                               style:
-                                  TextStyle(fontSize: 15, color: Colors.black)),
+                                  TextStyle(fontSize: 40, color: Colors.white)),
                         ),
-                        Form(
-                          key: ForgotPasswdScreen._formKey,
+                        Container(
+                          width: mediaQuery.size.width < constants.phoneWidth
+                              ? mediaQuery.size.width * 0.9
+                              : constants.phoneWidth,
+                          margin: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(5)),
                           child: Column(
                             children: [
-                              Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: EmailTextField(
-                                    myKey: "forgotPassEmailField",
-                                    controller: emailController,
-                                  )),
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                    "Enter your account email, and we'll send you a link to reset your password.",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 15, color: Colors.black)),
+                              ),
+                              Form(
+                                key: ForgotPasswdScreen._formKey,
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: EmailTextField(
+                                          myKey: "forgotPassEmailField",
+                                          controller: emailController,
+                                        )),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ElevatedButton(
+                                          onPressed: () async {
+                                            bool isCaught = false;
+                                            if (ForgotPasswdScreen
+                                                ._formKey.currentState!
+                                                .validate()) {
+                                              setState(() {
+                                                _isLoading = true;
+                                              });
+                                              try {
+                                                final AuthService authService =
+                                                    AuthService();
+                                                String message =
+                                                    await authService
+                                                        .forgotPassword(
+                                                            emailController
+                                                                .text);
+                                                debugPrint(message);
+                                              } catch (e) {
+                                                isCaught = true;
+                                                setState(() {
+                                                  _isLoading = false;
+                                                });
+                                                debugPrint(e.toString());
+                                                showDialog(
+                                                    barrierDismissible: true,
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return AlertDialog(
+                                                        title:
+                                                            const Text("Error"),
+                                                        content:
+                                                            Text(e.toString()),
+                                                        actions: [
+                                                          TextButton(
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: const Text(
+                                                                'OK'),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    });
+                                              } finally {
+                                                if (isCaught == false) {
+                                                  showDialog(
+                                                      barrierDismissible: true,
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return AlertDialog(
+                                                          title: const Text(
+                                                              "Password Reset"),
+                                                          content: const Text(
+                                                              "Check your Email for a link to reset your password"),
+                                                          actions: [
+                                                            TextButton(
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              child: const Text(
+                                                                  'OK'),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      });
+
+                                                  context.go("/");
+                                                }
+                                              }
+                                            }
+                                          },
+                                          child: const Text("Send",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight:
+                                                      FontWeight.bold))),
+                                    ),
+                                  ],
+                                ),
+                              ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: ElevatedButton(
-                                    onPressed: () {
-                                      if (ForgotPasswdScreen
-                                          ._formKey.currentState!
-                                          .validate()) {
-                                        return context.go("/");
-                                      }
-                                    },
-                                    child: const Text("Send",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold))),
-                              ),
+                                child: TextButton(
+                                  onPressed: () {
+                                    return context.go("/");
+                                  },
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: const [
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 5),
+                                          child: Icon(
+                                            Icons.arrow_back,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        Text(
+                                          "Back to Login Page",
+                                          style: TextStyle(color: Colors.black),
+                                        )
+                                      ]),
+                                ),
+                              )
                             ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextButton(
-                            onPressed: () async {
-                              try {
-                                final AuthService authService = AuthService();
-                                String message = await authService
-                                    .forgotPassword(emailController.text);
-                                debugPrint(message);
-                                return context.go("/");
-                              } catch (e) {
-                                //bad request
-                                if (e == 400) {
-                                  debugPrint(e.toString());
-                                }
-                                //unauthorized
-                                else if (e == 401) {
-                                  debugPrint(e.toString());
-                                }
-                                //internal server error
-                                else if (e == 500) {
-                                  debugPrint(e.toString());
-                                } else {
-                                  //other errors
-                                  debugPrint(e.toString());
-                                }
-                              }
-                            },
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 5),
-                                    child: Icon(
-                                      Icons.arrow_back,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  Text(
-                                    "Back to Login Page",
-                                    style: TextStyle(color: Colors.black),
-                                  )
-                                ]),
                           ),
                         )
                       ],
                     ),
-                  )
-                ],
-              ),
             ),
           )),
     );

@@ -11,13 +11,14 @@ class CreatorService {
     Uri url = Uri.parse('$urlString/api/v1/events/');
 
     //headers sent
+    CurrentUser currentUser = CurrentUser();
     final Map<String, String> createEventHeaders = {
       "Content-Type": "application/json",
       "Accept": "application/json",
       'ngrok-skip-browser-warning': '1',
+      'token': currentUser.getToken(),
     };
-    CurrentUser currentUser = CurrentUser();
-    createEventHeaders['cookie:'] = currentUser.getToken();
+    //createEventHeaders['cookie'] = currentUser.getToken();
 
     http.Response response;
     try {
@@ -37,13 +38,14 @@ class CreatorService {
     Uri url = Uri.parse('$urlString/api/v1/events/$eventID');
 
     //headers sent
+    CurrentUser currentUser = CurrentUser();
     final Map<String, String> getEventHeaders = {
       "Content-Type": "application/json",
       "Accept": "application/json",
       'ngrok-skip-browser-warning': '1',
+      'token': currentUser.getToken(),
     };
-    CurrentUser currentUser = CurrentUser();
-    getEventHeaders['cookie:'] = currentUser.getToken();
+    //getEventHeaders['cookie'] = currentUser.getToken();
 
     http.Response response;
     try {
@@ -64,13 +66,14 @@ class CreatorService {
     Uri url = Uri.parse('$urlString/api/v1/events/$eventID');
 
     //headers sent
+    CurrentUser currentUser = CurrentUser();
     final Map<String, String> getEventsHeaders = {
       "Content-Type": "application/json",
       "Accept": "application/json",
       'ngrok-skip-browser-warning': '1',
+      'token': currentUser.getToken(),
     };
-    CurrentUser currentUser = CurrentUser();
-    getEventsHeaders['cookie:'] = currentUser.getToken();
+    //getEventsHeaders['cookie'] = currentUser.getToken();
 
     http.Response response;
     try {
@@ -100,13 +103,14 @@ class CreatorService {
         "$urlString/api/v1/creators/events/$eventID/tickets/?${queryParams.entries.map((e) => '${e.key}=${e.value}').join('&')}");
 
     //headers sent
+    CurrentUser currentUser = CurrentUser();
     final Map<String, String> getTicketsHeaders = {
       "Content-Type": "application/json",
       "Accept": "application/json",
       'ngrok-skip-browser-warning': '1',
+      'token': currentUser.getToken(),
     };
-    CurrentUser currentUser = CurrentUser();
-    getTicketsHeaders['cookie:'] = currentUser.getToken();
+    //getTicketsHeaders['cookie'] = currentUser.getToken();
 
     http.Response response;
     try {
@@ -126,13 +130,14 @@ class CreatorService {
   Future<String> createTicket(CreatorTicket ticket, int eventID) async {
     Uri url = Uri.parse('$urlString/api/v1/tickets/');
     //headers sent
+    CurrentUser currentUser = CurrentUser();
     final Map<String, String> createTicketHeaders = {
       "Content-Type": "application/json",
       "Accept": "application/json",
       'ngrok-skip-browser-warning': '1',
+      'token': currentUser.getToken(),
     };
-    CurrentUser currentUser = CurrentUser();
-    createTicketHeaders['cookie:'] = currentUser.getToken();
+    //createTicketHeaders['cookie'] = currentUser.getToken();
 
     Map<String, dynamic> ticketMap = ticket.toJson();
     ticketMap['eventID'] = eventID;

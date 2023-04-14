@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:hebtus_crossplatform/current_user.dart';
 import 'package:hebtus_crossplatform/models/user.dart';
+import 'package:hebtus_crossplatform/services/attendee_service.dart';
 import 'package:http/http.dart' as http;
 
 import '../constants.dart';
+import '../models/attendee_event.dart';
 
 class AuthService {
   Future<User> login(String email, String password) async {
@@ -32,12 +34,26 @@ class AuthService {
       Map userDataResponse = jsonDecode(response.body);
       dynamic userData = userDataResponse["data"];
       //setting the current user token
-      var cookies = response.headers['set-cookie'];
+      //var cookies = response.headers['set-cookie'];
+      var token = userDataResponse["token"];
+      print(token);
+
       CurrentUser currentUser = CurrentUser();
-      currentUser.setToken(cookies);
+      currentUser.setToken(token);
       //setting current user data
       User user = User.fromJson(userData);
       currentUser.setUser(user);
+
+      ////////////////////////habal delete later////////////////////////////
+      ///
+      ///
+      ///
+      // AttendeeService attendeeService = AttendeeService();
+      // AttendeeEvent event =
+      //     await attendeeService.getEventByID("642fda172c9619b9850f7102");
+
+      ///
+      ////////////////////////////////////////////////////////////
       return user;
     } else {
       throw Exception(jsonDecode(response.body)["message"]);
@@ -149,13 +165,15 @@ class AuthService {
 
   Future<String> logout() async {
     Uri url = Uri.parse("$urlString/api/v1/logout");
+    CurrentUser currentUser = CurrentUser();
     final Map<String, String> logoutHeaders = {
       "Content-Type": "application/json",
       "Accept": "application/json",
       'ngrok-skip-browser-warning': '1',
+      'token': currentUser.getToken(),
     };
-    CurrentUser currentUser = CurrentUser();
-    logoutHeaders['cookie:'] = currentUser.getToken();
+
+    //logoutHeaders['cookie'] = currentUser.getToken();
 
     http.Response response;
     try {

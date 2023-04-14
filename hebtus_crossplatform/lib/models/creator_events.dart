@@ -10,7 +10,7 @@ class CreatorEvent {
   final String locationName;
   final bool isDraft;
   final String? description;
-  final String? category;
+  final String category;
   final bool? isOnline;
   final bool? isPrivate;
   final DateTime? goPublicDate;
@@ -27,7 +27,7 @@ class CreatorEvent {
       required this.location,
       required this.locationName,
       this.description,
-      this.category,
+      required this.category,
       this.isOnline,
       required this.isDraft,
       this.isPrivate,
@@ -36,21 +36,28 @@ class CreatorEvent {
       this.tags});
 
   CreatorEvent.fromJson(Map<String, dynamic> json)
-      : eventID = json['eventid'],
-        eventName = json['eventName'],
+      : eventID = json['_id'],
+        eventName = json['name'],
         imgURL = json['img_url'],
         startTime = DateTime.parse(json['startTime']),
         endTime = DateTime.parse(json['endTime']),
         location = Location.fromJson(json['location']),
         locationName = json['locationName'],
-        description = json['description'],
         category = json['category'],
+
+        //optional fields
+        description = json['description'],
         isOnline = json['online'],
         isDraft = json['draft'],
-        isPrivate = json['private'],
-        goPublicDate = DateTime.parse(json['goPublicDate']),
-        ticketsSold = int.parse(json['ticketsSold']),
-        tags = List<String>.from(json['tags']);
+        isPrivate = json.containsKey('private') ? json['private'] : false,
+        goPublicDate = json.containsKey('goPublicDate')
+            ? DateTime.parse(json['goPublicDate'])
+            : null,
+        ticketsSold = json.containsKey('ticketsSold')
+            ? int.parse(json['ticketsSold'])
+            : null,
+        tags =
+            json.containsKey('tags') ? List<String>.from(json['tags']) : null;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -62,9 +69,9 @@ class CreatorEvent {
     data['location'] = location.toJson();
     data['locationName'] = locationName;
     data['draft'] = isDraft;
+    data['category'] = category;
     //optional fields
     if (description != null) data['description'] = description;
-    if (category != null) data['category'] = category;
     if (isOnline != null) data['online'] = isOnline;
     if (isPrivate != null) data['privacy'] = isPrivate;
     if (goPublicDate != null) data['goPublicDate'] = goPublicDate;

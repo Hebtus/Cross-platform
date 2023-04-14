@@ -23,6 +23,7 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
         endTime: DateTime(2023, 6, 6),
         location: Location(latitude: 23.23, longitude: 23.23),
         locationName: "Cairo",
+        category: "Music",
         isDraft: false),
     CreatorEvent(
         eventID: "1",
@@ -32,6 +33,7 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
         endTime: DateTime(2023, 6, 6),
         location: Location(latitude: 23.23, longitude: 23.23),
         locationName: "Cairo",
+        category: "Music",
         isDraft: false),
     CreatorEvent(
         eventID: "1",
@@ -41,6 +43,7 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
         endTime: DateTime(2023, 6, 6),
         location: Location(latitude: 23.23, longitude: 23.23),
         locationName: "Cairo",
+        category: "Music",
         isDraft: false,
         isPrivate: true),
     CreatorEvent(
@@ -51,6 +54,7 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
         endTime: DateTime(2023, 6, 6),
         location: Location(latitude: 23.23, longitude: 23.23),
         locationName: "Cairo",
+        category: "Music",
         isDraft: false),
     CreatorEvent(
         eventID: "1",
@@ -60,6 +64,7 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
         endTime: DateTime(2023, 6, 6),
         location: Location(latitude: 23.23, longitude: 23.23),
         locationName: "Cairo",
+        category: "Music",
         isDraft: false),
   ];
   @override
@@ -68,18 +73,20 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
     return Scaffold(
       appBar: appBarModule(context),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Center(
           child: SizedBox(
-            width: mediaQuery.size.width * 0.9,
+            width: mediaQuery.size.width * 0.95,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Text("Hey There,",
-                      style: TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold)), //TODO: add user name
+                  child: FittedBox(
+                    child: Text("Hey There,",
+                        style: TextStyle(
+                            fontSize: 40, fontWeight: FontWeight.bold)),
+                  ), //TODO: add user name
                 ),
                 const Padding(
                   padding: EdgeInsets.all(8.0),
