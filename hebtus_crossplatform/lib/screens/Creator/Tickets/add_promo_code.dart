@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hebtus_crossplatform/screens/Creator/Components/creator_components.dart';
+
 bool checkListRevealHiddenTickets = false;
 
 enum PromoCodeStart { now, scheduledTime }

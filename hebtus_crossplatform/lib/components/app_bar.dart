@@ -27,7 +27,7 @@ PreferredSizeWidget MainAppBar(BuildContext context) {
         padding: const EdgeInsets.only(right: 20),
         child: IconButton(
             onPressed: () {
-              return context.go("/basicinfoStart");
+              return context.go("/basicinfo");
             },
             icon: const Icon(
               Icons.add,
