@@ -1,6 +1,6 @@
 class Location {
-  final double longitude;
-  final double latitude;
+  late final double longitude;
+  late final double latitude;
 
   Location({required this.longitude, required this.latitude});
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Components/creator_components.dart';
+
+import '../../../Models/creator_events.dart';
 enum radioButton { publicEv, privateEv }
 radioButton? _character = radioButton.publicEv;
 
@@ -13,7 +15,10 @@ bool enableDate=false;
 
 
 class Publish extends StatefulWidget {
-  const Publish({Key? key}) : super(key: key);
+  Publish({Key? key, required this.eventdetails}) : super(key: key);
+  final CreatorEvent eventdetails;
+
+
 
   @override
   State<Publish> createState() => _PublishState();
@@ -41,7 +46,7 @@ class _PublishState extends State<Publish> {
 
         key: _globalKey,
         appBar: appBarModule(context),
-        drawer: appDrawer(context,"publish"),
+        drawer: appDrawer(context,"publish",widget.eventdetails),
         body: SingleChildScrollView(
             child: Column(
                 children: [
