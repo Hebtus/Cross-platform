@@ -9,7 +9,7 @@ class AppRouter {
     GoRoute(
       path: '/',
       builder: (context, state) {
-        return const LoginScreen();
+        return const CreatorEventsScreen();
       },
     ),
     GoRoute(

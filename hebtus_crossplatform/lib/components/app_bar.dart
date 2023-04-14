@@ -83,7 +83,10 @@ PreferredSizeWidget MainAppBar(BuildContext context) {
                         });
                   }
                 },
-                child: const Text("Sign out")),
+                child: const Text(
+                  "Sign out",
+                  style: TextStyle(fontSize: 12),
+                )),
           ],
           child: const Icon(
             Icons.supervised_user_circle,
