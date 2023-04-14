@@ -17,7 +17,7 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
   final List<CreatorEvent> events = [
     CreatorEvent(
         eventID: "1",
-        eventName: "test",
+        eventName: "Hebtus Test Event",
         imgURL: "assets/images/foodtruck.jpg",
         startTime: DateTime(2023, 5, 5),
         endTime: DateTime(2023, 6, 6),
@@ -27,7 +27,7 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
         isDraft: false),
     CreatorEvent(
         eventID: "1",
-        eventName: "test",
+        eventName: "Hebtus Launch Party",
         imgURL: "assets/images/foodtruck.jpg",
         startTime: DateTime(2023, 5, 5, 16, 0),
         endTime: DateTime(2023, 6, 6),
@@ -37,7 +37,7 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
         isDraft: false),
     CreatorEvent(
         eventID: "1",
-        eventName: "test",
+        eventName: "Hebtus Hebtus Hebtus",
         imgURL: "assets/images/foodtruck.jpg",
         startTime: DateTime(2023, 5, 5),
         endTime: DateTime(2023, 6, 6),
@@ -48,7 +48,7 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
         isPrivate: true),
     CreatorEvent(
         eventID: "1",
-        eventName: "test",
+        eventName: "More Hebtus Events",
         imgURL: "assets/images/foodtruck.jpg",
         startTime: DateTime(2023, 5, 5),
         endTime: DateTime(2023, 6, 6),
@@ -58,7 +58,7 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
         isDraft: false),
     CreatorEvent(
         eventID: "1",
-        eventName: "test",
+        eventName: "Hebtus? Hebtus.",
         imgURL: "assets/images/foodtruck.jpg",
         startTime: DateTime(2023, 5, 5),
         endTime: DateTime(2023, 6, 6),
@@ -93,7 +93,8 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
                   child: FilterEventsBttn(),
                 ),
                 Container(
-                  constraints: BoxConstraints(maxHeight: 500),
+                  constraints:
+                      BoxConstraints(maxHeight: mediaQuery.size.height * 0.7),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ListView.separated(
@@ -101,7 +102,7 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
                         itemBuilder: ((context, index) =>
                             CreatorEventCard(event: events[index])),
                         separatorBuilder: (context, index) =>
-                            const SizedBox(height: 5),
+                            const SizedBox(height: 1),
                         itemCount: events.length),
                   ),
                 )
