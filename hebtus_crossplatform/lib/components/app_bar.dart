@@ -76,7 +76,8 @@ PreferredSizeWidget MainAppBar(BuildContext context) {
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
-                                child: const Text('OK'),
+                                child: const Text('OK',
+                                    style: TextStyle(fontSize: 12)),
                               ),
                             ],
                           );
