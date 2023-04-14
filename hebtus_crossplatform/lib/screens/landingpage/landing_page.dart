@@ -10,9 +10,32 @@ import 'package:hebtus_crossplatform/screens/LandingPage/components/categories.d
 import 'package:hebtus_crossplatform/screens/landingpage/components/event_list.dart';
 import 'package:hebtus_crossplatform/globals/globals.dart';
 
+import '../../models/attendee_event.dart';
+import '../../services/attendee_service.dart';
+
 /// This class returns landingpage which is the homepage of the app
-class LandingPageScreen extends StatelessWidget {
+class LandingPageScreen extends StatefulWidget {
   const LandingPageScreen({super.key});
+
+  @override
+  State<LandingPageScreen> createState() => _LandingPageScreenState();
+}
+
+class _LandingPageScreenState extends State<LandingPageScreen> {
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   setState(() {
+  //     fetchData();
+  //   });
+  // }
+
+  // Future<List<AttendeeEvent>> fetchData() async {
+  //   AttendeeService creatorService = AttendeeService();
+  //   List<AttendeeEvent> events =
+  //       await creatorService.getEvents(category: "Music");
+  //   return events;
+  // }
 
   @override
   Widget build(BuildContext context) {

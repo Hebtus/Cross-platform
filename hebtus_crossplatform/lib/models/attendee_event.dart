@@ -1,7 +1,7 @@
 import 'location.dart';
 
 class AttendeeEvent {
-  final String eventID;
+  late final String eventID;
   final String eventName;
   final String imgURL;
   final DateTime startTime;

@@ -15,8 +15,9 @@ class NavBar extends StatelessWidget {
         child: Tab(
           child: FittedBox(
             child: TextButton(
-              onPressed: () {
-                eventlist = attendeedata?.getEvents() as List<AttendeeEvent>?;
+              onPressed: () async {
+                AttendeeService attendeeService = AttendeeService();
+                eventlist = await attendeeService.getEvents();
                 print(eventlist);
               },
               child: const Text(
