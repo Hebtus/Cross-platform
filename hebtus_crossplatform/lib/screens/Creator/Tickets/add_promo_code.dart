@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hebtus_crossplatform/screens/Creator/Components/creator_components.dart';
 
 bool checkListRevealHiddenTickets = false;
 
@@ -227,11 +228,9 @@ class _AddPromoCodeState extends State<AddPromoCode> {
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: ElevatedButton(
-                  onPressed: () {
-                  },
+                  onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                    Colors.white, // Background colo// r
+                    backgroundColor: Colors.white, // Background colo// r
                   ),
                   child: const Text(
                     'Add',

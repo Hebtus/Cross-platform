@@ -54,4 +54,9 @@ class CurrentUser {
     currentUser.locationName = user.locationName;
     currentUser.userID = user.userID;
   }
+
+  //returns the logged in user's email
+  String getuseremail() {
+    return currentUser.email;
+  }
 }

@@ -5,6 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Components/creator_components.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Tickets/add_more_tickets.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Tickets/add_promo_code.dart';
+import 'package:hebtus_crossplatform/services/creator_service.dart';
+
+import '../../../Models/creator_events.dart';
+import '../../../Models/creator_tickets.dart';
 
 String pageTitle = 'Tickets';
 bool buttonAdmission = true;
@@ -24,6 +28,9 @@ List _itemsPromo = [];
 
 SampleItem? selectedMenu;
 SingingCharacter? _character = SingingCharacter.ticketEvent;
+
+CreatorService? creatorData;
+List<CreatorTicket>? ticketsList;
 
 ///name:readJson
 ///Description:read a json file for tickets list from assets and added to a global variable
@@ -49,7 +56,8 @@ SingingCharacter? _character = SingingCharacter.ticketEvent;
 ///Description:this methode promo code list and draws the container with the contained data
 /// return type:Column
 class Tickets extends StatefulWidget {
-  const Tickets({Key? key}) : super(key: key);
+  Tickets({Key? key, required this.eventdetails}) : super(key: key);
+  final CreatorEvent eventdetails;
 
   @override
   State<Tickets> createState() => _TicketsState();
@@ -361,8 +369,116 @@ class _TicketsState extends State<Tickets> {
                           ticketsList[i]["quantity"],
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          style:
-                              const TextStyle(fontSize: 20.0, color: Colors.black),
+                          style: const TextStyle(
+                              fontSize: 20.0, color: Colors.black),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 20,
+        )
+      ],
+    );
+  }
+
+  Column ticketCardFromWeb(List<CreatorTicket> ticketsList, int i) {
+    return Column(
+      children: [
+        Material(
+          elevation: 5,
+          child: Container(
+            height: 200,
+            padding: const EdgeInsets.all(25.0),
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: const BorderRadius.all(Radius.circular(5))),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Container(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          ticketsList[i].name,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontSize: 20.0),
+                        ),
+                        const Spacer(),
+                        PopupMenuButton<SampleItem>(
+                          initialValue: selectedMenu,
+                          // Callback that sets the selected popup menu item.
+                          onSelected: (SampleItem item) {
+                            setState(() {
+                              selectedMenu = item;
+                            });
+                          },
+                          itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry<SampleItem>>[
+                            const PopupMenuItem<SampleItem>(
+                              value: SampleItem.itemOne,
+                              child: Text('edit'),
+                            ),
+                            const PopupMenuItem<SampleItem>(
+                              value: SampleItem.itemTwo,
+                              child: Text('copy'),
+                            ),
+                            const PopupMenuItem<SampleItem>(
+                              value: SampleItem.itemThree,
+                              child: Text('delete'),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const CircleAvatar(
+                          backgroundColor: Colors.green,
+                          radius: 4,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        const Text(
+                          "On Sale",
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontSize: 20.0, color: Colors.grey),
+                        ),
+                        const Spacer(),
+                        Text(
+                          ticketsList[i].type,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontSize: 20.0),
+                        ),
+                      ],
+                    ),
+                    const Divider(
+                      thickness: 1,
+                    ),
+                    Row(
+                      children: [
+                        const Text(
+                          "Quantity ",
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontSize: 20.0, color: Colors.grey),
+                        ),
+                        Text(
+                          ticketsList[i].price as String,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              fontSize: 20.0, color: Colors.black),
                         ),
                       ],
                     )
@@ -424,11 +540,11 @@ class _TicketsState extends State<Tickets> {
         ),
         key: _globalKey,
         appBar: appBarModule(context),
-        drawer: appDrawer(context,"Tickets"),
+        drawer: appDrawer(context, "Tickets", widget.eventdetails),
         body: SingleChildScrollView(
             child: SingleChildScrollView(
-              child: Column(
-          children: [
+          child: Column(
+            children: [
               sideMenuModule(_globalKey, pageTitle),
               //for ( var i = 0; i < 10; i++ )  tabMenu(),
               const SizedBox(
@@ -447,6 +563,10 @@ class _TicketsState extends State<Tickets> {
                       if (buttonAdmission) ...[
                         for (int i = 0; i < _items.length; i++)
                           ticketCard(_items, i),
+                        if (ticketsList != null) ...[
+                          for (int i = 0; i < _items.length; i++)
+                            ticketCardFromWeb(ticketsList!, i),
+                        ],
                         const SizedBox(
                           height: 50,
                         ),
@@ -457,7 +577,8 @@ class _TicketsState extends State<Tickets> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const AddMoreTickets()),
+                                    builder: (context) =>
+                                        const AddMoreTickets()),
                               );
                             },
                             style: ElevatedButton.styleFrom(
@@ -475,6 +596,9 @@ class _TicketsState extends State<Tickets> {
                           child: ElevatedButton(
                             onPressed: () {
                               readJson();
+                              ticketsList = creatorData?.getCreatorEventTickets(
+                                  1, 3, 1) as List<CreatorTicket>?;
+                              print(ticketsList);
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor:
@@ -546,8 +670,8 @@ class _TicketsState extends State<Tickets> {
                       ],
                     ]),
               ),
-          ],
-        ),
-            )));
+            ],
+          ),
+        )));
   }
 }

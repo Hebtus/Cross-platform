@@ -1,14 +1,19 @@
 // ignore_for_file: avoid_unnecessary_containers, sort_child_properties_last, unused_import
 import 'package:flutter/material.dart';
+import 'package:hebtus_crossplatform/models/attendee_event.dart';
 import 'package:hebtus_crossplatform/components/app_bar.dart';
 import 'package:hebtus_crossplatform/screens/EventsPage/components/events_description.dart';
 import 'package:hebtus_crossplatform/screens/EventsPage/components/events_image.dart';
 import 'package:hebtus_crossplatform/screens/EventsPage/components/events_info.dart';
 import 'package:hebtus_crossplatform/screens/EventsPage/components/events_time_place.dart';
 import 'package:hebtus_crossplatform/screens/EventsPage/components/events_get_ticket.dart';
-class EventsScreen extends StatelessWidget {
-  const EventsScreen({super.key});
+import 'package:hebtus_crossplatform/globals/globals.dart';
 
+String? eventID;
+
+class EventsScreen extends StatelessWidget {
+  EventsScreen(eventID, {super.key});
+  AttendeeEvent? ad = attendeedata?.getEventByID(eventID!) as AttendeeEvent?;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,7 +42,6 @@ class EventsScreen extends StatelessWidget {
                           fit: BoxFit.contain,
                           child: Row(
                             children: const [
-                              
                               Padding(
                                 padding: EdgeInsets.all(5),
                                 child: Text(
@@ -70,12 +74,11 @@ class EventsScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20)),
                     ),
                     const EventInfo(),
-                   const EventTimePlace(),
-                   const EventDescription(),
-                   SizedBox(
-                    height: 150,
-                   )
-                   
+                    const EventTimePlace(),
+                    const EventDescription(),
+                    SizedBox(
+                      height: 150,
+                    )
                   ]),
             )),
       ),

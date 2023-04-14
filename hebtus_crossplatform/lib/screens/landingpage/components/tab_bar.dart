@@ -1,72 +1,93 @@
-// ignore_for_file: must_be_immutable, sized_box_for_whitespace
+// ignore_for_file: must_be_immutable, sized_box_for_whitespace, unused_import
 
 import 'package:flutter/material.dart';
+import 'package:hebtus_crossplatform/globals/globals.dart';
+import 'package:hebtus_crossplatform/services/attendee_service.dart';
+import '../../../models/attendee_event.dart';
+import 'package:hebtus_crossplatform/screens/landingpage/components/location.dart';
+
 ///This class returns the navigation bar for choosing events according to different categories
+
 class NavBar extends StatelessWidget {
   List<Widget> tablist = [
     Container(
         width: 60,
-        child: const Tab(
-          child: Text(
-            "All",
-            style: TextStyle(color: Colors.black),
+        child: Tab(
+          child: FittedBox(
+            child: TextButton(
+              onPressed: () {
+                eventlist = attendeedata?.getEvents() as List<AttendeeEvent>?;
+                print(eventlist);
+              },
+              child: const Text(
+                "All",
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
           ),
         )),
     Container(
         width: 60,
-        child: const Tab(
-          child: Text("For You", style: TextStyle(color: Colors.black)),
+        child: Tab(
+          child: FittedBox(
+            child: TextButton(
+              onPressed: () {
+                eventlist = attendeedata?.getEvents(
+                    category: "Music",
+                    latitude: latitude_v,
+                    longitude: longitude_v) as List<AttendeeEvent>?;
+              },
+              child: const Text(
+                "Music",
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          ),
         )),
     Container(
-        width: 60,
-        child: const Tab(
-          child: Text("Online", style: TextStyle(color: Colors.black)),
+        width: 100,
+        child: Tab(
+          child: FittedBox(
+            child: TextButton(
+              onPressed: () {
+                print(latitude_v);
+                eventlist = attendeedata?.getEvents(
+                    category: "Food & Drink",
+                    latitude: latitude_v,
+                    longitude: longitude_v) as List<AttendeeEvent>?;
+                print(eventlist);
+              },
+              child: const Text(
+                "Food & Drink",
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          ),
         )),
     Container(
-        width: 60,
-        child: const Tab(
-          child: Text("Today", style: TextStyle(color: Colors.black)),
-        )),
-    Container(
-        width: 60,
-        child: const Tab(
-          child: Text("This Weekend", style: TextStyle(color: Colors.black)),
-        )),
-    Container(
-        width: 60,
-        child: const Tab(
-          child: Text("Women`s history month",
-              style: TextStyle(color: Colors.black)),
-        )),
-    Container(
-        width: 60,
-        child: const Tab(
-          child: Text("Free", style: TextStyle(color: Colors.black)),
-        )),
-    Container(
-        width: 60,
-        child: const Tab(
-          child: Text("Music", style: TextStyle(color: Colors.black)),
-        )),
-    Container(
-        width: 60,
-        child: const Tab(
-          child: Text("Food & Drink", style: TextStyle(color: Colors.black)),
-        )),
-    Container(
-        width: 60,
-        child: const Tab(
-          child:
-              Text("Charity & Causes", style: TextStyle(color: Colors.black)),
+        width: 120,
+        child: Tab(
+          child: FittedBox(
+            child: TextButton(
+              onPressed: () {
+                eventlist = attendeedata?.getEvents(
+                    category: "Charity & Causes",
+                    latitude: latitude_v,
+                    longitude: longitude_v) as List<AttendeeEvent>?;
+              },
+              child: const Text(
+                "Charity & Causes",
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          ),
         )),
   ];
 
   NavBar({super.key});
-  
-  
+
   @override
   Widget build(BuildContext context) {
-   
     return DefaultTabController(
       length: tablist.length,
       child: Container(

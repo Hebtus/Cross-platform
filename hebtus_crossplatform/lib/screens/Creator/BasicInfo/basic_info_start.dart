@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:go_router/go_router.dart';
+import 'package:hebtus_crossplatform/screens/all_screens.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/foundation.dart';
@@ -13,10 +15,10 @@ import 'package:hebtus_crossplatform/Models/location.dart';
 ///extract widget look it up
 int eventNameCount = 0;
 int tagsCount = 0;
-bool buttonVenue = false;
+bool buttonVenue = true;
 bool buttonOnlineEvent = false;
 bool buttonToBeAnnounced = false;
-bool buttonSingleEvent = false;
+bool buttonSingleEvent = true;
 bool buttonRecurringEvent = false;
 TextEditingController _date = TextEditingController();
 DateTime selectedDate = DateTime.now();
@@ -25,18 +27,33 @@ DateTime selectedDate2 = DateTime.now();
 bool displayStartTime = false;
 bool displayEndTime = false;
 bool enableVar = true;
+bool imageUploudedCheck = false;
 
 late ImagePicker picker;
-String? imageUrl;
+String imageUrl = '';
 String? filePath;
 File? imageObj;
+
+String _dropDownValue = "Music";
+String _dropDownValueStartTime = "02:00";
+String _dropDownValueEndTime = "02:00";
+
+//////////////////////////////passed values to basic info
+TextEditingController eventName = TextEditingController();
+
+final _controller = TextEditingController();
+List<String> _suggestions = [];
+double _latitude = 0;
+double _longitude = 0;
+
+final apiKey = '8c0ae3cbd8fc449aab02e760ef906a5d';
 
 ///name:_selectDate
 ///Description:add a calender with start and end date to an icon
 ///return type:non
 ///--------------------------------------------------------
 ///name:basicInfoField()
-///Description:this method contains the b info field in the page,contains only textfieldform
+///Description:this method contains the basic info field in the page,contains only textfieldform
 ///Return Type:Column
 ///---------------------------------------------------------
 ///name:tagsfield
@@ -50,18 +67,19 @@ File? imageObj;
 ///name:dateAndtime
 ///Description:This methode has 3 buttons that change the field according to th button pressed
 ///Return Type:Column
-class BasicInfo extends StatefulWidget {
-  BasicInfo({Key? key, required this.eventdetails}) : super(key: key);
-  final CreatorEvent eventdetails;
+class BasicInfoStart extends StatefulWidget {
+  const BasicInfoStart({super.key});
 
   @override
-  State<BasicInfo> createState() => _BasicInfoState();
+  State<BasicInfoStart> createState() => _BasicInfoStartState();
 }
 
-class _BasicInfoState extends State<BasicInfo> {
+class _BasicInfoStartState extends State<BasicInfoStart> {
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
   final TextEditingController _searchController = TextEditingController();
   String _responseText = '';
+  final _formKey = GlobalKey<FormState>();
+  String _inputValue = '';
 
   @override
   void dispose() {
@@ -103,6 +121,7 @@ class _BasicInfoState extends State<BasicInfo> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
+                      imageUploudedCheck = true;
                       Navigator.pop(context);
                       getImage();
                     },
@@ -116,6 +135,7 @@ class _BasicInfoState extends State<BasicInfo> {
                   if (!kIsWeb)
                     ElevatedButton(
                       onPressed: () {
+                        print(imageUploudedCheck);
                         Navigator.pop(context);
                         getImage();
                       },
@@ -131,6 +151,53 @@ class _BasicInfoState extends State<BasicInfo> {
             ),
           );
         });
+  }
+
+  Future<List<String>> getAutocompleteSuggestions(
+      String input, String apiKey) async {
+    final url =
+        'https://api.geoapify.com/v1/geocode/autocomplete?text=$input&apiKey=$apiKey';
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      final json = jsonDecode(response.body);
+      final features = json['features'] as List<dynamic>;
+      final suggestions =
+          features.map((f) => f['properties']['formatted'] as String).toList();
+      return suggestions;
+    } else {
+      throw Exception('Failed to load autocomplete suggestions');
+    }
+  }
+
+  Future<void> getCoordinates(String location, String apiKey) async {
+    final url =
+        'https://api.geoapify.com/v1/geocode/search?text=$location&apiKey=$apiKey';
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      final json = jsonDecode(response.body);
+      final features = json['features'] as List<dynamic>;
+
+      if (features.isNotEmpty) {
+        final geometry = features[0]['geometry'] as Map<String, dynamic>;
+        final coordinates = geometry['coordinates'] as List<dynamic>;
+        setState(() {
+          _latitude = coordinates[1];
+          _longitude = coordinates[0];
+        });
+      } else {
+        setState(() {
+          _latitude = 0;
+          _longitude = 0;
+        });
+      }
+    } else {
+      setState(() {
+        _latitude = 0;
+        _longitude = 0;
+      });
+    }
   }
 
   Future _selectDate(BuildContext context) async {
@@ -189,8 +256,14 @@ class _BasicInfoState extends State<BasicInfo> {
           height: 20,
         ),
         TextFormField(
-          enabled: false,
-          initialValue: widget.eventdetails.eventName,
+          controller: eventName,
+          validator: (value) {
+            if (value != null && value.isEmpty) {
+              return 'Please enter event name ';
+            }
+            return null;
+          },
+          enabled: enableVar,
           maxLength: 75,
           onChanged: (String value) {
             setState(() {
@@ -204,14 +277,31 @@ class _BasicInfoState extends State<BasicInfo> {
             counterText: '$eventNameCount/75',
           ),
         ),
-        TextFormField(
-          enabled: false,
-          initialValue: widget.eventdetails.category,
-          decoration: InputDecoration(
-            labelText:
-                'Category', //hint addressa dispappers while the lable remains
-            border: const OutlineInputBorder(),
-          ),
+        DropdownButton(
+          hint: _dropDownValue == null
+              ? Text('Music')
+              : Text(
+                  _dropDownValue!,
+                  style: TextStyle(color: Colors.blue),
+                ),
+          isExpanded: true,
+          iconSize: 30.0,
+          style: TextStyle(color: Colors.blue),
+          items: ['Music', 'Charity & Causes', 'Food &drinks'].map(
+            (val) {
+              return DropdownMenuItem<String>(
+                value: val,
+                child: Text(val),
+              );
+            },
+          ).toList(),
+          onChanged: (val) {
+            setState(
+              () {
+                _dropDownValue = val!;
+              },
+            );
+          },
         ),
       ],
     );
@@ -342,16 +432,48 @@ class _BasicInfoState extends State<BasicInfo> {
           const SizedBox(
             height: 10,
           ),
-          TextFormField(
-            enabled: false,
-            initialValue: widget.eventdetails.locationName,
-            decoration: InputDecoration(
-              hintText: 'Enter a search query',
-              contentPadding: EdgeInsets.all(16.0),
-            ),
-          ),
+          Column(
+            children: [
+              TextFormField(
+                validator: (value) {
+                  if ((value != null && value.isEmpty) && buttonVenue == true) {
+                    return 'Please enter event location';
+                  }
+                  return null;
+                },
+                controller: _controller,
+                onChanged: (input) async {
+                  final suggestions =
+                      await getAutocompleteSuggestions(input, apiKey);
+                  setState(() {
+                    _suggestions = suggestions;
+                  });
+                },
+              ),
+              if (_suggestions.isNotEmpty)
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: _suggestions.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(_suggestions[index]),
+                      onTap: () async {
+                        await getCoordinates(_suggestions[index], apiKey);
+                        _controller.text = _suggestions[index];
+                        setState(() {
+                          _suggestions = [];
+                        });
+                      },
+                    );
+                  },
+                ),
+              if (_latitude != null && _longitude != null)
+                Text(
+                    'Latitude: ${_latitude!.toStringAsFixed(6)}, Longitude: ${_longitude!.toStringAsFixed(6)}'),
+            ],
+          )
         ],
-        if (widget.eventdetails.isOnline == true) ...[
+        if (buttonOnlineEvent) ...[
           const Text(
               'Online events have unique event pages where you can add links to livestreams and more'),
         ],
@@ -424,9 +546,15 @@ class _BasicInfoState extends State<BasicInfo> {
             height: 20,
           ),
           TextFormField(
-            enabled: false,
-            initialValue:
-                widget.eventdetails.startTime.toString().substring(0, 10),
+            validator: (value) {
+              if ((value != null && value.isEmpty) &&
+                  buttonSingleEvent == true) {
+                return 'Please enter event start date ';
+              }
+              return null;
+            },
+            enabled: enableVar,
+            controller: _date,
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
               hintText: 'Event starts',
@@ -441,23 +569,90 @@ class _BasicInfoState extends State<BasicInfo> {
           const SizedBox(
             height: 20,
           ),
-          TextFormField(
-            initialValue: widget.eventdetails.startTime.hour.toString() +
-                ":" +
-                widget.eventdetails.startTime.minute.toString(),
-            enabled: false,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'Start time',
-            ),
+          DropdownButton(
+            hint: _dropDownValueStartTime == null
+                ? Text('02:00')
+                : Text(
+                    _dropDownValueStartTime!,
+                    style: TextStyle(color: Colors.blue),
+                  ),
+            isExpanded: true,
+            iconSize: 30.0,
+            style: TextStyle(color: Colors.blue),
+            items: [
+              '01:00',
+              '01:30',
+              '02:00',
+              '02:30',
+              '03:00',
+              '03:30',
+              '04:00',
+              '04:30',
+              '05:00',
+              '05:30',
+              '06:00',
+              '06:30',
+              '07:00',
+              '07:30',
+              '08:00',
+              '08:30',
+              '09:00',
+              '09:30',
+              '10:00',
+              '10:30',
+              '11:30',
+              '11:30',
+              '12:30',
+              '13:00',
+              '13:30',
+              '14:00',
+              '14:30',
+              '15:00',
+              '15:30',
+              '16:00',
+              '16:30',
+              '17:00',
+              '17:30',
+              '18:00',
+              '18:30',
+              '19:00',
+              '19:30',
+              '20:00',
+              '20:30',
+              '21:00',
+              '21:30',
+              '22:00',
+              '22:30',
+              '23:00',
+              '23:30'
+            ].map(
+              (val) {
+                return DropdownMenuItem<String>(
+                  value: val,
+                  child: Text(val),
+                );
+              },
+            ).toList(),
+            onChanged: (val) {
+              setState(
+                () {
+                  _dropDownValueStartTime = val!;
+                },
+              );
+            },
           ),
           const SizedBox(
             height: 20,
           ),
           TextFormField(
-            enabled: false,
-            initialValue:
-                widget.eventdetails.endTime.toString().substring(0, 10),
+            validator: (value) {
+              if (value != null && value.isEmpty) {
+                return 'Please enter event end date ';
+              }
+              return null;
+            },
+            enabled: enableVar,
+            controller: _date2,
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
               hintText: 'Event ends',
@@ -472,15 +667,77 @@ class _BasicInfoState extends State<BasicInfo> {
           const SizedBox(
             height: 20,
           ),
-          TextFormField(
-            enabled: false,
-            initialValue: widget.eventdetails.endTime.hour.toString() +
-                ":" +
-                widget.eventdetails.endTime.minute.toString(),
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'End time',
-            ),
+          DropdownButton(
+            hint: _dropDownValueEndTime == null
+                ? Text('02:00')
+                : Text(
+                    _dropDownValueEndTime!,
+                    style: TextStyle(color: Colors.blue),
+                  ),
+            isExpanded: true,
+            iconSize: 30.0,
+            style: TextStyle(color: Colors.blue),
+            items: [
+              '01:00',
+              '01:30',
+              '02:00',
+              '02:30',
+              '03:00',
+              '03:30',
+              '04:00',
+              '04:30',
+              '05:00',
+              '05:30',
+              '06:00',
+              '06:30',
+              '07:00',
+              '07:30',
+              '08:00',
+              '08:30',
+              '09:00',
+              '09:30',
+              '10:00',
+              '10:30',
+              '11:30',
+              '11:30',
+              '12:30',
+              '13:00',
+              '13:30',
+              '14:00',
+              '14:30',
+              '15:00',
+              '15:30',
+              '16:00',
+              '16:30',
+              '17:00',
+              '17:30',
+              '18:00',
+              '18:30',
+              '19:00',
+              '19:30',
+              '20:00',
+              '20:30',
+              '21:00',
+              '21:30',
+              '22:00',
+              '22:30',
+              '23:00',
+              '23:30'
+            ].map(
+              (val) {
+                return DropdownMenuItem<String>(
+                  value: val,
+                  child: Text(val),
+                );
+              },
+            ).toList(),
+            onChanged: (val) {
+              setState(
+                () {
+                  _dropDownValueEndTime = val!;
+                },
+              );
+            },
           ),
           CheckboxListTile(
             title: const Text("Display start time"),
@@ -558,7 +815,7 @@ class _BasicInfoState extends State<BasicInfo> {
     );
   }
 
-  Column imageUpload(String img) {
+  Column imageUpload() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -582,19 +839,19 @@ class _BasicInfoState extends State<BasicInfo> {
         SizedBox(
           height: 10,
         ),
-        img != null
+        imageUrl != ''
             ? Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: kIsWeb
                       ? Image.network(
-                          img!,
+                          imageUrl!,
                           fit: BoxFit.cover,
                           height: 200,
                         )
                       : Image.file(
-                          File(img),
+                          File(imageUrl!),
                           fit: BoxFit.cover,
                           height: 200,
                         ),
@@ -608,80 +865,133 @@ class _BasicInfoState extends State<BasicInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomSheet: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: ElevatedButton(
+          onPressed: () {
+            setState(() {
+              print(imageUploudedCheck);
+              //enableVar = false;
+              if (_formKey.currentState!.validate() &&
+                  imageUploudedCheck == true) {
+                _formKey.currentState?.save();
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => BasicInfo(eventName: eventName.text,eventCategory: _dropDownValue) ,
+                //   ),
+                // );
+                DateTime sendStart = DateTime(
+                    selectedDate.year,
+                    selectedDate.month,
+                    selectedDate.day,
+                    int.parse(_dropDownValueStartTime.substring(0, 2)),
+                    int.parse(_dropDownValueStartTime.substring(3, 5))); //02:00
+                DateTime sendEnd = DateTime(
+                    selectedDate2.year,
+                    selectedDate2.month,
+                    selectedDate2.day,
+                    int.parse(_dropDownValueEndTime.substring(0, 2)),
+                    int.parse(_dropDownValueEndTime.substring(3, 5))); //02:00
+                double? sendLong = _longitude;
+                double? sendlat = _latitude;
+                Location eventLocation =
+                    Location(longitude: sendLong, latitude: sendlat);
+
+                CreatorEvent Eventdata = CreatorEvent(
+                    eventID: '1',
+                    eventName: eventName.text,
+                    imgURL: imageUrl,
+                    startTime: sendStart,
+                    endTime: sendEnd,
+                    location: eventLocation,
+                    locationName: _controller.text,
+                    isDraft: true,
+                    category: _dropDownValue,
+                    isOnline: buttonOnlineEvent);
+                print(sendStart);
+                context.goNamed("basicinfo", extra: Eventdata);
+              }
+            });
+          },
+          child: const Text('Save'),
+        ),
+      ),
       key: _globalKey,
       appBar: appBarModule(context),
-      drawer: appDrawer(context, "basicInfo", widget.eventdetails),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            sideMenuModule(_globalKey, 'Basic info'),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  basicInfoField(),
-                  tagsField(),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Divider(
-                    thickness: 1,
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  locationsField(),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  dateAndTimeField(),
-                  const Divider(
-                    thickness: 1,
-                  ),
-                  //////////////////////////////////////////////////////////////////////////
-                  imageUpload(widget.eventdetails.imgURL),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Divider(
-                    thickness: 1,
-                  ),
-                  const Text(
-                    'Description',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
+      body: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 10,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Description',
-                      hintText: 'Enter a description',
-                      border: OutlineInputBorder(),
+                    basicInfoField(),
+                    tagsField(),
+                    const SizedBox(
+                      height: 20,
                     ),
-                    maxLines:
-                        null, // allows the user to enter multiple lines of text
-                    keyboardType: TextInputType
-                        .multiline, // allows the keyboard to show a multiline input
-                    onChanged: (value) {
-                      // handle the input value here
-                    },
-                  ),
+                    const Divider(
+                      thickness: 1,
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    locationsField(),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    dateAndTimeField(),
+                    const Divider(
+                      thickness: 1,
+                    ),
+//////////////////////////////////////////////////////////////////////////
+                    imageUpload(),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Divider(
+                      thickness: 1,
+                    ),
+                    const Text(
+                      'Description',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Description',
+                        hintText: 'Enter a description',
+                        border: OutlineInputBorder(),
+                      ),
+                      maxLines:
+                          null, // allows the user to enter multiple lines of text
+                      keyboardType: TextInputType
+                          .multiline, // allows the keyboard to show a multiline input
+                      onChanged: (value) {
+                        // handle the input value here
+                      },
+                    ),
 
-                  const SizedBox(
-                    height: 50,
-                  ),
-                ],
+                    const SizedBox(
+                      height: 50,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

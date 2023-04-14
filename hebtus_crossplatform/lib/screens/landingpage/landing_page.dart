@@ -8,6 +8,7 @@ import 'package:hebtus_crossplatform/screens/landingpage/components/cover_image.
 import 'package:hebtus_crossplatform/screens/landingpage/components/tab_bar.dart';
 import 'package:hebtus_crossplatform/screens/LandingPage/components/categories.dart';
 import 'package:hebtus_crossplatform/screens/landingpage/components/event_list.dart';
+import 'package:hebtus_crossplatform/globals/globals.dart';
 
 /// This class returns landingpage which is the homepage of the app
 class LandingPageScreen extends StatelessWidget {
@@ -55,20 +56,24 @@ class LandingPageScreen extends StatelessWidget {
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  GridView.count(
-                    childAspectRatio: 0.85,
-                    crossAxisCount: (MediaQuery.of(context).orientation ==
-                            Orientation.landscape)
-                        ? 4
-                        : 2,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 1,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      for (var i = 0; i < 6; i++) EventCard(num: i),
-                    ],
-                  ),
+                  eventlist != null
+                      ? GridView.count(
+                          childAspectRatio: 0.85,
+                          crossAxisCount: (MediaQuery.of(context).orientation ==
+                                  Orientation.landscape)
+                              ? 4
+                              : 2,
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 1,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: [
+                            for (var i = 0; i < eventlist!.length; i++)
+                              EventCard(num: i),
+                          ],
+                        )
+                      : EventCard(num: 0),
+
                   Center(
                     child: Padding(
                       padding: const EdgeInsets.all(15),

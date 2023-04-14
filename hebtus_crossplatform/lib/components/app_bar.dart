@@ -1,12 +1,13 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, use_build_context_synchronously, duplicate_import
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hebtus_crossplatform/services/auth_service.dart';
-
+import 'package:hebtus_crossplatform/current_user.dart';
 import '../current_user.dart';
 
 /// This method returns app bar of the
 /// return type: Preferredsizewidget
+CurrentUser currentUser = CurrentUser();
 PreferredSizeWidget MainAppBar(BuildContext context) {
   return AppBar(
     backgroundColor: Colors.white,
@@ -27,71 +28,78 @@ PreferredSizeWidget MainAppBar(BuildContext context) {
         padding: const EdgeInsets.only(right: 20),
         child: IconButton(
             onPressed: () {
-              return context.go("/basicinfo");
+              return context.go("/basicinfoStart");
             },
             icon: const Icon(
               Icons.add,
               color: Colors.grey,
             )),
       ),
-      Padding(
-        padding: const EdgeInsets.only(right: 20),
-        child: PopupMenuButton(
-          itemBuilder: (context) => [
-            const PopupMenuItem(
-              child: Text(
-                "Browse events",
-                style: TextStyle(fontSize: 12),
+      currentUser.isLoggedIn == true
+          ? Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: PopupMenuButton(
+                itemBuilder: (context) => [
+                  const PopupMenuItem(
+                    child: Text(
+                      "Browse events",
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  ),
+                  const PopupMenuItem(
+                      child: Text(
+                    "Manage my events",
+                    style: TextStyle(fontSize: 12),
+                  )),
+                  PopupMenuItem(
+                      child: Text(
+                    currentUser.getuseremail(),
+                    style: const TextStyle(fontSize: 12, color: Colors.grey),
+                  )),
+                  PopupMenuItem(
+                      onTap: () async {
+                        AuthService authService = AuthService();
+                        try {
+                          String message = await authService.logout();
+                          currentUser.logout();
+                          print(message);
+                          return context.go("/");
+                        } catch (e) {
+                          showDialog(
+                              barrierDismissible: true,
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text("Error"),
+                                  content: Text(e.toString()),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              });
+                        }
+                      },
+                      child: const Text(
+                        "Sign out",
+                        style: TextStyle(fontSize: 12),
+                      )),
+                ],
+                child: const Icon(
+                  Icons.supervised_user_circle,
+                  color: Colors.grey,
+                ),
               ),
-            ),
-            const PopupMenuItem(
-                child: Text(
-              "Manage my events",
-              style: TextStyle(fontSize: 12),
-            )),
-            const PopupMenuItem(
-                child: Text(
-              "salma.ahmed01@eng-st.cu.edu.eg",
-              style: TextStyle(fontSize: 12, color: Colors.grey),
-            )),
-            PopupMenuItem(
-                onTap: () async {
-                  AuthService authService = AuthService();
-                  CurrentUser currentUser = CurrentUser();
-                  try {
-                    String message = await authService.logout();
-                    currentUser.logout();
-                    print(message);
-                    return context.go("/");
-                  } catch (e) {
-                    showDialog(
-                        barrierDismissible: true,
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text("Error"),
-                            content: Text(e.toString()),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('OK',
-                                    style: TextStyle(fontSize: 12)),
-                              ),
-                            ],
-                          );
-                        });
-                  }
-                },
-                child: const Text("Sign out")),
-          ],
-          child: const Icon(
-            Icons.supervised_user_circle,
-            color: Colors.grey,
-          ),
-        ),
-      ),
+            )
+          : TextButton(
+              onPressed: () {
+                return context.go("/");
+              },
+              child: const Text("Login")),
     ],
   );
 }
