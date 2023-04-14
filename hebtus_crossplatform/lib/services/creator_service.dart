@@ -35,7 +35,7 @@ class CreatorService {
   }
 
   Future<CreatorEvent> getOneEvent(int eventID) async {
-    Uri url = Uri.parse('$urlString/api/v1/creators/events/$eventID');
+    Uri url = Uri.parse('$urlString/api/v1/events/$eventID');
 
     //headers sent
     CurrentUser currentUser = CurrentUser();
@@ -62,15 +62,9 @@ class CreatorService {
     }
   }
 
-  Future<List<CreatorEvent>> getMultipleEvents(
-      {int? limit, int? page, String? time, required bool csv}) async {
-    var queryParams = {'limit': limit, 'page': page, 'csv': csv, "time": time};
-    queryParams.removeWhere((key, value) => value == null);
-    Uri url = Uri.parse('$urlString/api/v1/creators/events');
-    if (queryParams.isNotEmpty) {
-      url = Uri.parse(
-          "$urlString/api/v1/creators/events/?${queryParams.entries.map((e) => '${e.key}=${e.value}').join('&')}");
-    }
+  Future<List<CreatorEvent>> getMultipleEvents(int eventID) async {
+    Uri url = Uri.parse('$urlString/api/v1/events/$eventID');
+
     //headers sent
     CurrentUser currentUser = CurrentUser();
     final Map<String, String> getEventsHeaders = {

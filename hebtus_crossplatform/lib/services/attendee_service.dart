@@ -28,11 +28,9 @@ class AttendeeService {
       'endDate': endDate?.toUtc()
     };
     queryParams.removeWhere((key, value) => value == null);
-    Uri url = Uri.parse("$urlString/api/v1/events/");
-    if (queryParams.isNotEmpty) {
-      url = Uri.parse(
-          "$urlString/api/v1/events/?${queryParams.entries.map((e) => '${e.key}=${e.value}').join('&')}");
-    }
+
+    Uri url = Uri.parse(
+        "$urlString/api/v1/events/?${queryParams.entries.map((e) => '${e.key}=${e.value}').join('&')}");
     final Map<String, String> getEventsHeaders = {
       "Content-Type": "application/json",
       "Accept": "application/json",

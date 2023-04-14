@@ -43,6 +43,17 @@ class AuthService {
       //setting current user data
       User user = User.fromJson(userData);
       currentUser.setUser(user);
+
+      ////////////////////////habal delete later////////////////////////////
+      ///
+      ///
+      ///
+      // AttendeeService attendeeService = AttendeeService();
+      // AttendeeEvent event =
+      //     await attendeeService.getEventByID("642fda172c9619b9850f7102");
+
+      ///
+      ////////////////////////////////////////////////////////////
       return user;
     } else {
       throw Exception(jsonDecode(response.body)["message"]);
