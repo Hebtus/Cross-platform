@@ -41,13 +41,13 @@ class CreatorEventCard extends StatelessWidget {
                     ),
                   )
                 : Container(),
-            mediaQuery.size.width > minPhoneWidth
+            mediaQuery.size.width > minPhoneWidth && event.imgURL != ""
                 ? Container(
                     padding: const EdgeInsets.all(5),
                     width: 100,
                     height: 100,
-                    child: Image.asset(
-                      event.imgURL,
+                    child: Image(
+                      image: NetworkImage(event.imgURL),
                       fit: BoxFit.scaleDown,
                     ),
                   )
@@ -60,9 +60,14 @@ class CreatorEventCard extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            Text(
-                              event.eventName,
-                              style: const TextStyle(fontSize: 15),
+                            Flexible(
+                              child: Text(
+                                event.eventName,
+                                style: const TextStyle(fontSize: 15),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                softWrap: true,
+                              ),
                             ),
                           ],
                         ),
@@ -72,8 +77,23 @@ class CreatorEventCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               event.isOnline != null && event.isOnline!
-                                  ? const Text("Online Event")
-                                  : Text(event.locationName),
+                                  ? const Flexible(
+                                      child: Text(
+                                        "Online Event",
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                        softWrap: true,
+                                      ),
+                                    )
+                                  : Flexible(
+                                      flex: 1,
+                                      child: Text(
+                                        event.locationName,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                        softWrap: true,
+                                      ),
+                                    ),
                             ],
                           ),
                         ),
@@ -81,8 +101,13 @@ class CreatorEventCard extends StatelessWidget {
                           padding: const EdgeInsets.only(top: 3),
                           child: Row(
                             children: [
-                              Text(DateFormat('EEE, MMM d, y \'at\' h:mm a')
-                                  .format(event.startTime)),
+                              Flexible(
+                                child: Text(
+                                  DateFormat('EEE, MMM d, y \'at\' h:mm a')
+                                      .format(event.startTime),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -92,7 +117,14 @@ class CreatorEventCard extends StatelessWidget {
                                 child: Row(
                                   children: const [
                                     Icon(Icons.lock),
-                                    Text("Private")
+                                    Flexible(
+                                      child: Text(
+                                        "Private",
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                        softWrap: true,
+                                      ),
+                                    )
                                   ],
                                 ),
                               )
@@ -100,7 +132,7 @@ class CreatorEventCard extends StatelessWidget {
                       ],
                     ))),
           ]),
-          Divider(),
+          const Divider(),
         ],
       ),
     );
