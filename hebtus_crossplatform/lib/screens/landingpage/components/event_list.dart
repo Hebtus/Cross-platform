@@ -9,7 +9,9 @@ import 'package:hebtus_crossplatform/globals/globals.dart';
 
 /// This class returns cards of events
 class EventCard extends StatelessWidget {
-  EventCard({super.key, num});
+  final List<AttendeeEvent> events;
+  final int num;
+  const EventCard({super.key, required this.num, required this.events});
   /*List<Events> eventlist = [
     Events(
         "assets/images/foodtruck.jpg",
@@ -57,7 +59,7 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (eventlist != null) {
+    if (events.isNotEmpty) {
       return Container(
           margin: const EdgeInsets.only(left: 10, right: 30),
           height: double.infinity,
@@ -67,7 +69,7 @@ class EventCard extends StatelessWidget {
             child: InkWell(
                 splashColor: const Color.fromARGB(255, 250, 195, 188),
                 onTap: () {
-                  print(eventlist![num].eventID);
+                  print(events[num].eventID);
                   ad?.eventID = "1";
                   return context.go("/events");
                 },
@@ -77,7 +79,7 @@ class EventCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Image(
-                            image: NetworkImage(eventlist![num].imgURL),
+                            image: NetworkImage(events[num].imgURL),
                             fit: BoxFit.cover,
                           ),
                           SizedBox(
@@ -88,7 +90,7 @@ class EventCard extends StatelessWidget {
                               child: FittedBox(
                                   fit: BoxFit.fitWidth,
                                   child: Text(
-                                    eventlist![num].eventName,
+                                    events[num].eventName,
                                     style: const TextStyle(
                                         fontSize: 17,
                                         fontWeight: FontWeight.bold),
@@ -103,7 +105,7 @@ class EventCard extends StatelessWidget {
                               child: FittedBox(
                                   fit: BoxFit.fitWidth,
                                   child: Text(
-                                    eventlist![num].startTime.toString(),
+                                    events[num].startTime.toString(),
                                     style: const TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold,
@@ -119,7 +121,7 @@ class EventCard extends StatelessWidget {
                               child: FittedBox(
                                   fit: BoxFit.fitWidth,
                                   child: Text(
-                                    eventlist![num].locationName,
+                                    events[num].locationName,
                                     style: const TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold,

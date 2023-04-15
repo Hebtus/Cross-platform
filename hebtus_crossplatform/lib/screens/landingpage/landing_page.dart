@@ -3,16 +3,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hebtus_crossplatform/components/app_bar.dart';
+import 'package:hebtus_crossplatform/models/attendee_event.dart';
 import 'package:hebtus_crossplatform/screens/LandingPage/components/location.dart';
 import 'package:hebtus_crossplatform/screens/landingpage/components/cover_image.dart';
 import 'package:hebtus_crossplatform/screens/landingpage/components/tab_bar.dart';
 import 'package:hebtus_crossplatform/screens/LandingPage/components/categories.dart';
-import 'package:hebtus_crossplatform/screens/landingpage/components/event_list.dart';
 import 'package:hebtus_crossplatform/globals/globals.dart';
+import 'package:hebtus_crossplatform/services/attendee_service.dart';
 
-import '../../models/creator_events.dart';
-import '../../models/creator_tickets.dart';
-import '../../services/creator_service.dart';
+import 'components/event_list.dart';
 
 /// This class returns landingpage which is the homepage of the app
 class LandingPageScreen extends StatefulWidget {
@@ -23,106 +22,106 @@ class LandingPageScreen extends StatefulWidget {
 }
 
 class _LandingPageScreenState extends State<LandingPageScreen> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   fetchData();
-  // }
-
-  // Future<String> fetchData() async {
-  //   CreatorService creatorService = CreatorService();
-  //   // List<CreatorEvent> events =
-  //   //     await creatorService.getMultipleEvents(csv: false);
-  //   // return events;
-  //   CreatorTicket ticket = CreatorTicket(
-  //       name: "vip",
-  //       type: "Regular",
-  //       price: 5000,
-  //       capacity: 10,
-  //       sellingStartTime: DateTime(2023, 12, 12, 12),
-  //       sellingEndTime: DateTime(2024, 1, 1, 12));
-  //   String habal =
-  //       await creatorService.createTicket(ticket, "642fda172c9619b9850f7102");
-  //   return habal;
-  // }
+  Future<List<AttendeeEvent>>? events;
+  @override
+  void initState() {
+    super.initState();
+    AttendeeService attendeeService = AttendeeService();
+    events = attendeeService.getEvents();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color.fromARGB(255, 141, 58, 58),
-      child: Scaffold(
-          appBar: MainAppBar(context),
-          body: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const CoverImage(),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 15, left: 15),
-                    child: Text(
-                      "Popular in",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  const Location(), // class that returns textfield for entering location
-                  NavBar(),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 30, top: 30),
-                    child: Text(
-                      "Check out trending categories",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  const Categories(),
-                  const Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Text(
-                      "Events in Cairo",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  eventlist != null
-                      ? GridView.count(
-                          childAspectRatio: 0.85,
-                          crossAxisCount: (MediaQuery.of(context).orientation ==
-                                  Orientation.landscape)
-                              ? 4
-                              : 2,
-                          mainAxisSpacing: 10,
-                          crossAxisSpacing: 1,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
+        color: const Color.fromARGB(255, 141, 58, 58),
+        child: FutureBuilder(
+            future: events,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return Scaffold(
+                    appBar: MainAppBar(context),
+                    body: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            for (var i = 0; i < eventlist!.length; i++)
-                              EventCard(num: i),
-                          ],
-                        )
-                      : EventCard(num: 0),
+                            const CoverImage(),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 15, left: 15),
+                              child: Text(
+                                "Popular in",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            const Location(), // class that returns textfield for entering location
+                            NavBar(),
+                            const Padding(
+                              padding: EdgeInsets.only(left: 30, top: 30),
+                              child: Text(
+                                "Check out trending categories",
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            const Categories(),
+                            const Padding(
+                              padding: EdgeInsets.all(20),
+                              child: Text(
+                                "Events in Cairo",
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            snapshot.data!.isNotEmpty
+                                ? GridView.count(
+                                    childAspectRatio: 0.85,
+                                    crossAxisCount:
+                                        (MediaQuery.of(context).orientation ==
+                                                Orientation.landscape)
+                                            ? 4
+                                            : 2,
+                                    mainAxisSpacing: 10,
+                                    crossAxisSpacing: 1,
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    children: [
+                                      for (var i = 0;
+                                          i < snapshot.data!.length;
+                                          i++)
+                                        EventCard(
+                                            num: i, events: snapshot.data!),
+                                    ],
+                                  )
+                                : EventCard(num: 0, events: snapshot.data!),
 
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: ElevatedButton(
-                          onPressed: () {
-                            return context.go("/seemore");
-                          },
-                          child: const Text(
-                            "See more",
-                            style: TextStyle(color: Colors.white),
-                          )),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          )),
-    );
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(15),
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      return context.go("/seemore");
+                                    },
+                                    child: const Text(
+                                      "See more",
+                                      style: TextStyle(color: Colors.white),
+                                    )),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ));
+              } else {
+                return Container(
+                  decoration: const BoxDecoration(color: Colors.white),
+                  child: const Center(child: CircularProgressIndicator()),
+                );
+              }
+            }));
   }
 }
