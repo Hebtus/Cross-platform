@@ -5,6 +5,7 @@ import '../current_user.dart';
 import '../models/attendee_event.dart';
 import '../models/attendee_tickets.dart';
 
+///class that contains all the attendee services and functions that make api calls
 class AttendeeService {
   //the parameters are named meaning that when you call the function you have to pass named parameter ex category: "all"
   Future<List<AttendeeEvent>> getEvents(

@@ -12,6 +12,7 @@ class CreatorEventCard extends StatelessWidget {
     final mediaQuery = MediaQuery.of(context);
 
     return SizedBox(
+      key: const Key("CreatorEventCard"),
       height: 130,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

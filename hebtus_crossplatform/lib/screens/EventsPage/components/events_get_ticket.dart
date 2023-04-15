@@ -57,6 +57,7 @@ class _TicketBottomSheetState extends State<TicketBottomSheet> {
                         Padding(
                           padding: const EdgeInsets.only(top: 8),
                           child: IconButton(
+                            key: const Key("IncrementTicketCount"),
                             onPressed: _incrementnumber,
                             icon: const Icon(Icons.add),
                             color: Colors.blue,
@@ -64,9 +65,11 @@ class _TicketBottomSheetState extends State<TicketBottomSheet> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(3),
-                          child: Text("$_number"),
+                          child:
+                              Text(key: const Key("TicketNumber"), "$_number"),
                         ),
                         IconButton(
+                          key: const Key("DecrementTicketCount"),
                           onPressed: _decrementnumber,
                           icon: const Icon(Icons.minimize),
                           color: Colors.blue,

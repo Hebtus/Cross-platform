@@ -4,6 +4,7 @@ import 'package:hebtus_crossplatform/models/user.dart';
 import 'package:http/http.dart' as http;
 import '../constants.dart';
 
+///class that contains all the authentication services and functions that make api calls
 class AuthService {
   Future<User> login(String email, String password) async {
     Uri url = Uri.parse('$urlString/api/v1/login');

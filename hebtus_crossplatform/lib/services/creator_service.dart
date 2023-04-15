@@ -6,6 +6,7 @@ import '../constants.dart';
 import '../models/creator_events.dart';
 import '../models/creator_tickets.dart';
 
+///class that contains all the creator services and functions that make api calls
 class CreatorService {
   Future<String> createEvent(CreatorEvent event) async {
     Uri url = Uri.parse('$urlString/api/v1/events/');
@@ -34,7 +35,7 @@ class CreatorService {
     }
   }
 
-  Future<CreatorEvent> getOneEvent(int eventID) async {
+  Future<CreatorEvent> getOneEvent(String eventID) async {
     Uri url = Uri.parse('$urlString/api/v1/creators/events/$eventID');
 
     //headers sent
