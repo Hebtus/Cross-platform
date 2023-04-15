@@ -46,11 +46,14 @@ PreferredSizeWidget MainAppBar(BuildContext context) {
                       style: TextStyle(fontSize: 12),
                     ),
                   ),
-                  const PopupMenuItem(
-                      child: Text(
-                    "Manage my events",
-                    style: TextStyle(fontSize: 12),
-                  )),
+                  PopupMenuItem(
+                      onTap: () {
+                        return context.go("/creatorhome");
+                      },
+                      child: const Text(
+                        "Manage my events",
+                        style: TextStyle(fontSize: 12),
+                      )),
                   PopupMenuItem(
                       child: Text(
                     currentUser.getuseremail(),

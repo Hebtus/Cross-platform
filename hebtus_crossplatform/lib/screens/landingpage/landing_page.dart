@@ -23,6 +23,29 @@ class LandingPageScreen extends StatefulWidget {
 }
 
 class _LandingPageScreenState extends State<LandingPageScreen> {
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   fetchData();
+  // }
+
+  // Future<String> fetchData() async {
+  //   CreatorService creatorService = CreatorService();
+  //   // List<CreatorEvent> events =
+  //   //     await creatorService.getMultipleEvents(csv: false);
+  //   // return events;
+  //   CreatorTicket ticket = CreatorTicket(
+  //       name: "vip",
+  //       type: "Regular",
+  //       price: 5000,
+  //       capacity: 10,
+  //       sellingStartTime: DateTime(2023, 12, 12, 12),
+  //       sellingEndTime: DateTime(2024, 1, 1, 12));
+  //   String habal =
+  //       await creatorService.createTicket(ticket, "642fda172c9619b9850f7102");
+  //   return habal;
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Container(

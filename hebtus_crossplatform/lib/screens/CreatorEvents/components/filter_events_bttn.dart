@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class FilterEventsBttn extends StatefulWidget {
   const FilterEventsBttn({super.key});
@@ -96,7 +97,9 @@ class _FilterEventsBttnState extends State<FilterEventsBttn> {
               FittedBox(
                 fit: BoxFit.scaleDown,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.go("/basicinfoStart");
+                  },
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(

@@ -3,6 +3,8 @@ import 'package:hebtus_crossplatform/screens/Creator/Tickets/tickets_assign.dart
 import 'package:hebtus_crossplatform/screens/Creator/BasicInfo/basic_info.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Publish/publish.dart';
 import 'package:hebtus_crossplatform/services/creator_service.dart';
+import 'package:hebtus_crossplatform/services/auth_service.dart';
+
 import 'package:go_router/go_router.dart';
 import 'package:hebtus_crossplatform/models/creator_events.dart';
 
@@ -61,17 +63,47 @@ AppBar appBarModule(BuildContext context) {
           return <PopupMenuEntry<SampleItem2>>[
             PopupMenuItem<SampleItem2>(
               value: SampleItem2.itemOne,
-              child: Text('Switch to attende'),
+              child: Text(
+                'Switch to attende',
+                style: TextStyle(fontSize: 12),
+              ),
             ),
             PopupMenuItem<SampleItem2>(
               value: SampleItem2.itemTwo,
-              child: Text('Logout'),
+              child: Text(
+                'Logout',
+                style: TextStyle(fontSize: 12),
+              ),
             ),
           ];
         },
-        onSelected: (SampleItem2 item) {
+        onSelected: (SampleItem2 item) async {
           if (item == SampleItem2.itemTwo) {
-            return context.go("/signup");
+            AuthService authService = AuthService();
+            try {
+              String message = await authService.logout();
+              currentUser.logout();
+              print(message);
+              return context.go("/");
+            } catch (e) {
+              showDialog(
+                  barrierDismissible: true,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text("Error"),
+                      content: Text(e.toString()),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  });
+            }
           }
 
           if (item == SampleItem2.itemOne) {
