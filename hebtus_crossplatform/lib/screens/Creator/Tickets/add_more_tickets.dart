@@ -12,11 +12,10 @@ DateTime selectedDate2 = DateTime.now();
 
 bool displayStartTime = false;
 bool displayEndTime = false;
-bool buttonPaid = true;
-bool buttonFree = false;
-bool buttonDonation = false;
+bool buttonRegular = true;
+bool buttonVIP= false;
 
-CreatorService? creatorData;
+CreatorService creatorData=CreatorService();
 
 TextEditingController nameController = TextEditingController();
 TextEditingController priceController = TextEditingController();
@@ -88,37 +87,27 @@ class _AddMoreTicketsState extends State<AddMoreTickets> {
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
-                          buttonPaid = true;
-                          buttonFree = false;
-                          buttonDonation = false;
+                          buttonRegular = true;
+                          buttonVIP = false;
+
                         });
                       },
-                      child: const Text('Paid'),
+                      child: const Text('Regular'),
                     ),
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
-                          buttonPaid = false;
-                          buttonFree = true;
-                          buttonDonation = false;
+                          buttonRegular = false;
+                          buttonVIP = true;
+
                         });
                       },
-                      child: const Text('Free'),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          buttonFree = false;
-                          buttonPaid = false;
-                          buttonDonation = true;
-                        });
-                      },
-                      child: const Text('Donation'),
+                      child: const Text('VIP'),
                     ),
                   ],
                 ),
               ),
-              if (buttonPaid) ...[
+              if (buttonRegular) ...[
                 TextFormField(
                   controller: nameController,
                   maxLength: 50,
@@ -213,8 +202,9 @@ class _AddMoreTicketsState extends State<AddMoreTickets> {
                   ),
                 ),
               ],
-              if (buttonFree) ...[
+              if (buttonVIP) ...[
                 TextFormField(
+                  controller: nameController,
                   maxLength: 50,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -225,16 +215,17 @@ class _AddMoreTicketsState extends State<AddMoreTickets> {
                   height: 10,
                 ),
                 TextFormField(
-                  enabled: false,
+                  controller: priceController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText: 'Price \$(free)',
+                    hintText: 'Price \$',
                   ),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 TextFormField(
+                  controller: quntatityController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: 'Available quantity',
@@ -283,14 +274,14 @@ class _AddMoreTicketsState extends State<AddMoreTickets> {
                   height: 20,
                 ),
                 TextFormField(
-                  controller: _date,
+                  controller: _date2,
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     hintText: 'Event ends',
                     prefixIcon: IconButton(
                       icon: const Icon(Icons.calendar_today),
                       onPressed: () {
-                        _selectDate(context);
+                        _selectDate2(context);
                       },
                     ),
                   ),
@@ -299,130 +290,47 @@ class _AddMoreTicketsState extends State<AddMoreTickets> {
                   height: 20,
                 ),
                 TextFormField(
-                  controller: _date,
+                  controller: endTimeController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: 'End time',
                   ),
                 ),
               ],
-              if (buttonDonation) ...[
-                TextFormField(
-                  maxLength: 50,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Name',
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  enabled: false,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Available quantity(unlimited)',
-                  ),
-                ),
-                DropdownButton(
-                  isExpanded: true,
-                  value: dropdownvalue,
-                  icon: const Icon(Icons.keyboard_arrow_down),
-                  items: items.map((String items) {
-                    return DropdownMenuItem(
-                      value: items,
-                      child: Text(items),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      dropdownvalue = newValue!;
-                    });
-                  },
-                ),
-                TextFormField(
-                  controller: _date,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    hintText: 'Event starts',
-                    prefixIcon: IconButton(
-                      icon: const Icon(Icons.calendar_today),
-                      onPressed: () {
-                        _selectDate(context);
-                      },
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  controller: _date,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Start time',
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  controller: _date,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    hintText: 'Event ends',
-                    prefixIcon: IconButton(
-                      icon: const Icon(Icons.calendar_today),
-                      onPressed: () {
-                        _selectDate(context);
-                      },
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  controller: _date,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'End time',
-                  ),
-                ),
-              ],
+
+
               const SizedBox(
                 height: 20,
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: ElevatedButton(
-                  onPressed: () {
-                    String startTime = startDateController.text;
-                    String endTime = endDateController.text;
+                  onPressed: () async {
                     DateTime startDate = new DateTime(
-                        int.parse(startTime.substring(0, 3)),
-                        int.parse(startTime.substring(5, 6)),
-                        int.parse(startTime.substring(8, 9)),
+                        selectedDate.year,
+                        selectedDate.month,
+                        selectedDate.day,
                         int.parse(startTimeController.text.substring(0, 1)),
                         int.parse(startTimeController.text.substring(3, 4)),
                         0,
                         0);
-                    DateTime endDate = new DateTime(
-                        int.parse(endTime.substring(0, 3)),
-                        int.parse(endTime.substring(5, 6)),
-                        int.parse(endTime.substring(8, 9)),
+                    DateTime endDate = DateTime(
+                        selectedDate2.year,
+                        selectedDate2.month,
+                        selectedDate2.day,
                         int.parse(endTimeController.text.substring(0, 1)),
                         int.parse(endTimeController.text.substring(3, 4)),
                         0,
                         0);
-                    CreatorTicket ticketData = new CreatorTicket(
+                    CreatorTicket ticketData = CreatorTicket(
                         name: nameController.text,
-                        type: "paid",
+                        type: buttonRegular?"Regular":"VIP",
                         price: int.parse(priceController.text),
                         capacity: int.parse(quntatityController.text),
                         sellingStartTime: startDate,
                         sellingEndTime: endDate);
-                    creatorData?.createTicket(ticketData, "1");
+                   String result=await creatorData.createTicket(ticketData, "642fda172c9619b9850f7102");
+                   print(result);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white, // Background colo// r

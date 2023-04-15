@@ -531,6 +531,7 @@ class _TicketsState extends State<Tickets> {
 
   @override
   Widget build(BuildContext context) {
+    bool isLoading=false;
     return Scaffold(
         bottomSheet: SizedBox(
           width: MediaQuery.of(context).size.width,
@@ -544,7 +545,11 @@ class _TicketsState extends State<Tickets> {
         drawer: appDrawer(context, "Tickets", widget.eventdetails),
         body: SingleChildScrollView(
             child: SingleChildScrollView(
-          child: Column(
+          child:isLoading?
+          const Center(
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.transparent,
+              )): Column(
             children: [
               sideMenuModule(_globalKey, pageTitle),
               //for ( var i = 0; i < 10; i++ )  tabMenu(),
@@ -596,13 +601,34 @@ class _TicketsState extends State<Tickets> {
                           width: MediaQuery.of(context).size.width,
                           child: ElevatedButton(
                             onPressed: ()async {
-                              readJson();
-                              ticketsList = await creatorData.getCreatorEventTickets(
-                                  eventID: "642fda172c9619b9850f7102",
-                                  limit: 1,
-                                  page: 1) as List<CreatorTicket>?;
-                              context.goNamed("tickets", extra: widget.eventdetails);
-                              print(ticketsList);
+                              setState(() {
+                                isLoading=true;
+                              });
+                              //readJson();
+                             try{
+                               ticketsList = await creatorData.getCreatorEventTickets(
+                                   eventID: "642fda172c9619b9850f7102",
+                                   limit: 10,
+                                   page: 1) as List<CreatorTicket>?;
+                               context.goNamed("tickets", extra: widget.eventdetails);
+
+                               print(ticketsList);
+
+
+
+                              }catch(e){
+
+                               setState(() {
+                                 isLoading=false;
+                               });
+                             }finally{
+
+                               setState(() {
+                                 isLoading=false;
+                               });
+
+
+                             }
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor:

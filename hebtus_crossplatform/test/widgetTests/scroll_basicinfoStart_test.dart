@@ -1,11 +1,9 @@
 
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hebtus_crossplatform/current_user.dart';
 import 'package:hebtus_crossplatform/models/creator_events.dart';
-import 'package:hebtus_crossplatform/screens/Creator/Tickets/tickets_assign.dart';
+import 'package:hebtus_crossplatform/screens/Creator/BasicInfo/basic_info_start.dart';
 import 'package:hebtus_crossplatform/models/location.dart';
 void main() {
   CurrentUser currentUser = CurrentUser();
@@ -18,7 +16,7 @@ void main() {
 
   group("scrollTestingWidget", () {
     testWidgets("should scroll ", (WidgetTester tester) async {
-      await tester.pumpWidget( MaterialApp(home: Tickets(eventdetails: eventdetails,)));
+      await tester.pumpWidget( MaterialApp(home: BasicInfoStart()));
 
       await tester.drag(find.byType(Scaffold), const Offset(0, -200));
       await tester.pump();

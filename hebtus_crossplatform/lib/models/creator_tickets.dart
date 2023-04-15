@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class CreatorTicket {
   final String? ticketID;
   final String name;
@@ -36,9 +38,10 @@ class CreatorTicket {
     data['type'] = type;
     data['price'] = price;
     data['capacity'] = capacity;
-    data['sellingStartTime'] = sellingStartTime.toIso8601String();
-    data['sellingEndTime'] = sellingEndTime.toIso8601String();
-    data['sellingEndTime'] = sellingEndTime.toIso8601String();
+    data['sellingStartTime'] =
+        DateFormat('yyyy-MM-dd HH:mm:ss').format(sellingStartTime);
+    data['sellingEndTime'] =
+        DateFormat('yyyy-MM-dd HH:mm:ss').format(sellingEndTime);
     return data;
   }
 }
