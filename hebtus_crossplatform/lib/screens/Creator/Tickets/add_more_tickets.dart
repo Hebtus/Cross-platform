@@ -422,7 +422,7 @@ class _AddMoreTicketsState extends State<AddMoreTickets> {
                         capacity: int.parse(quntatityController.text),
                         sellingStartTime: startDate,
                         sellingEndTime: endDate);
-                    creatorData?.createTicket(ticketData, 1);
+                    creatorData?.createTicket(ticketData, "1");
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white, // Background colo// r

@@ -4,6 +4,7 @@ import 'package:hebtus_crossplatform/screens/all_screens.dart';
 import 'package:hebtus_crossplatform/services/creator_service.dart';
 import '../../models/attendee_event.dart';
 import '../../models/creator_events.dart';
+import '../../models/creator_tickets.dart';
 import '../../models/location.dart';
 import '../../services/attendee_service.dart';
 import 'components/creator_event_card.dart';
@@ -28,6 +29,16 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
     List<CreatorEvent> events =
         await creatorService.getMultipleEvents(csv: false);
     return events;
+    // CreatorTicket ticket = CreatorTicket(
+    //     name: "vip",
+    //     type: "vip",
+    //     price: 5000,
+    //     capacity: 10,
+    //     sellingStartTime: DateTime(2023, 12, 1),
+    //     sellingEndTime: DateTime(2024, 1, 1));
+    // String habal =
+    //     await creatorService.createTicket(ticket, "642fda172c9619b9850f7102");
+    // return habal;
   }
 
   final List<CreatorEvent> events = [

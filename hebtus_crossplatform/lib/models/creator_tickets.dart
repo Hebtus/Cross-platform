@@ -32,13 +32,13 @@ class CreatorTicket {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-
     data['name'] = name;
     data['type'] = type;
     data['price'] = price;
     data['capacity'] = capacity;
-    data['sellingStartTime'] = sellingStartTime;
-    data['sellingEndTime'] = sellingEndTime;
+    data['sellingStartTime'] = sellingStartTime.toIso8601String();
+    data['sellingEndTime'] = sellingEndTime.toIso8601String();
+    data['sellingEndTime'] = sellingEndTime.toIso8601String();
     return data;
   }
 }

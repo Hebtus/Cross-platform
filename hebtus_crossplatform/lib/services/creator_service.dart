@@ -97,11 +97,11 @@ class CreatorService {
     }
   }
 
-  Future<List<CreatorTicket>> getCreatorEventTickets(
-    int eventID,
+  Future<List<CreatorTicket>> getCreatorEventTickets({
+    required String eventID,
     int? limit,
     int? page,
-  ) async {
+  }) async {
     var queryParams = {'limit': limit, 'page': page};
     queryParams.removeWhere((key, value) => value == null);
 
@@ -133,7 +133,7 @@ class CreatorService {
     }
   }
 
-  Future<String> createTicket(CreatorTicket ticket, int eventID) async {
+  Future<String> createTicket(CreatorTicket ticket, String eventID) async {
     Uri url = Uri.parse('$urlString/api/v1/tickets/');
     //headers sent
     CurrentUser currentUser = CurrentUser();

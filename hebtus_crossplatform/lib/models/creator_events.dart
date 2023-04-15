@@ -39,23 +39,22 @@ class CreatorEvent {
       : eventID = json['_id'],
         eventName = json['name'],
         imgURL = json['img_url'],
-        startTime = DateTime.parse(json['startTime']),
-        endTime = DateTime.parse(json['endTime']),
+        startTime = DateTime.parse(json['startDate']),
+        endTime = DateTime.parse(json['endDate']),
         location = Location.fromJson(json['location']),
         locationName = json['locationName'],
         category = json['category'],
 
         //optional fields
-        description = json['description'],
-        isOnline = json['online'],
-        isDraft = json['draft'],
+        description = json.containsKey('private') ? json['description'] : null,
+        isOnline = json.containsKey('private') ? json['online'] : false,
+        isDraft = json.containsKey('private') ? json['draft'] : false,
         isPrivate = json.containsKey('private') ? json['private'] : false,
         goPublicDate = json.containsKey('goPublicDate')
             ? DateTime.parse(json['goPublicDate'])
             : null,
-        ticketsSold = json.containsKey('ticketsSold')
-            ? int.parse(json['ticketsSold'])
-            : null,
+        ticketsSold =
+            json.containsKey('ticketsSold') ? json['ticketsSold'] : null,
         tags =
             json.containsKey('tags') ? List<String>.from(json['tags']) : null;
 

@@ -597,7 +597,9 @@ class _TicketsState extends State<Tickets> {
                             onPressed: () {
                               readJson();
                               ticketsList = creatorData?.getCreatorEventTickets(
-                                  1, 3, 1) as List<CreatorTicket>?;
+                                  eventID: "1",
+                                  limit: 3,
+                                  page: 1) as List<CreatorTicket>?;
                               print(ticketsList);
                             },
                             style: ElevatedButton.styleFrom(
