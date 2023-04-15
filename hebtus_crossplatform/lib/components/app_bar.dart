@@ -26,14 +26,16 @@ PreferredSizeWidget MainAppBar(BuildContext context) {
     actions: [
       Padding(
         padding: const EdgeInsets.only(right: 20),
-        child: IconButton(
-            onPressed: () {
-              return context.go("/basicinfoStart");
-            },
-            icon: const Icon(
-              Icons.add,
-              color: Colors.grey,
-            )),
+        child: currentUser.isLoggedIn == true
+            ? IconButton(
+                onPressed: () {
+                  return context.go("/basicinfoStart");
+                },
+                icon: const Icon(
+                  Icons.add,
+                  color: Colors.grey,
+                ))
+            : Container(),
       ),
       currentUser.isLoggedIn == true
           ? Padding(
