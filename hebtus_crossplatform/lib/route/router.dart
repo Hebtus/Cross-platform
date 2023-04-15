@@ -32,13 +32,9 @@ class AppRouter {
       },
     ),
     GoRoute(
-      path: '/events',
+      path: '/events/:id',
       builder: (context, state) {
-        if (eventlist != null) {
-          return EventsScreen(eventlist![num].eventID);
-        } else {
-          return EventsScreen("");
-        }
+        return EventsScreen(eventID: state.params["id"]!);
       },
     ),
     GoRoute(

@@ -4,12 +4,15 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hebtus_crossplatform/globals/globals.dart';
 
+import '../../../models/attendee_event.dart';
+
 class EventDescription extends StatelessWidget {
-  const EventDescription({super.key});
+  final AttendeeEvent event;
+  EventDescription({super.key, required this.event});
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    if (ad != null) {
+    if (event != null) {
       return Container(
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,7 +42,8 @@ class EventDescription extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text((ad!.endTime.hour - ad!.startTime.hour).toString()),
+                child: Text(
+                    (event.endTime.hour - event.startTime.hour).toString()),
               ),
             ],
           ),
@@ -75,7 +79,7 @@ class EventDescription extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
-                      ad!.description.toString(),
+                      event.description.toString(),
                     ),
                   ),
                 ],
@@ -83,7 +87,7 @@ class EventDescription extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 10, left: 12),
             child: Image(
-              image: NetworkImage(ad!.imgURL),
+              image: NetworkImage(event.imgURL),
               width: MediaQuery.of(context).size.width * 0.85,
             ),
           )

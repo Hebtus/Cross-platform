@@ -4,13 +4,16 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hebtus_crossplatform/globals/globals.dart';
 
+import '../../../models/attendee_event.dart';
+
 class EventTimePlace extends StatelessWidget {
-  const EventTimePlace({super.key});
+  final AttendeeEvent event;
+  EventTimePlace({super.key, required this.event});
 
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    if (ad != null) {
+    if (event != null) {
       return Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +49,7 @@ class EventTimePlace extends StatelessWidget {
                       child: Text("Date and Time"),
                     ),
                     Text(
-                      ad!.startTime.toString(),
+                      event.startTime.toString(),
                       style: TextStyle(fontSize: 10),
                     )
                   ],
@@ -80,7 +83,7 @@ class EventTimePlace extends StatelessWidget {
                       Container(
                         width: MediaQuery.of(context).size.width * 0.8,
                         child: Text(
-                          ad!.locationName.toString(),
+                          event.locationName.toString(),
                           style: TextStyle(fontSize: 10),
                         ),
                       )

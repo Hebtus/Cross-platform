@@ -70,9 +70,7 @@ class EventCard extends StatelessWidget {
             child: InkWell(
                 splashColor: const Color.fromARGB(255, 250, 195, 188),
                 onTap: () {
-                  print(events[num].eventID);
-                  ad?.eventID = "1";
-                  return context.go("/events");
+                  return context.go("/events/${events[num].eventID}");
                 },
                 child: Container(
                     height: double.infinity,
@@ -135,9 +133,7 @@ class EventCard extends StatelessWidget {
                         ]))),
           ));
     } else {
-      return Container(
-        child: const Center(child: Text("No events available")),
-      );
+      return const Center(child: Text("No events available"));
     }
   }
 }

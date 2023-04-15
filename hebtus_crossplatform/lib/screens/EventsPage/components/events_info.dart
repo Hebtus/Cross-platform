@@ -2,31 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:hebtus_crossplatform/globals/globals.dart';
+import 'package:hebtus_crossplatform/models/attendee_event.dart';
 
 class EventInfo extends StatelessWidget {
-  const EventInfo({super.key});
+  final AttendeeEvent event;
+  EventInfo({super.key, required this.event});
 
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    if (ad != null) {
-      return Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.all(26),
-              child: Text(ad!.startTime.toString()),
+    if (event != null) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(26),
+            child: Text(event.startTime.toString()),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: Text(
+              event.eventName,
+              style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
-            Padding(
-              padding: EdgeInsets.all(12),
-              child: Text(
-                ad!.eventName,
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       );
     } else {
       return Container();
