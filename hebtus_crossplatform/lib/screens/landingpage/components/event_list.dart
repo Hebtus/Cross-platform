@@ -59,6 +59,7 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     if (events.isNotEmpty) {
       return Container(
           margin: const EdgeInsets.only(left: 10, right: 30),
@@ -80,7 +81,8 @@ class EventCard extends StatelessWidget {
                         children: [
                           Image(
                             image: NetworkImage(events[num].imgURL),
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
+                            width: mediaQuery.size.width,
                           ),
                           SizedBox(
                             width: 250,

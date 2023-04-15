@@ -6,12 +6,12 @@ import 'package:hebtus_crossplatform/components/app_bar.dart';
 import 'package:hebtus_crossplatform/models/attendee_event.dart';
 import 'package:hebtus_crossplatform/screens/LandingPage/components/location.dart';
 import 'package:hebtus_crossplatform/screens/landingpage/components/cover_image.dart';
-import 'package:hebtus_crossplatform/screens/landingpage/components/tab_bar.dart';
 import 'package:hebtus_crossplatform/screens/LandingPage/components/categories.dart';
 import 'package:hebtus_crossplatform/globals/globals.dart';
 import 'package:hebtus_crossplatform/services/attendee_service.dart';
 
 import 'components/event_list.dart';
+import 'components/tab_bar.dart';
 
 /// This class returns landingpage which is the homepage of the app
 class LandingPageScreen extends StatefulWidget {
@@ -28,6 +28,20 @@ class _LandingPageScreenState extends State<LandingPageScreen> {
     super.initState();
     AttendeeService attendeeService = AttendeeService();
     events = attendeeService.getEvents();
+  }
+
+  //callback function to rebuild landing page from child widgets
+  void rebuildLandingPage(
+      {String? category, String? date, bool? online, bool? free}) async {
+    AttendeeService attendeeService = AttendeeService();
+    if (category != null) {
+      if (category != "All") {
+        events = attendeeService.getEvents(category: category);
+      } else {
+        events = attendeeService.getEvents();
+      }
+    }
+    setState(() {});
   }
 
   @override
@@ -58,7 +72,9 @@ class _LandingPageScreenState extends State<LandingPageScreen> {
                               ),
                             ),
                             const Location(), // class that returns textfield for entering location
-                            NavBar(),
+                            NavBar(
+                              rebuildLandingPage: rebuildLandingPage,
+                            ),
                             const Padding(
                               padding: EdgeInsets.only(left: 30, top: 30),
                               child: Text(

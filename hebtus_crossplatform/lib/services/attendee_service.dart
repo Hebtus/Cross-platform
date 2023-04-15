@@ -17,6 +17,10 @@ class AttendeeService {
       int? online,
       DateTime? startDate,
       DateTime? endDate}) async {
+    if (category != null) {
+      category = category.replaceAll('&', '%26');
+    }
+
     var queryParams = {
       'category': category,
       'location': longitude == null ? null : "$longitude,$latitude",
