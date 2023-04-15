@@ -4,7 +4,7 @@ import 'package:hebtus_crossplatform/screens/Creator/BasicInfo/basic_info.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Publish/publish.dart';
 import 'package:hebtus_crossplatform/services/creator_service.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hebtus_crossplatform/Models/creator_events.dart';
+import 'package:hebtus_crossplatform/models/creator_events.dart';
 
 import '../../../current_user.dart';
 

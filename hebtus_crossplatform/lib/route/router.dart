@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:hebtus_crossplatform/Models/creator_events.dart';
+import 'package:hebtus_crossplatform/models/creator_events.dart';
 import 'package:hebtus_crossplatform/screens/Creator/BasicInfo/basic_info_start.dart';
 import 'package:hebtus_crossplatform/screens/all_screens.dart';
 

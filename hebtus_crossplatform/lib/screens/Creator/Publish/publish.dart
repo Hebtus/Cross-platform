@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Components/creator_components.dart';
 
-import '../../../Models/creator_events.dart';
+import '../../../models/creator_events.dart';
 
 enum radioButton { publicEv, privateEv }
 

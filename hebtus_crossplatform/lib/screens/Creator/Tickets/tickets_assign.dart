@@ -2,13 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Components/creator_components.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Tickets/add_more_tickets.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Tickets/add_promo_code.dart';
 import 'package:hebtus_crossplatform/services/creator_service.dart';
 
-import '../../../Models/creator_events.dart';
-import '../../../Models/creator_tickets.dart';
+import '../../../models/creator_events.dart';
+import '../../../models/creator_tickets.dart';
 
 String pageTitle = 'Tickets';
 bool buttonAdmission = true;
@@ -29,7 +30,7 @@ List _itemsPromo = [];
 SampleItem? selectedMenu;
 SingingCharacter? _character = SingingCharacter.ticketEvent;
 
-CreatorService? creatorData;
+CreatorService creatorData=CreatorService();
 List<CreatorTicket>? ticketsList;
 
 ///name:readJson
@@ -455,7 +456,7 @@ class _TicketsState extends State<Tickets> {
                         ),
                         const Spacer(),
                         Text(
-                          ticketsList[i].type,
+                          ticketsList[i].capacity.toString()+'\$',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(fontSize: 20.0),
@@ -474,7 +475,7 @@ class _TicketsState extends State<Tickets> {
                           style: TextStyle(fontSize: 20.0, color: Colors.grey),
                         ),
                         Text(
-                          ticketsList[i].price as String,
+                          ticketsList[i].price.toString(),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
@@ -564,7 +565,7 @@ class _TicketsState extends State<Tickets> {
                         for (int i = 0; i < _items.length; i++)
                           ticketCard(_items, i),
                         if (ticketsList != null) ...[
-                          for (int i = 0; i < _items.length; i++)
+                          for (int i = 0; i < ticketsList!.length; i++)
                             ticketCardFromWeb(ticketsList!, i),
                         ],
                         const SizedBox(
@@ -594,12 +595,13 @@ class _TicketsState extends State<Tickets> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
                           child: ElevatedButton(
-                            onPressed: () {
+                            onPressed: ()async {
                               readJson();
-                              ticketsList = creatorData?.getCreatorEventTickets(
-                                  eventID: "1",
-                                  limit: 3,
+                              ticketsList = await creatorData.getCreatorEventTickets(
+                                  eventID: "642fda172c9619b9850f7102",
+                                  limit: 1,
                                   page: 1) as List<CreatorTicket>?;
+                              context.goNamed("tickets", extra: widget.eventdetails);
                               print(ticketsList);
                             },
                             style: ElevatedButton.styleFrom(

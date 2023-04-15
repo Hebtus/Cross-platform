@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Components/creator_components.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io' show File, Platform;
-import 'package:hebtus_crossplatform/Models/creator_events.dart';
-import 'package:hebtus_crossplatform/Models/location.dart';
+import 'package:hebtus_crossplatform/models/creator_events.dart';
+import 'package:hebtus_crossplatform/models/location.dart';
 
 ///extract widget look it up
 int eventNameCount = 0;
