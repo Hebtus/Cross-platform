@@ -10,6 +10,10 @@ import 'package:hebtus_crossplatform/services/creator_service.dart';
 
 import '../../../models/creator_events.dart';
 import '../../../models/creator_tickets.dart';
+//notes for the testing team :
+//pressing the refresh button will make the get tickets request from the backend and the ticket cards will be viewed
+//press add ticket to navigate to the adding ticket page and make the create ticket request
+
 
 String pageTitle = 'Tickets';
 bool buttonAdmission = true;

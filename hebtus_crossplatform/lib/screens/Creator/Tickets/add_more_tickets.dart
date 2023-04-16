@@ -3,6 +3,11 @@ import 'package:hebtus_crossplatform/models/creator_tickets.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Components/creator_components.dart';
 
 import '../../../services/creator_service.dart';
+//notes for testing team
+//the fields should be field so the request can be made
+//the time should be written by hand in the formate 2:00 for example
+//choosing Regular or VIP will change the type internally but they both have the save fields
+// click on the add button to make the request
 
 TextEditingController _date = TextEditingController();
 DateTime selectedDate = DateTime.now();

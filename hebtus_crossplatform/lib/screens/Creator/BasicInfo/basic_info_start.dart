@@ -11,6 +11,20 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io' show File, Platform;
 import 'package:hebtus_crossplatform/models/creator_events.dart';
 import 'package:hebtus_crossplatform/models/location.dart';
+//notes for testing team:
+//this is where the event making will start
+//the user can write the event name only within the given limit
+//category is choosen from a drop down menu and has a defult value
+//tags are optional and are not nedded to move forward
+//the location uses geofiy api to auto complete and if the event has venu choosen then it is need to move forward
+//in choosing time, recurring event doesnt need the data and is used to move forward without entering the date
+//on choosing single event the date should be choosen by pressing the calender icon and the time from the drop down box
+//the upload image option is used by pressing the button and navigating to the gallery or taking an image
+//NOTE THAT :if you pressed return without choosing an image it will cause an exception we know the error and are working on it
+//descrptuion field is also optional and is not required to move forward
+//press save to save the basic info and move to the navigation screen with tickets and publish tabs
+//moving forwared the basic info will only be viewed and cant be edited
+// the field to filled will highlight red if not filled
 
 ///extract widget look it up
 int eventNameCount = 0;
