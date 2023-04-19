@@ -1,18 +1,15 @@
 // ignore_for_file: sized_box_for_whitespace, duplicate_ignore, avoid_unnecessary_containers
 
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hebtus_crossplatform/components/app_bar.dart';
 import 'package:hebtus_crossplatform/models/attendee_event.dart';
-import 'package:hebtus_crossplatform/screens/landingpage/components/location.dart';
-import 'package:hebtus_crossplatform/screens/landingpage/landing_page.dart';
 import 'package:hebtus_crossplatform/screens/landingpage/components/cover_image.dart';
 import 'package:hebtus_crossplatform/screens/landingpage/components/categories.dart';
 import 'package:hebtus_crossplatform/globals/globals.dart';
 import 'package:hebtus_crossplatform/services/attendee_service.dart';
 import 'package:intl/intl.dart';
-
+import 'components/location.dart';
 import 'components/event_list.dart';
 import 'components/tab_bar.dart';
 
@@ -35,7 +32,13 @@ class _LandingPageScreenState extends State<LandingPageScreen> {
 
   //callback function to rebuild landing page from child widgets
   void rebuildLandingPage(
-      {String? category, DateTime? todaystartdate,double ?long,double ?lat, DateTime? todayenddate ,bool? online, bool? free}) async {
+      {String? category,
+      DateTime? todaystartdate,
+      double? long,
+      double? lat,
+      DateTime? todayenddate,
+      bool? online,
+      bool? free}) async {
     AttendeeService attendeeService = AttendeeService();
     if (category != null) {
       if (category != "All") {
@@ -43,24 +46,18 @@ class _LandingPageScreenState extends State<LandingPageScreen> {
       } else {
         events = attendeeService.getEvents();
       }
-    }
-    else if(online!=null)
-    {
+    } else if (online != null) {
       events = attendeeService.getEvents(online: true);
-    }
-    else if(free!=null)
-    {
+    } else if (free != null) {
       events = attendeeService.getEvents(free: true);
+    } else if (todaystartdate != null && todayenddate != null) {
+      events = attendeeService.getEvents(
+          startDate: todaystartdate, endDate: todayenddate);
+    } else if (long != null && lat != null) {
+      events = attendeeService.getEvents(
+          latitude: latitude_v, longitude: longitude_v);
     }
-    else if (todaystartdate != null && todayenddate!=null)
-    {
-        events = attendeeService.getEvents(startDate: todaystartdate,endDate: todayenddate );
-    }
-    else if (long!=null && lat!=null)
-    {
-      events = attendeeService.getEvents(latitude: latitude_v,longitude: longitude_v );
-    }
-    
+
     setState(() {});
   }
 
@@ -91,7 +88,9 @@ class _LandingPageScreenState extends State<LandingPageScreen> {
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
-                            Location(rebuildLandingPage: rebuildLandingPage), // class that returns textfield for entering location
+                            Location(
+                                rebuildLandingPage:
+                                    rebuildLandingPage), // class that returns textfield for entering location
                             NavBar(
                               rebuildLandingPage: rebuildLandingPage,
                             ),
@@ -103,7 +102,7 @@ class _LandingPageScreenState extends State<LandingPageScreen> {
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
                             ),
-                              Categories(rebuildLandingPage:rebuildLandingPage),
+                            Categories(rebuildLandingPage: rebuildLandingPage),
                             const Padding(
                               padding: EdgeInsets.all(20),
                               child: Text(

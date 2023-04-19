@@ -103,13 +103,14 @@ class _SignupFormState extends State<SignupForm> {
                         key: const Key("SignUp"),
                         onPressed: () async {
                           bool isCaught = false;
+                          String message = "";
                           if (SignupForm._formKey.currentState!.validate()) {
                             setState(() {
                               _isLoading = true;
                             });
                             try {
                               final AuthService authService = AuthService();
-                              String message = await authService.signup(
+                              message = await authService.signup(
                                   _firstNameController.text,
                                   _lastNameController.text,
                                   _emailController.text,
@@ -141,25 +142,30 @@ class _SignupFormState extends State<SignupForm> {
                                   });
                             } finally {
                               if (isCaught == false) {
-                                showDialog(
-                                    barrierDismissible: true,
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text("Welcome to Hebtus!"),
-                                        content: const Text(
-                                            "Thank you for signing up, please verify your address by clicking on the link we sent to your email."),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                              return context.go("/");
-                                            },
-                                            child: const Text('OK'),
-                                          ),
-                                        ],
-                                      );
-                                    });
+                                if (message != "login") {
+                                  showDialog(
+                                      barrierDismissible: true,
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title:
+                                              const Text("Welcome to Hebtus!"),
+                                          content: const Text(
+                                              "Thank you for signing up, please verify your address by clicking on the link we sent to your email."),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                                return context.go("/");
+                                              },
+                                              child: const Text('OK'),
+                                            ),
+                                          ],
+                                        );
+                                      });
+                                } else {
+                                  context.go("/home");
+                                }
                               }
                             }
                           }

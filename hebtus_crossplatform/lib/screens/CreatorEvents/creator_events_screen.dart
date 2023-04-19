@@ -104,21 +104,27 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
                   future: events,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
-                      return Container(
-                        constraints: BoxConstraints(
-                            maxHeight: mediaQuery.size.height * 0.7),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListView.separated(
-                              padding: EdgeInsets.zero,
-                              itemBuilder: ((context, index) =>
-                                  CreatorEventCard(
-                                      event: snapshot.data![index])),
-                              separatorBuilder: (context, index) =>
-                                  const SizedBox(height: 1),
-                              itemCount: snapshot.data!.length),
-                        ),
-                      );
+                      if (snapshot.hasData) {
+                        return Container(
+                          constraints: BoxConstraints(
+                              maxHeight: mediaQuery.size.height * 0.7),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListView.separated(
+                                padding: EdgeInsets.zero,
+                                itemBuilder: ((context, index) =>
+                                    CreatorEventCard(
+                                        event: snapshot.data![index])),
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(height: 1),
+                                itemCount: snapshot.data!.length),
+                          ),
+                        );
+                      } else {
+                        return const Center(
+                          child: Text("No events to show"),
+                        );
+                      }
                     } else {
                       return Container(
                         decoration: const BoxDecoration(color: Colors.white),

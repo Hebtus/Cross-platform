@@ -73,8 +73,21 @@ class AuthService {
     // http.Response response = await http.get(url, headers: signupHeaders);
     if (response.statusCode >= 200 && response.statusCode < 300) {
       Map signUpResponse = jsonDecode(response.body);
-      String message = signUpResponse["message"];
-      return message;
+      //check if the user has logged in or signed up
+      if (signUpResponse.containsKey('token')) {
+        dynamic userData = signUpResponse["data"];
+        //setting the current user token
+        var token = signUpResponse["token"];
+        CurrentUser currentUser = CurrentUser();
+        currentUser.setToken(token);
+        //setting current user data
+        User user = User.fromJson(userData);
+        currentUser.setUser(user);
+        return "login";
+      } else {
+        String message = signUpResponse["message"];
+        return message;
+      }
     } else {
       throw Exception(jsonDecode(response.body)["message"]);
     }
