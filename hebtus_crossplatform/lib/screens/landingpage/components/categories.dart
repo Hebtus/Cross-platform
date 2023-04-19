@@ -5,7 +5,12 @@ import 'package:auto_size_text/auto_size_text.dart';
 
 /// This class returns cards that represent different categories
 class Categories extends StatelessWidget {
-  const Categories({super.key});
+  final void Function(
+      {String? category,
+      DateTime? todaystartdate, DateTime? todayenddate,double ?long,double ?lat,
+      bool? online,
+      bool? free}) rebuildLandingPage;
+  const Categories({super.key, required this.rebuildLandingPage});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,7 +36,9 @@ class Categories extends StatelessWidget {
                     color: const Color.fromARGB(255, 255, 249, 249),
                     child: InkWell(
                       splashColor: const Color.fromARGB(255, 250, 195, 188),
-                      onTap: () {},
+                      onTap: () {
+                      rebuildLandingPage(category: "Music");
+                      },
                       child: SizedBox(
                         width: 250,
                         height: 100,
@@ -78,7 +85,9 @@ class Categories extends StatelessWidget {
                     color: const Color.fromARGB(255, 255, 249, 249),
                     child: InkWell(
                       splashColor: const Color.fromARGB(255, 250, 195, 188),
-                      onTap: () {},
+                      onTap: () {
+                        rebuildLandingPage(category: "Food & Drink");
+                      },
                       child: SizedBox(
                         width: 250,
                         height: 100,
@@ -125,7 +134,9 @@ class Categories extends StatelessWidget {
                     color: const Color.fromARGB(255, 255, 249, 249),
                     child: InkWell(
                       splashColor: const Color.fromARGB(255, 250, 195, 188),
-                      onTap: () {},
+                      onTap: () {
+                        rebuildLandingPage(category: "Charity & Causes");
+                      },
                       child: SizedBox(
                         width: 250,
                         height: 100,

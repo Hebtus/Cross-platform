@@ -14,8 +14,8 @@ class AttendeeService {
       int? page,
       double? latitude,
       double? longitude,
-      int? free,
-      int? online,
+      bool? free,
+      bool? online,
       DateTime? startDate,
       DateTime? endDate}) async {
     if (category != null) {

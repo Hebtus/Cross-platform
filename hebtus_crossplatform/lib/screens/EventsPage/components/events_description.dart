@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -26,7 +28,7 @@ class EventDescription extends StatelessWidget {
           ),
           Row(
             children: [
-              Padding(
+             /* Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Container(
                   width: 70,
@@ -39,12 +41,12 @@ class EventDescription extends StatelessWidget {
                     color: Colors.blue,
                   ),
                 ),
-              ),
-              Padding(
+              ),*/
+              /*Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
-                    (event.endTime.hour - event.startTime.hour).toString()),
-              ),
+                    (event.endTime.difference(event.startTime).inHours).toString()),
+              ),*/
             ],
           ),
           FittedBox(
@@ -74,14 +76,16 @@ class EventDescription extends StatelessWidget {
           Container(
               width: MediaQuery.of(context).size.width * 0.8,
               margin: EdgeInsets.all(10),
+              
               child: Column(
                 children: [
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      event.description.toString(),
-                    ),
-                  ),
+                  event.description==null?
+                  const Text(""):
+                   Text(
+                    event.description.toString()
+                  )
+                  ,
+                 
                 ],
               )),
           Padding(

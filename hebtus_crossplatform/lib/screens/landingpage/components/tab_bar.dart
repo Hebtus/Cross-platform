@@ -11,7 +11,7 @@ import 'package:hebtus_crossplatform/screens/landingpage/components/location.dar
 class NavBar extends StatelessWidget {
   final void Function(
       {String? category,
-      String? date,
+       DateTime? todaystartdate, DateTime? todayenddate,double ?long,double ?lat,
       bool? online,
       bool? free}) rebuildLandingPage;
   const NavBar({super.key, required this.rebuildLandingPage});
@@ -24,6 +24,8 @@ class NavBar extends StatelessWidget {
           width: MediaQuery.of(context).size.width * 0.9,
           margin: const EdgeInsets.only(top: 20, left: 10),
           child: TabBar(
+          unselectedLabelColor: Colors.white.withOpacity(0.3),
+          indicatorColor:Colors.transparent,
             tabs: [
               Container(
                   width: 60,
@@ -32,6 +34,7 @@ class NavBar extends StatelessWidget {
                       child: TextButton(
                         onPressed: () {
                           rebuildLandingPage(category: "All");
+                        
                         },
                         child: const Text(
                           "All",
@@ -91,7 +94,12 @@ class NavBar extends StatelessWidget {
                     child: FittedBox(
                       child: TextButton(
                         onPressed: () {
-                          rebuildLandingPage(date: "Today");
+                          DateTime now = DateTime.now();
+       DateTime startOfDay = DateTime(now.year, now.month, now.day);
+       DateTime endOfDay = startOfDay.add(const Duration(days: 1)).subtract(const Duration(milliseconds: 1));
+                          rebuildLandingPage(
+                            todaystartdate: startOfDay,todayenddate: endOfDay
+                          );
                         },
                         child: const Text(
                           "Today",
@@ -106,7 +114,11 @@ class NavBar extends StatelessWidget {
                     child: FittedBox(
                       child: TextButton(
                         onPressed: () {
-                          rebuildLandingPage(date: "This Weekend");
+                          DateTime now = DateTime.now();
+  DateTime startOfWeekend = now.subtract(Duration(days: now.weekday - 6));
+  DateTime endOfWeekend = startOfWeekend.add(Duration(days: 1)).subtract(Duration(milliseconds: 1));
+
+                          rebuildLandingPage(todaystartdate: startOfWeekend,todayenddate: endOfWeekend);
                         },
                         child: const Text(
                           "This Weekend",
@@ -136,7 +148,7 @@ class NavBar extends StatelessWidget {
                     child: FittedBox(
                       child: TextButton(
                         onPressed: () {
-                          rebuildLandingPage(online: true);
+                          rebuildLandingPage(online:true);
                         },
                         child: const Text(
                           "Online",

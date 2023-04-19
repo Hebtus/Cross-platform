@@ -1,3 +1,5 @@
+// ignore_for_file: no_logic_in_create_state
+
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
@@ -9,10 +11,15 @@ import 'package:hebtus_crossplatform/globals/globals.dart';
 
 ///This class returns textfield for entering location
 class Location extends StatefulWidget {
-  const Location({super.key});
+  final void Function(
+      {String? category,
+       DateTime? todaystartdate, DateTime? todayenddate,double?long,double?lat,
+      bool? online,
+      bool? free}) rebuildLandingPage;
+      Location({super.key,required this.rebuildLandingPage});
 
   @override
-  State<Location> createState() => _LocationState();
+  State<Location> createState() => _LocationState(rebuildLandingPage);
   /*void search() async {
     _LocationState().search() as List<double>;
     return ;
@@ -20,9 +27,16 @@ class Location extends StatefulWidget {
 }
 
 class _LocationState extends State<Location> {
+  final void Function(
+      {String? category,
+       DateTime? todaystartdate, DateTime? todayenddate,double?long,double?lat,
+      bool? online,
+      bool? free}) rebuildLandingPage;
   final TextEditingController _searchController = TextEditingController();
   String _responseText = '';
 
+  _LocationState(this.rebuildLandingPage);
+ 
   @override
   void dispose() {
     _searchController.dispose();
@@ -106,9 +120,10 @@ class _LocationState extends State<Location> {
       latitude_v = coordinates[1];
       longitude_v = coordinates[0];
       setState(() {
-        _responseText = 'Latitude: $latitude_v\nLongitude: $longitude_v';
+       /* _responseText = 'Latitude: $latitude_v\nLongitude: $longitude_v';*/
       });
       log('API response: $_responseText');
+      rebuildLandingPage(long:longitude_v,lat:latitude_v);
     } else {
       setState(() {
         _responseText =
@@ -119,4 +134,6 @@ class _LocationState extends State<Location> {
       return;
     }
   }
+  
+  
 }
