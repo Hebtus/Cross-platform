@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class FilterEventsBttn extends StatefulWidget {
-  const FilterEventsBttn({super.key});
+  final void Function({String? filter}) rebuildPage;
+  const FilterEventsBttn({super.key, required this.rebuildPage});
 
   @override
   State<FilterEventsBttn> createState() => _FilterEventsBttnState();
@@ -56,6 +57,16 @@ class _FilterEventsBttnState extends State<FilterEventsBttn> {
                           setState(() {
                             _selectedOption = value;
                           });
+                          //callback function to rebuild the page
+                          if (value == "Upcoming Events") {
+                            widget.rebuildPage(filter: "upcoming");
+                          } else if (value == "Past Events") {
+                            widget.rebuildPage(filter: "past");
+                          } else if (value == "Drafts") {
+                            widget.rebuildPage(filter: "draft");
+                          } else if (value == "All Events") {
+                            widget.rebuildPage(filter: "all");
+                          }
                         },
                         icon: Icon(Icons.filter_list, color: _buttonColor),
                         itemBuilder: (context) {

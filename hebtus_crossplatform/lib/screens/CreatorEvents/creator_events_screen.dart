@@ -5,7 +5,6 @@ import 'package:hebtus_crossplatform/services/creator_service.dart';
 import '../../models/creator_events.dart';
 import 'components/creator_event_card.dart';
 import 'components/filter_events_bttn.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CreatorEventsScreen extends StatefulWidget {
   const CreatorEventsScreen({super.key});
@@ -17,12 +16,11 @@ class CreatorEventsScreen extends StatefulWidget {
 class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
   List<CreatorEvent> events = [];
   //for pagination
-  final RefreshController refreshController =
-      RefreshController(initialRefresh: true);
   final scrollController = ScrollController();
   int currentPage = 1;
   final int pageLimit = 5;
   bool isLoading = false;
+  String filter = "upcoming";
 
   @override
   void initState() {
@@ -50,16 +48,25 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
 
     try {
       final newEvents = await creatorService.getMultipleEvents(
-          csv: false, limit: pageLimit, page: currentPage);
+          csv: false, limit: pageLimit, page: currentPage, time: filter);
       events.addAll(newEvents);
       setState(() {});
-      print(events);
+      //print(events);
       currentPage++;
 
       return true;
     } catch (e) {
       return false;
     }
+  }
+
+  void rebuildPage({String? filter}) {
+    //reset pagination
+    currentPage = 1;
+    events = [];
+    this.filter = filter!;
+    fetchEvents();
+    setState(() {});
   }
 
   @override
@@ -83,9 +90,9 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
                             fontSize: 40, fontWeight: FontWeight.bold)),
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: FilterEventsBttn(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: FilterEventsBttn(rebuildPage: rebuildPage),
                 ),
                 Container(
                   constraints:
