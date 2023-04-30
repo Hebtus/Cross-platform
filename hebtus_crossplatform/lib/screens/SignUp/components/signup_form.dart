@@ -11,6 +11,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../../../models/user.dart';
 import 'dart:async';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 ///Sign up form, contains signup text fields: email, password, confirm password, first name, last name.
 class SignupForm extends StatefulWidget {
@@ -268,8 +269,58 @@ class _SignupFormState extends State<SignupForm> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SocialMediaIcon(
-                            iconSource: "assets/icons/facebook.svg",
-                            press: () async {}),
+                          iconSource: "assets/icons/facebook.svg",
+                          press: () async {
+                            if (!FacebookAuth.instance.isWebSdkInitialized) {
+                              await FacebookAuth.instance
+                                  .webAndDesktopInitialize(
+                                      appId: "180177551591717",
+                                      cookie: true,
+                                      xfbml: true,
+                                      version: "v13.0");
+                            }
+                            final LoginResult result =
+                                await FacebookAuth.instance.login();
+                            print(result.accessToken!.token);
+                            final AuthService authService = AuthService();
+                            final userData =
+                                await FacebookAuth.instance.getUserData();
+                            bool isCaught = false;
+
+                            try {
+                              User user = await authService.facebookLogin(
+                                  result.accessToken!.token, userData["email"]);
+                            } catch (e) {
+                              isCaught = true;
+                              setState(() {
+                                _isLoading = false;
+                              });
+                              debugPrint(e.toString());
+                              // ignore: use_build_context_synchronously
+                              showDialog(
+                                  barrierDismissible: true,
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text("Error"),
+                                      content: Text(e.toString()),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            } finally {
+                              if (isCaught == false) {
+                                context.go("/home");
+                              }
+                            }
+                          },
+                        ),
                         const SizedBox(width: 15),
                         buildSignInButton(
                           onPressed: _handleSignIn,

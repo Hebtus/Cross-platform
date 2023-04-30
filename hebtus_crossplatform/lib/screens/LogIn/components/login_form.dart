@@ -11,15 +11,9 @@ import '../../../services/auth_service.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:google_sign_in_platform_interface/google_sign_in_platform_interface.dart';
 import 'dart:async';
-//import 'package:flutter/foundation.dart' show kIsWeb;
-
-//import 'package:google_sign_in_web/google_sign_in_web.dart';
-//import 'dart:io'
-//   if (dart.library.html) 'package:google_sign_in_web/google_sign_in_web.dart'
-//   as google;
-
-//final GoogleSignInPlugin plugin =
-// GoogleSignInPlatform.instance as GoogleSignInPlugin;
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 ///The login form contains textfields for the email and password, with necessary validations
 class LoginForm extends StatefulWidget {
@@ -33,10 +27,6 @@ class LoginForm extends StatefulWidget {
 GoogleSignIn googleSignIn = GoogleSignIn(
   clientId:
       "1076195175237-9b8nk3mlnn8m6sijeuivebd5tjq8r1pq.apps.googleusercontent.com",
-  // scopes: [
-  //   'openid',
-  //   'https://www.googleapis.com/auth/userinfo.profile',
-  // ],
 );
 
 class _LoginFormState extends State<LoginForm> {
@@ -205,76 +195,63 @@ class _LoginFormState extends State<LoginForm> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SocialMediaIcon(
-                            iconSource: "assets/icons/facebook.svg",
-                            press: () async {}),
+                          iconSource: "assets/icons/facebook.svg",
+                          press: () async {
+                            if (!FacebookAuth.instance.isWebSdkInitialized) {
+                              await FacebookAuth.instance
+                                  .webAndDesktopInitialize(
+                                      appId: "180177551591717",
+                                      cookie: true,
+                                      xfbml: true,
+                                      version: "v13.0");
+                            }
+                            final LoginResult result =
+                                await FacebookAuth.instance.login();
+                            print(result.accessToken!.token);
+                            final AuthService authService = AuthService();
+                            final userData =
+                                await FacebookAuth.instance.getUserData();
+                            bool isCaught = false;
+
+                            try {
+                              User user = await authService.facebookLogin(
+                                  result.accessToken!.token, userData["email"]);
+                            } catch (e) {
+                              isCaught = true;
+                              setState(() {
+                                _isLoading = false;
+                              });
+                              debugPrint(e.toString());
+                              // ignore: use_build_context_synchronously
+                              showDialog(
+                                  barrierDismissible: true,
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text("Error"),
+                                      content: Text(e.toString()),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            } finally {
+                              if (isCaught == false) {
+                                context.go("/home");
+                              }
+                            }
+                          },
+                        ),
                         const SizedBox(width: 15),
                         //plugin.renderButton(),
                         buildSignInButton(
                           onPressed: _handleSignIn,
                         ),
-                        // SocialMediaIcon(
-                        //     iconSource: "assets/icons/google.svg",
-                        //     press: () async {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => googlePage()),
-                        // );
-
-                        //bool isCaught = false;
-
-                        //googleSignIn.signOut();
-                        //var account = await widget.googleSignIn.signIn();
-                        //var account;
-                        // await googleSignIn
-                        //     .signInSilently()
-                        //     .then((value) async {
-                        //   account = await googleSignIn.signIn();
-                        // });
-
-                        // await googleSignIn.signIn().then((value) async {
-                        //   account = googleSignIn.signInSilently();
-                        //   //account = await googleSignIn.signIn();
-                        // });
-
-                        // var googleKey = await account?.authentication;
-                        // var idToken = googleKey?.idToken;
-                        // final AuthService authService = AuthService();
-                        // setState(() {
-                        //   _isLoading = true;
-                        // });
-                        // try {
-                        //   //User user =
-                        //   //await authService.googleLogin(idToken!);
-                        // } catch (e) {
-                        //   isCaught = true;
-                        //   setState(() {
-                        //     _isLoading = false;
-                        //   });
-                        //   debugPrint(e.toString());
-                        //   showDialog(
-                        //       barrierDismissible: true,
-                        //       context: context,
-                        //       builder: (BuildContext context) {
-                        //         return AlertDialog(
-                        //           title: const Text("Error"),
-                        //           content: Text(e.toString()),
-                        //           actions: [
-                        //             TextButton(
-                        //               onPressed: () {
-                        //                 Navigator.pop(context);
-                        //               },
-                        //               child: const Text('OK'),
-                        //             ),
-                        //           ],
-                        //         );
-                        //       });
-                        // } finally {
-                        //   if (isCaught == false) {
-                        //     //context.go("/home");
-                        //   }
-                        // }
-                        // }),
                       ],
                     ),
                   ),

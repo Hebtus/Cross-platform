@@ -1,6 +1,7 @@
 //singleton class that represents the current logged in user and holds the token
 import 'models/user.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class CurrentUser {
   //class data members
@@ -33,7 +34,18 @@ class CurrentUser {
   void logout() {
     token = "";
     isLoggedIn = false;
+    //in case the sign in was through google
     googleSignIn.signOut();
+    //in case the sign in was through facebook
+    if (!FacebookAuth.instance.isWebSdkInitialized) {
+      FacebookAuth.instance.webAndDesktopInitialize(
+          appId: "180177551591717",
+          cookie: true,
+          xfbml: true,
+          version: "v13.0");
+    }
+
+    FacebookAuth.instance.logOut();
   }
 
   //returns the token string to be sent with requests that require the token

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding ="utf-8"?>
+<resources>
+    <string name="app_name">Hebtus</string>
+    <string name="facebook_app_id">180177551591717</string>
+    <string name="fb_login_protocol_scheme">fb180177551591717</string>
+    <string name="facebook_client_token">d7522ab492db7b5c78d16eb4be612a22</string>
+</resources>
