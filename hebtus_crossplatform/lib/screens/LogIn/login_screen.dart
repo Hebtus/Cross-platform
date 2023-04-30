@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:hebtus_crossplatform/components/signup_pages_appbar.dart';
 import 'package:hebtus_crossplatform/constants.dart' as constants;
-import 'package:hebtus_crossplatform/services/auth_service.dart';
+
 import 'components/login_form.dart';
 
 ///The screen contains the login form and logic
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -41,7 +46,7 @@ class LoginScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(5)),
-                    child: const LoginForm(),
+                    child: LoginForm(),
                   )
                 ],
               ),

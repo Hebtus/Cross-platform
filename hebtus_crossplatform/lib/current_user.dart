@@ -1,11 +1,16 @@
 //singleton class that represents the current logged in user and holds the token
 import 'models/user.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class CurrentUser {
   //class data members
   late String token;
   late User currentUser;
   bool isLoggedIn = false;
+  GoogleSignIn googleSignIn = GoogleSignIn(
+    clientId:
+        "1076195175237-9b8nk3mlnn8m6sijeuivebd5tjq8r1pq.apps.googleusercontent.com",
+  );
 
   //private constructor
   CurrentUser._() {
@@ -28,6 +33,7 @@ class CurrentUser {
   void logout() {
     token = "";
     isLoggedIn = false;
+    googleSignIn.signOut();
   }
 
   //returns the token string to be sent with requests that require the token

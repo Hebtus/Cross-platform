@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:hebtus_crossplatform/components/confirm_passwd_text_field.dart';
+import 'package:hebtus_crossplatform/screens/LogIn/components/sign_in_button.dart';
 import '../../../components/or_divider.dart';
 import '../../../components/password_text_field.dart';
 import '../../../components/email_text_field.dart';
@@ -8,6 +8,9 @@ import '../../../services/auth_service.dart';
 import 'already_have_account_btn.dart';
 import '../../../components/socialmedia_icon.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import '../../../models/user.dart';
+import 'dart:async';
 
 ///Sign up form, contains signup text fields: email, password, confirm password, first name, last name.
 class SignupForm extends StatefulWidget {
@@ -21,13 +24,96 @@ class SignupForm extends StatefulWidget {
   State<SignupForm> createState() => _SignupFormState();
 }
 
+GoogleSignIn googleSignIn = GoogleSignIn(
+  clientId:
+      "1076195175237-9b8nk3mlnn8m6sijeuivebd5tjq8r1pq.apps.googleusercontent.com",
+);
+
 class _SignupFormState extends State<SignupForm> {
+  //function that handles sign in logic for login with google
+  Future _handleSignIn() async {
+    try {
+      var account = await googleSignIn.signIn();
+      var googleKey = await account?.authentication;
+      var idToken = googleKey?.idToken;
+      callBEGoogle(idToken!);
+      print(account);
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  //this function makes an instant of authentication services and calls the backend with the idToken
+  Future callBEGoogle(String idToken) async {
+    bool isCaught = false;
+    final AuthService authService = AuthService();
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      User user = await authService.googleLogin(idToken);
+    } catch (e) {
+      isCaught = true;
+      setState(() {
+        _isLoading = false;
+      });
+      debugPrint(e.toString());
+      // ignore: use_build_context_synchronously
+      showDialog(
+          barrierDismissible: true,
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text("Error"),
+              content: Text(e.toString()),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          });
+    } finally {
+      if (isCaught == false) {
+        context.go("/home");
+      }
+    }
+  }
+
   final _passwdController = TextEditingController();
   final _emailController = TextEditingController();
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _confirmPassController = TextEditingController();
   bool _isLoading = false;
+
+  GoogleSignInAccount? _currentUser;
+  StreamSubscription<GoogleSignInAccount?>? _subscription;
+  @override
+  void initState() {
+    super.initState();
+    _subscription = googleSignIn.onCurrentUserChanged
+        .listen((GoogleSignInAccount? account) async {
+      _currentUser = account;
+      if (_currentUser != null) {
+        var googleKey = await account?.authentication;
+        var idToken = googleKey?.idToken;
+        callBEGoogle(idToken!);
+      }
+    });
+    googleSignIn.signInSilently();
+    googleSignIn.signOut();
+    //googleSignIn.disconnect();
+  }
+
+  @override
+  void dispose() {
+    _subscription?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -185,9 +271,9 @@ class _SignupFormState extends State<SignupForm> {
                             iconSource: "assets/icons/facebook.svg",
                             press: () async {}),
                         const SizedBox(width: 15),
-                        SocialMediaIcon(
-                            iconSource: "assets/icons/google.svg",
-                            press: () async {}),
+                        buildSignInButton(
+                          onPressed: _handleSignIn,
+                        ),
                       ],
                     ),
                   ),

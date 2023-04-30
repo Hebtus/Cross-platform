@@ -119,9 +119,12 @@ class AuthService {
     }
   }
 
-  Future<String> googleLogin() async {
-    Uri url = Uri.parse("$urlString/api/v1/oauth/login/google");
-    final Map<String, String> googleLoginHeaders = {
+  Future<User> googleLogin(String idToken) async {
+    Uri url = Uri.parse('https://hebtus.me/api/v1/oauth/login/google');
+    //the data sent
+    final Map<String, dynamic> loginData = {'tokenId': idToken};
+    //headers sent
+    final Map<String, String> loginHeaders = {
       "Content-Type": "application/json",
       "Accept": "application/json",
       'ngrok-skip-browser-warning': '1',
@@ -129,35 +132,73 @@ class AuthService {
 
     http.Response response;
     try {
-      response = await http.get(url, headers: googleLoginHeaders);
+      response = await http.post(url,
+          body: jsonEncode(loginData), headers: loginHeaders);
     } catch (e) {
       throw ("Something Went Wrong, Please Try Again Later");
     }
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      return "sucess";
+      Map userDataResponse = jsonDecode(response.body);
+      dynamic userData = userDataResponse["data"];
+      //setting the current user token
+      var token = userDataResponse["token"];
+      CurrentUser currentUser = CurrentUser();
+      currentUser.setToken(token);
+      //setting current user data
+      User user = User.fromJson(userData);
+      currentUser.setUser(user);
+      // print(token);
+      return user;
     } else {
       throw Exception(jsonDecode(response.body)["message"]);
     }
   }
 
-  Future<String> facebookLogin() async {
-    Uri url = Uri.parse("$urlString/api/v1/oauth/login/facebook");
-    final Map<String, String> facebookLoginHeaders = {
+  Future<User> facebookLogin(String idToken, String email) async {
+    http.Response fbResponse;
+    try {
+      fbResponse = await http.get(Uri.parse(
+          "https://graph.facebook.com/oauth/access_token?client_id=180177551591717&client_secret=f88a0c39201ba6b49e2181d934c6ac99&grant_type=client_credentials"));
+    } catch (e) {
+      throw ("Something Went Wrong, Please Try Again Later");
+    }
+    Map fbResponseBody = jsonDecode(fbResponse.body);
+    String appToken = fbResponseBody["access_token"];
+
+    Uri url = Uri.parse('https://hebtus.me/api/v1/oauth/login/facebook');
+    //the data sent
+    final Map<String, dynamic> loginData = {
+      'idToken': idToken,
+      "accessToken": appToken,
+      "email": email
+    };
+    //headers sent
+    final Map<String, String> loginHeaders = {
       "Content-Type": "application/json",
       "Accept": "application/json",
       'ngrok-skip-browser-warning': '1',
     };
-
     http.Response response;
     try {
-      response = await http.get(url, headers: facebookLoginHeaders);
+      response = await http.post(url,
+          body: jsonEncode(loginData), headers: loginHeaders);
     } catch (e) {
       throw ("Something Went Wrong, Please Try Again Later");
     }
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      return "success";
+      Map userDataResponse = jsonDecode(response.body);
+      dynamic userData = userDataResponse["data"];
+      //setting the current user token
+      var token = userDataResponse["token"];
+      CurrentUser currentUser = CurrentUser();
+      currentUser.setToken(token);
+      //setting current user data
+      User user = User.fromJson(userData);
+      currentUser.setUser(user);
+      // print(token);
+      return user;
     } else {
       throw Exception(jsonDecode(response.body)["message"]);
     }
