@@ -5,6 +5,7 @@ import 'package:hebtus_crossplatform/services/creator_service.dart';
 import '../../models/creator_events.dart';
 import 'components/creator_event_card.dart';
 import 'components/filter_events_bttn.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CreatorEventsScreen extends StatefulWidget {
   const CreatorEventsScreen({super.key});
@@ -14,67 +15,53 @@ class CreatorEventsScreen extends StatefulWidget {
 }
 
 class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
-  Future<List<CreatorEvent>>? events;
+  List<CreatorEvent> events = [];
+  //for pagination
+  final RefreshController refreshController =
+      RefreshController(initialRefresh: true);
+  final scrollController = ScrollController();
+  int currentPage = 1;
+  final int pageLimit = 5;
+  bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
-    CreatorService creatorService = CreatorService();
-    events = creatorService.getMultipleEvents(csv: false);
+    scrollController.addListener(_scrollListener);
+    fetchEvents();
   }
 
-  // final List<CreatorEvent> events = [
-  //   CreatorEvent(
-  //       eventID: "1",
-  //       eventName: "Hebtus Test Event",
-  //       imgURL: "assets/images/foodtruck.jpg",
-  //       startTime: DateTime(2023, 5, 5),
-  //       endTime: DateTime(2023, 6, 6),
-  //       location: Location(latitude: 23.23, longitude: 23.23),
-  //       locationName: "Cairo",
-  //       category: "Music",
-  //       isDraft: false),
-  //   CreatorEvent(
-  //       eventID: "1",
-  //       eventName: "Hebtus Launch Party",
-  //       imgURL: "assets/images/foodtruck.jpg",
-  //       startTime: DateTime(2023, 5, 5, 16, 0),
-  //       endTime: DateTime(2023, 6, 6),
-  //       location: Location(latitude: 23.23, longitude: 23.23),
-  //       locationName: "Cairo",
-  //       category: "Music",
-  //       isDraft: false),
-  //   CreatorEvent(
-  //       eventID: "1",
-  //       eventName: "Hebtus Hebtus Hebtus",
-  //       imgURL: "assets/images/foodtruck.jpg",
-  //       startTime: DateTime(2023, 5, 5),
-  //       endTime: DateTime(2023, 6, 6),
-  //       location: Location(latitude: 23.23, longitude: 23.23),
-  //       locationName: "Cairo",
-  //       category: "Music",
-  //       isDraft: false,
-  //       isPrivate: true),
-  //   CreatorEvent(
-  //       eventID: "1",
-  //       eventName: "More Hebtus Events",
-  //       imgURL: "assets/images/foodtruck.jpg",
-  //       startTime: DateTime(2023, 5, 5),
-  //       endTime: DateTime(2023, 6, 6),
-  //       location: Location(latitude: 23.23, longitude: 23.23),
-  //       locationName: "Cairo",
-  //       category: "Music",
-  //       isDraft: false),
-  //   CreatorEvent(
-  //       eventID: "1",
-  //       eventName: "Hebtus? Hebtus.",
-  //       imgURL: "assets/images/foodtruck.jpg",
-  //       startTime: DateTime(2023, 5, 5),
-  //       endTime: DateTime(2023, 6, 6),
-  //       location: Location(latitude: 23.23, longitude: 23.23),
-  //       locationName: "Cairo",
-  //       category: "Music",
-  //       isDraft: false),
-  // ];
+  void _scrollListener() async {
+    if (isLoading) return;
+    if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
+      setState(() {
+        isLoading = true;
+      });
+      await fetchEvents();
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  Future<bool> fetchEvents() async {
+    CreatorService creatorService = CreatorService();
+
+    try {
+      final newEvents = await creatorService.getMultipleEvents(
+          csv: false, limit: pageLimit, page: currentPage);
+      events.addAll(newEvents);
+      setState(() {});
+      print(events);
+      currentPage++;
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -94,44 +81,34 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
                     child: Text("Hey There,",
                         style: TextStyle(
                             fontSize: 40, fontWeight: FontWeight.bold)),
-                  ), //TODO: add user name
+                  ),
                 ),
                 const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: FilterEventsBttn(),
                 ),
-                FutureBuilder(
-                  future: events,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      if (snapshot.hasData) {
-                        return Container(
-                          constraints: BoxConstraints(
-                              maxHeight: mediaQuery.size.height * 0.7),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListView.separated(
-                                padding: EdgeInsets.zero,
-                                itemBuilder: ((context, index) =>
-                                    CreatorEventCard(
-                                        event: snapshot.data![index])),
-                                separatorBuilder: (context, index) =>
-                                    const SizedBox(height: 1),
-                                itemCount: snapshot.data!.length),
-                          ),
-                        );
-                      } else {
-                        return const Center(
-                          child: Text("No events to show"),
-                        );
-                      }
-                    } else {
-                      return Container(
-                        decoration: const BoxDecoration(color: Colors.white),
-                        child: const Center(child: CircularProgressIndicator()),
-                      );
-                    }
-                  },
+                Container(
+                  constraints:
+                      BoxConstraints(maxHeight: mediaQuery.size.height * 0.7),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.separated(
+                        controller: scrollController,
+                        padding: EdgeInsets.zero,
+                        itemBuilder: ((context, index) {
+                          if (index < events.length) {
+                            return CreatorEventCard(event: events[index]);
+                          } else {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        }),
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 1),
+                        itemCount:
+                            isLoading ? events.length + 1 : events.length),
+                  ),
                 )
               ],
             ),

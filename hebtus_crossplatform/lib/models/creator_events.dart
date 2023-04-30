@@ -46,17 +46,19 @@ class CreatorEvent {
         category = json['category'],
 
         //optional fields
-        description = json.containsKey('private') ? json['description'] : null,
-        isOnline = json.containsKey('private') ? json['online'] : false,
-        isDraft = json.containsKey('private') ? json['draft'] : false,
+        description =
+            json.containsKey('description') ? json['description'] : null,
+        isOnline = json.containsKey('online') ? json['online'] : false,
+        isDraft = json.containsKey('draft') ? json['draft'] : false,
         isPrivate = json.containsKey('private') ? json['private'] : false,
         goPublicDate = json.containsKey('goPublicDate')
             ? DateTime.parse(json['goPublicDate'])
             : null,
         ticketsSold =
             json.containsKey('ticketsSold') ? json['ticketsSold'] : null,
-        tags =
-            json.containsKey('tags') ? List<String>.from(json['tags']) : null;
+        tags = json.containsKey('tags')
+            ? (json['tags'] == null ? null : List<String>.from(json['tags']))
+            : null;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
