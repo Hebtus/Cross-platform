@@ -20,8 +20,9 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
   int currentPage = 1;
   final int pageLimit = 5;
   bool isLoading = false;
-  String filter = "upcoming";
+  String? filter = "future";
   bool isDownloading = false;
+  bool isRebuildPage = false;
 
   @override
   void initState() {
@@ -61,13 +62,18 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
     }
   }
 
-  void rebuildPage({String? filter}) {
+  void rebuildPage({String? filter}) async {
+    setState(() {
+      isRebuildPage = true;
+    });
     //reset pagination
     currentPage = 1;
     events = [];
-    this.filter = filter!;
-    fetchEvents();
-    setState(() {});
+    this.filter = filter;
+    await fetchEvents();
+    setState(() {
+      isRebuildPage = false;
+    });
   }
 
   void exportToCSV() async {
@@ -140,22 +146,36 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
                           maxHeight: mediaQuery.size.height * 0.7),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: ListView.separated(
-                            controller: scrollController,
-                            padding: EdgeInsets.zero,
-                            itemBuilder: ((context, index) {
-                              if (index < events.length) {
-                                return CreatorEventCard(event: events[index]);
-                              } else {
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }
-                            }),
-                            separatorBuilder: (context, index) =>
-                                const SizedBox(height: 1),
-                            itemCount:
-                                isLoading ? events.length + 1 : events.length),
+                        child: isRebuildPage
+                            ? const Center(
+                                child: CircularProgressIndicator(
+                                backgroundColor: Colors.transparent,
+                              ))
+                            : events.isEmpty
+                                ? const Center(
+                                    child: Text(
+                                    "No events to show",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ))
+                                : ListView.separated(
+                                    controller: scrollController,
+                                    padding: EdgeInsets.zero,
+                                    itemBuilder: ((context, index) {
+                                      if (index < events.length) {
+                                        return CreatorEventCard(
+                                            event: events[index]);
+                                      } else {
+                                        return const Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      }
+                                    }),
+                                    separatorBuilder: (context, index) =>
+                                        const SizedBox(height: 1),
+                                    itemCount: isLoading
+                                        ? events.length + 1
+                                        : events.length),
                       ),
                     )
                   ],

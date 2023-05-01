@@ -24,10 +24,6 @@ class _FilterEventsBttnState extends State<FilterEventsBttn> {
       child: Text("Past Events"),
     ),
     const PopupMenuItem<String>(
-      value: "Drafts",
-      child: Text("Drafts"),
-    ),
-    const PopupMenuItem<String>(
       value: "All Events",
       child: Text("All Events"),
     ),
@@ -61,13 +57,11 @@ class _FilterEventsBttnState extends State<FilterEventsBttn> {
                           });
                           //callback function to rebuild the page
                           if (value == "Upcoming Events") {
-                            widget.rebuildPage(filter: "upcoming");
+                            widget.rebuildPage(filter: "future");
                           } else if (value == "Past Events") {
                             widget.rebuildPage(filter: "past");
-                          } else if (value == "Drafts") {
-                            widget.rebuildPage(filter: "draft");
                           } else if (value == "All Events") {
-                            widget.rebuildPage(filter: "all");
+                            widget.rebuildPage(filter: null);
                           }
                         },
                         icon: Icon(Icons.filter_list, color: _buttonColor),
