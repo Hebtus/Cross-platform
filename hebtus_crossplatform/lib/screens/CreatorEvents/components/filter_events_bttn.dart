@@ -3,7 +3,9 @@ import 'package:go_router/go_router.dart';
 
 class FilterEventsBttn extends StatefulWidget {
   final void Function({String? filter}) rebuildPage;
-  const FilterEventsBttn({super.key, required this.rebuildPage});
+  final void Function() exportToCSV;
+  const FilterEventsBttn(
+      {super.key, required this.rebuildPage, required this.exportToCSV});
 
   @override
   State<FilterEventsBttn> createState() => _FilterEventsBttnState();
@@ -85,7 +87,9 @@ class _FilterEventsBttnState extends State<FilterEventsBttn> {
                   ]),
                   FittedBox(
                     child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          widget.exportToCSV();
+                        },
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [

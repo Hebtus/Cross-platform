@@ -1,6 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:hebtus_crossplatform/current_user.dart';
 import 'package:http/http.dart' as http;
+
+import 'package:url_launcher/url_launcher_string.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:path_provider/path_provider.dart';
 
 import '../constants.dart';
 import '../models/creator_events.dart';
@@ -76,7 +81,7 @@ class CreatorService {
     CurrentUser currentUser = CurrentUser();
     final Map<String, String> getEventsHeaders = {
       "Content-Type": "application/json",
-      "Accept": "application/json",
+      "Accept": "'text/csv, application/json",
       'ngrok-skip-browser-warning': '1',
       'token': currentUser.getToken(),
     };
@@ -90,9 +95,29 @@ class CreatorService {
     }
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      Map getEventsResponse = jsonDecode(response.body);
-      final data = getEventsResponse["data"]["events"] as List;
-      return data.map((json) => CreatorEvent.fromJson(json)).toList();
+      if (csv) {
+        final responseCsv = response.body;
+        if (kIsWeb) {
+          //final csvFile = const CsvToListConverter().convert(responseCsv);
+          final content = base64Encode(responseCsv.codeUnits);
+          final url = 'data:text/csv;base64,$content';
+
+          await launchUrlString(url);
+        } else {
+          String dir =
+              "${(await getExternalStorageDirectory())!.path}/mycsv.csv";
+          String file = dir;
+
+          File f = File(file);
+          await f.writeAsString(responseCsv);
+          print('CSV data written to file at ${f.path}');
+        }
+        return [];
+      } else {
+        Map getEventsResponse = jsonDecode(response.body);
+        final data = getEventsResponse["data"]["events"] as List;
+        return data.map((json) => CreatorEvent.fromJson(json)).toList();
+      }
     } else {
       throw Exception(jsonDecode(response.body)["message"]);
     }

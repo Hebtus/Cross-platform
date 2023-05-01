@@ -60,6 +60,10 @@ dependencies:
   google_sign_in_platform_interface: ^2.4.0
   flutter_facebook_auth: ^5.0.8
   pull_to_refresh: ^2.0.0
+  csv: ^5.0.2
+  url_launcher: ^6.1.10
+  flutter_file_downloader: ^1.1.2
+  path_provider: ^2.0.14
 
 dev_dependencies:
   flutter_test:
