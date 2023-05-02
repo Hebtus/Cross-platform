@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:hebtus_crossplatform/current_user.dart';
 import 'package:hebtus_crossplatform/models/user.dart';
 import 'package:http/http.dart' as http;
 import '../constants.dart';
+import '../models/notifications.dart';
 
 ///class that contains all the authentication services and functions that make api calls
 class AuthService {
@@ -41,6 +43,7 @@ class AuthService {
       //setting current user data
       User user = User.fromJson(userData);
       currentUser.setUser(user);
+
       return user;
     } else {
       throw Exception(jsonDecode(response.body)["message"]);
@@ -224,7 +227,37 @@ class AuthService {
     }
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      return "sucess";
+      return "success";
+    } else {
+      throw Exception(jsonDecode(response.body)["message"]);
+    }
+  }
+
+  Future<Notifications?> getNotifications() async {
+    Uri url = Uri.parse("$urlString/api/v1/notifications");
+    CurrentUser currentUser = CurrentUser();
+    final Map<String, String> notificationHeaders = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      'ngrok-skip-browser-warning': '1',
+      'token': currentUser.getToken(),
+    };
+
+    http.Response response;
+    try {
+      response = await http.get(url, headers: notificationHeaders);
+    } catch (e) {
+      throw ("Something Went Wrong, Please Try Again Later");
+    }
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      Map responseMap = jsonDecode(response.body);
+      dynamic notificationData = responseMap["notification"];
+      Notifications notif = Notifications.fromJson(notificationData);
+
+      return notif;
+    } else if (response.statusCode == 404) {
+      return null;
     } else {
       throw Exception(jsonDecode(response.body)["message"]);
     }
