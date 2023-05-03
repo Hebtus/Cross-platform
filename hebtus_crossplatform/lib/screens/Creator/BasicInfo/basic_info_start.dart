@@ -11,6 +11,8 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io' show File, Platform;
 import 'package:hebtus_crossplatform/models/creator_events.dart';
 import 'package:hebtus_crossplatform/models/location.dart';
+
+import '../../../current_user.dart';
 //notes for testing team:
 //this is where the event making will start
 //the user can write the event name only within the given limit
@@ -47,6 +49,7 @@ late ImagePicker picker;
 String imageUrl = '';
 String? filePath;
 File? imageObj;
+late var img;
 
 String _dropDownValue = "Music";
 String _dropDownValueStartTime = "02:00";
@@ -61,6 +64,12 @@ double _latitude = 0;
 double _longitude = 0;
 
 final apiKey = '8c0ae3cbd8fc449aab02e760ef906a5d';
+
+
+DateTime start=DateTime(2000);
+DateTime end=DateTime(2100);
+Location egypt=Location(longitude: 1, latitude: 2);
+ CreatorEvent eventdetails=CreatorEvent(eventID: '1', eventName:' eventName', imgURL: 'imgURL', startTime: start, endTime: end, location: egypt, locationName: 'locationName', category: 'category', isDraft: true);
 
 ///name:_selectDate
 ///Description:add a calender with start and end date to an icon
@@ -110,7 +119,7 @@ class _BasicInfoStartState extends State<BasicInfoStart> {
   }
 
   Future getImage() async {
-    late var img;
+
 
     img = await picker.pickImage(source: ImageSource.gallery);
     imageObj = File(img.path);
@@ -882,7 +891,7 @@ class _BasicInfoStartState extends State<BasicInfoStart> {
       bottomSheet: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: ElevatedButton(
-          onPressed: () {
+          onPressed: () async {
             setState(() {
               print(imageUploudedCheck);
               //enableVar = false;
@@ -910,7 +919,7 @@ class _BasicInfoStartState extends State<BasicInfoStart> {
                 double? sendLong = _longitude;
                 double? sendlat = _latitude;
                 Location eventLocation =
-                    Location(longitude: sendLong, latitude: sendlat);
+                Location(longitude: sendLong, latitude: sendlat);
 
                 CreatorEvent Eventdata = CreatorEvent(
                     eventID: '1',
@@ -925,8 +934,12 @@ class _BasicInfoStartState extends State<BasicInfoStart> {
                     isOnline: buttonOnlineEvent);
                 print(sendStart);
                 context.goNamed("basicinfo", extra: Eventdata);
+                eventdetails=Eventdata;
+
               }
             });
+            String result=await creatorData.createEvent(imageUrl,File(img.path),eventdetails);
+            print(result);
           },
           child: const Text('Save'),
         ),

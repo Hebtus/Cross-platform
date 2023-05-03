@@ -91,6 +91,17 @@ class AppRouter {
         return Publish(eventdetails: sample);
       },
     ),
+
+
+    GoRoute(
+      name: "dashboard",
+      path: "/dashboard",
+      builder: (context, state) {
+        CreatorEvent sample =
+        state.extra as CreatorEvent; // -> casting is important
+        return Dashboard(eventdetails: sample);
+      },
+    ),
     GoRoute(
       path: '/creatorhome',
       builder: (context, state) {

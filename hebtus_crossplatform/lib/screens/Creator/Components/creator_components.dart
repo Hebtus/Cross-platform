@@ -13,8 +13,8 @@ import '../../../current_user.dart';
 ///description:this methode will draw the upper appbar for all the event making pages
 ///return type:AppBar
 CurrentUser currentUser = CurrentUser();
-String intialName1 = currentUser.currentUser.firstName.substring(0, 1);
-String intialName2 = currentUser.currentUser.lastName.substring(0, 1);
+String initialName1 = currentUser.currentUser.firstName.isEmpty ? "" : currentUser.currentUser.firstName.substring(0, 1);
+String intialName2 = currentUser.currentUser.lastName.isEmpty ? "" : currentUser.currentUser.lastName.substring(0, 1);
 
 enum SampleItem2 {
   itemOne,
@@ -114,15 +114,15 @@ AppBar appBarModule(BuildContext context) {
       CircleAvatar(
         backgroundColor: Colors.blue,
         radius: 20,
-        child: intialName1 != null
+        child: initialName1  !=''&&initialName1  !=null
             ? Text(
-                '$intialName1$intialName2',
+                '$initialName1$intialName2',
                 style: TextStyle(
                   color: Colors.white,
                 ),
               )
             : Text(
-                'YK',
+                ' ',
                 style: TextStyle(
                   color: Colors.white,
                 ),
@@ -205,6 +205,16 @@ Drawer appDrawer(
           title: const Text('Publish'),
           onTap: () {
             context.goNamed("publish", extra: eventdetails);
+          },
+        ),
+        ListTile(
+          leading: Icon(
+            Icons.circle,
+            color: nameModule == "dashboard" ? Colors.orange : Colors.grey,
+          ),
+          title: const Text('dashboard'),
+          onTap: () {
+            context.goNamed("dashboard", extra: eventdetails);
           },
         ),
       ],

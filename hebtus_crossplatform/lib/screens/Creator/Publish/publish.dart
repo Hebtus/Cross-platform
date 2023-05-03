@@ -2,6 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Components/creator_components.dart';
 
 import '../../../models/creator_events.dart';
+import 'dart:convert';
+import 'dart:developer';
+import 'package:go_router/go_router.dart';
+import 'package:hebtus_crossplatform/screens/all_screens.dart';
+import 'package:http/http.dart' as http;
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io' show File, Platform;
+import 'package:hebtus_crossplatform/models/creator_events.dart';
+import 'package:hebtus_crossplatform/models/location.dart';
 
 enum radioButton { publicEv, privateEv }
 
@@ -77,10 +89,22 @@ class _PublishState extends State<Publish> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Image(
-                                          image: AssetImage(
-                                              "assets/images/temp2.jpg"),
-                                          fit: BoxFit.cover,
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(8),
+                                            child: kIsWeb
+                                                ? Image.network(
+                                              widget.eventdetails.imgURL,
+                                              fit: BoxFit.cover,
+                                              height: 200,
+                                            )
+                                                : Image.file(
+                                              File(widget.eventdetails.imgURL),
+                                              fit: BoxFit.cover,
+                                              height: 200,
+                                            ),
+                                          ),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.all(10.0),

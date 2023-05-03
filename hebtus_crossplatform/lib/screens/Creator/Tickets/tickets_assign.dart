@@ -504,11 +504,11 @@ class _TicketsState extends State<Tickets> {
   /// return type:Column
   DataRow promoCodetable(List promoList, int i) {
     return DataRow(cells: [
-      DataCell(Text(promoList[i]["name"])),
-      DataCell(Text(promoList[i]["codeType"])),
-      DataCell(Text(promoList[i]["discount"])),
-      DataCell(Text(promoList[i]["uses"])),
-      DataCell(Text(promoList[i]["status"])),
+        DataCell(Text(promoList[i]["name"])),
+        DataCell(Text(promoList[i]["codeType"])),
+        DataCell(Text(promoList[i]["discount"])),
+        DataCell(Text(promoList[i]["uses"])),
+        DataCell(Text(promoList[i]["status"])),
       DataCell(
         PopupMenuButton<SampleItem>(
           initialValue: selectedMenu,
@@ -612,7 +612,7 @@ class _TicketsState extends State<Tickets> {
                              try{
                                ticketsList = await creatorData.getCreatorEventTickets(
                                    eventID: "642fda172c9619b9850f7102",
-                                   limit: 10,
+                                   limit: 100,
                                    page: 1) as List<CreatorTicket>?;
                                context.goNamed("tickets", extra: widget.eventdetails);
 
