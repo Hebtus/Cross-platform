@@ -2,7 +2,7 @@ class AttendeeTicket {
   final String ticketID;
   final String name;
   final String type;
-  final int price;
+  final double price;
   final int currentReservations;
   final int capacity;
   final DateTime sellingEndTime;
@@ -18,7 +18,7 @@ class AttendeeTicket {
   );
 
   AttendeeTicket.fromJson(Map<String, dynamic> json)
-      : ticketID = json['ticketID'],
+      : ticketID = json['_id'],
         name = json['name'],
         type = json['type'],
         price = json['price'],
