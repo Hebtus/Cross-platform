@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:hebtus_crossplatform/current_user.dart';
+import 'package:hebtus_crossplatform/models/creator_bookings.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import '../constants.dart';
@@ -17,33 +18,6 @@ import 'package:path_provider/path_provider.dart';
 ///class that contains all the creator services and functions that make api calls
 ///
 class CreatorService {
-  // Future<String> createEvent(CreatorEvent event) async {
-  //   Uri url = Uri.parse('$urlString/api/v1/events/');
-  //
-  //   //headers sent
-  //   CurrentUser currentUser = CurrentUser();
-  //   final Map<String, String> createEventHeaders = {
-  //     "Content-Type": "application/json",
-  //     "Accept": "application/json",
-  //     'ngrok-skip-browser-warning': '1',
-  //     'token': currentUser.getToken(),
-  //   };
-  //   //createEventHeaders['cookie'] = currentUser.getToken();
-  //
-  //   http.Response response;
-  //   try {
-  //     response = await http.post(url,
-  //         body: jsonEncode(event.toJson()), headers: createEventHeaders);
-  //   } catch (e) {
-  //     throw ("Something Went Wrong, Please Try Again Later");
-  //   }
-  //   if (response.statusCode >= 200 || response.statusCode < 300) {
-  //     return jsonDecode(response.body)["message"];
-  //   } else {
-  //     throw Exception(jsonDecode(response.body)["message"]);
-  //   }
-  // }
-
   Future<CreatorEvent> getOneEvent(String eventID) async {
     Uri url = Uri.parse('$urlString/api/v1/creators/events/$eventID');
 
@@ -371,6 +345,149 @@ class CreatorService {
     try {
       response = await http.post(url,
           body: jsonEncode(addAttendeeData), headers: addAttendeeHeader);
+    } catch (e) {
+      throw ("Something Went Wrong, Please Try Again Later");
+    }
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return jsonDecode(response.body)["message"];
+    } else {
+      throw Exception(jsonDecode(response.body)["message"]);
+    }
+  }
+
+  Future<List<CreatorBooking>> getCreatorBookings({
+    required String eventID,
+    int? limit,
+    int? page,
+  }) async {
+    var queryParams = {'limit': limit, 'page': page};
+    queryParams.removeWhere((key, value) => value == null);
+
+    Uri url = Uri.parse(
+        "$urlString/api/v1/creators/events/$eventID/bookings/?${queryParams.entries.map((e) => '${e.key}=${e.value}').join('&')}");
+
+    //headers sent
+    CurrentUser currentUser = CurrentUser();
+    final Map<String, String> getBookingsHeaders = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      'ngrok-skip-browser-warning': '1',
+      'token': currentUser.getToken(),
+    };
+    //getTicketsHeaders['cookie'] = currentUser.getToken();
+
+    http.Response response;
+    try {
+      response = await http.get(url, headers: getBookingsHeaders);
+    } catch (e) {
+      throw ("Something Went Wrong, Please Try Again Later");
+    }
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      Map getTicketsResponse = jsonDecode(response.body);
+      final data = getTicketsResponse["data"]["bookings"] as List;
+      return data.map((json) => CreatorBooking.fromJson(json)).toList();
+    } else {
+      throw Exception(jsonDecode(response.body)["message"]);
+    }
+  }
+
+  Future<String> getCreatorBookingsCSV({
+    required String eventID,
+  }) async {
+    Uri url =
+        Uri.parse("$urlString/api/v1/creators/events/$eventID/bookings/csv");
+
+    //headers sent
+    CurrentUser currentUser = CurrentUser();
+    final Map<String, String> getBookingsHeaders = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      'ngrok-skip-browser-warning': '1',
+      'token': currentUser.getToken(),
+    };
+
+    http.Response response;
+    try {
+      response = await http.get(url, headers: getBookingsHeaders);
+    } catch (e) {
+      throw ("Something Went Wrong, Please Try Again Later");
+    }
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      final responseCsv = response.body;
+      if (kIsWeb) {
+        //final csvFile = const CsvToListConverter().convert(responseCsv);
+        final content = base64Encode(responseCsv.codeUnits);
+        final url = 'data:text/csv;base64,$content';
+
+        await launchUrlString(url);
+      } else {
+        String dir = "${(await getExternalStorageDirectory())!.path}/mycsv.csv";
+        String file = dir;
+
+        File f = File(file);
+        await f.writeAsString(responseCsv);
+        print('CSV data written to file at ${f.path}');
+      }
+      return "success";
+    } else {
+      throw Exception(jsonDecode(response.body)["message"]);
+    }
+  }
+
+  Future<String> editTicket(CreatorTicket ticket, String eventID) async {
+    Uri url = Uri.parse('$urlString/api/v1/tickets/${ticket.ticketID}');
+    //headers sent
+    CurrentUser currentUser = CurrentUser();
+    final Map<String, String> editTicketHeaders = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      'ngrok-skip-browser-warning': '1',
+      'token': currentUser.getToken(),
+    };
+
+    Map<String, dynamic> ticketMap = ticket.toJson();
+    ticketMap['eventID'] = eventID;
+
+    http.Response response;
+    try {
+      response = await http.patch(url,
+          body: jsonEncode(ticketMap), headers: editTicketHeaders);
+    } catch (e) {
+      throw ("Something Went Wrong, Please Try Again Later");
+    }
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return jsonDecode(response.body)["message"];
+    } else {
+      throw Exception(jsonDecode(response.body)["message"]);
+    }
+  }
+
+  Future<String> editEvent(
+      bool? privacy, final DateTime? goPublicDate, String eventID) async {
+    Uri url = Uri.parse('$urlString/api/v1/tickets/$eventID');
+    //headers sent
+    CurrentUser currentUser = CurrentUser();
+    final Map<String, String> editEventHeader = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      'ngrok-skip-browser-warning': '1',
+      'token': currentUser.getToken(),
+    };
+
+    Map<String, dynamic> eventMap = {};
+    if (privacy != null) {
+      eventMap["privacy"] = privacy;
+    }
+    if (goPublicDate != null) {
+      eventMap["goPublicDate"] = goPublicDate;
+    }
+
+    http.Response response;
+    try {
+      response = await http.patch(url,
+          body: jsonEncode(eventMap), headers: editEventHeader);
     } catch (e) {
       throw ("Something Went Wrong, Please Try Again Later");
     }
