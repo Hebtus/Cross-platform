@@ -87,11 +87,11 @@ class AttendeeService {
     }
   }
 
-  Future<List<AttendeeTicket>> getAttendeeEventTickets(
-    int eventID,
+  Future<List<AttendeeTicket>> getAttendeeEventTickets({
+    required String eventID,
     int? limit,
     int? page,
-  ) async {
+  }) async {
     var queryParams = {'limit': limit, 'page': page};
     queryParams.removeWhere((key, value) => value == null);
 

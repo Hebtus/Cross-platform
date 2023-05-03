@@ -10,6 +10,7 @@ import 'package:path_provider/path_provider.dart';
 import '../constants.dart';
 import '../models/creator_events.dart';
 import '../models/creator_tickets.dart';
+import '../models/sales.dart';
 
 ///class that contains all the creator services and functions that make api calls
 class CreatorService {
@@ -184,6 +185,41 @@ class CreatorService {
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       return jsonDecode(response.body)["message"];
+    } else {
+      throw Exception(jsonDecode(response.body)["message"]);
+    }
+  }
+
+  Future<Sales> getEventSales({
+    required String eventID,
+    int? limit,
+    int? page,
+  }) async {
+    var queryParams = {'limit': limit, 'page': page};
+    queryParams.removeWhere((key, value) => value == null);
+
+    Uri url = Uri.parse(
+        "$urlString/api/v1/creators/events/$eventID/sales/?${queryParams.entries.map((e) => '${e.key}=${e.value}').join('&')}");
+
+    //headers sent
+    CurrentUser currentUser = CurrentUser();
+    final Map<String, String> getSalesHeaders = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      'ngrok-skip-browser-warning': '1',
+      'token': currentUser.getToken(),
+    };
+
+    http.Response response;
+    try {
+      response = await http.get(url, headers: getSalesHeaders);
+    } catch (e) {
+      throw ("Something Went Wrong, Please Try Again Later");
+    }
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      Map getSalesResponse = jsonDecode(response.body);
+      final data = getSalesResponse["data"];
+      return Sales.fromJson(data);
     } else {
       throw Exception(jsonDecode(response.body)["message"]);
     }
