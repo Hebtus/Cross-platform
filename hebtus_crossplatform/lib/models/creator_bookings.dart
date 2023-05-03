@@ -1,10 +1,10 @@
-class TicketBooking {
+class CreatorBooking {
   final String ticketName;
   final String ticketType;
   final String bookingID;
   final String prefix;
   final Name name;
-  final int cellphone;
+  final String cellphone;
   final String guestEmail;
   final String homeAddress;
   final String shippingAddress;
@@ -12,7 +12,7 @@ class TicketBooking {
   final int quantity;
   final DateTime purchasedOn;
 
-  TicketBooking(
+  CreatorBooking(
     this.ticketName,
     this.ticketType,
     this.bookingID,
@@ -27,7 +27,7 @@ class TicketBooking {
     this.purchasedOn,
   );
 
-  TicketBooking.fromJson(Map<String, dynamic> json)
+  CreatorBooking.fromJson(Map<String, dynamic> json)
       : ticketName = json['ticketName'],
         ticketType = json['ticketType'],
         bookingID = json['bookingID'],

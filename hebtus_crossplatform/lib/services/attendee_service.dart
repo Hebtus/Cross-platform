@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../constants.dart';
 import '../current_user.dart';
+import '../models/attendee_bookings.dart';
 import '../models/attendee_event.dart';
 import '../models/attendee_tickets.dart';
 
@@ -118,6 +119,33 @@ class AttendeeService {
       Map getTicketsResponse = jsonDecode(response.body);
       final data = getTicketsResponse["data"]["tickets"] as List;
       return data.map((json) => AttendeeTicket.fromJson(json)).toList();
+    } else {
+      throw Exception(jsonDecode(response.body)["message"]);
+    }
+  }
+
+  Future<String> createBooking(AttendeeBooking booking) async {
+    Uri url = Uri.parse('$urlString/api/v1/bookings/');
+    //headers sent
+    CurrentUser currentUser = CurrentUser();
+    final Map<String, String> createBookingHeader = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      'ngrok-skip-browser-warning': '1',
+      'token': currentUser.getToken(),
+    };
+    Map<String, dynamic> bookingMap = booking.toJson();
+
+    http.Response response;
+    try {
+      response = await http.post(url,
+          body: jsonEncode(bookingMap), headers: createBookingHeader);
+    } catch (e) {
+      throw ("Something Went Wrong, Please Try Again Later");
+    }
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return jsonDecode(response.body)["message"];
     } else {
       throw Exception(jsonDecode(response.body)["message"]);
     }
