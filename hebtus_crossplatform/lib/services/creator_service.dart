@@ -270,12 +270,9 @@ class CreatorService {
     }
   }
 
-  Future<Sales> getEventSales({
-    required String eventID,
-    int? limit,
-    int? page,
-  }) async {
-    var queryParams = {'limit': limit, 'page': page};
+  Future<Sales> getEventSales(
+      {required String eventID, int? limit, int? page, bool? netsales}) async {
+    var queryParams = {'limit': limit, 'page': page, 'netsales': netsales};
     queryParams.removeWhere((key, value) => value == null);
 
     Uri url = Uri.parse(
