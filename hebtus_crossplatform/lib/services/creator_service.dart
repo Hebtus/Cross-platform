@@ -207,13 +207,16 @@ class CreatorService {
     return "help";
   }
 
-  Future<List<CreatorTicket>> getCreatorPromoCode({
+  Future<List<PromoCodes>> getCreatorPromoCode({
     required String eventID,
     int? limit,
     int? page,
   }) async {
-    Uri url =
-        Uri.parse("$urlString/api/v1/creators/events/$eventID/promocodes");
+    var queryParams = {'limit': limit, 'page': page};
+    queryParams.removeWhere((key, value) => value == null);
+
+    Uri url = Uri.parse(
+        "$urlString/api/v1/events/$eventID/promocodes/?${queryParams.entries.map((e) => '${e.key}=${e.value}').join('&')}");
 
     //headers sent
     CurrentUser currentUser = CurrentUser();
@@ -233,8 +236,8 @@ class CreatorService {
     }
     if (response.statusCode >= 200 && response.statusCode < 300) {
       Map getTicketsResponse = jsonDecode(response.body);
-      final data = getTicketsResponse["data"]["tickets"] as List;
-      return data.map((json) => CreatorTicket.fromJson(json)).toList();
+      final data = getTicketsResponse["data"]["promocodes"] as List;
+      return data.map((json) => PromoCodes.fromJson(json)).toList();
     } else {
       throw Exception(jsonDecode(response.body)["message"]);
     }
@@ -270,6 +273,34 @@ class CreatorService {
     }
   }
 
+  Future<String> sendCsv(File csvFile) async {
+    var request = http.MultipartRequest(
+        'POST', Uri.parse('https://hebtus.me/api/v1/promocodes/csv/'));
+    CurrentUser currentUser = CurrentUser();
+    final Map<String, String> headers = {
+      "Content-Type": "text/csv",
+      'ngrok-skip-browser-warning': '1',
+      'token': currentUser.getToken(),
+    };
+    request.headers.addAll(headers);
+    request.fields.addAll({'eventID': '644f8707f85590efba395624'});
+    // Add CSV file to request body
+    var csvStream = http.ByteStream(DelegatingStream(csvFile.openRead()));
+    var csvLength = await csvFile.length();
+    var csvMultipartFile = http.MultipartFile('csvFile', csvStream, csvLength,
+        filename: basename(csvFile.path));
+    request.files.add(csvMultipartFile);
+
+    // Send request and handle response
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
+    }
+    return "help";
+  }
+
   Future<Sales> getEventSales(
       {required String eventID,
       int? limit,
@@ -279,7 +310,7 @@ class CreatorService {
     queryParams.removeWhere((key, value) => value == null);
 
     Uri url = Uri.parse(
-        "$urlString/api/v1/creators/events/$eventID/sales/?${queryParams.entries.map((e) => '${e.key}=${e.value}').join('&')}");
+        "$urlString/api/v1/events/$eventID/sales/?${queryParams.entries.map((e) => '${e.key}=${e.value}').join('&')}");
 
     //headers sent
     CurrentUser currentUser = CurrentUser();
@@ -350,9 +381,9 @@ class CreatorService {
     }
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      return jsonDecode(response.body)["message"];
+      return jsonDecode(response.body)["status"];
     } else {
-      throw Exception(jsonDecode(response.body)["message"]);
+      throw Exception(jsonDecode(response.body)["status"]);
     }
   }
 
@@ -466,7 +497,7 @@ class CreatorService {
 
   Future<String> editEvent(bool? privacy, final DateTime? goPublicDate,
       String eventID, String? description, bool? draft) async {
-    Uri url = Uri.parse('$urlString/api/v1/tickets/$eventID');
+    Uri url = Uri.parse('$urlString/api/v1/events/$eventID');
     //headers sent
     CurrentUser currentUser = CurrentUser();
     final Map<String, String> editEventHeader = {
@@ -481,7 +512,7 @@ class CreatorService {
       eventMap["privacy"] = privacy;
     }
     if (goPublicDate != null) {
-      eventMap["goPublicDate"] = goPublicDate;
+      eventMap["goPublicDate"] = goPublicDate.toString();
     }
     if (description != null) {
       eventMap['description'] = description;
@@ -499,9 +530,45 @@ class CreatorService {
     }
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      return jsonDecode(response.body)["message"];
+      return jsonDecode(response.body)["status"];
     } else {
-      throw Exception(jsonDecode(response.body)["message"]);
+      throw Exception(jsonDecode(response.body)["status"]);
+    }
+  }
+
+  Future<String> deleteEvent(
+      bool? privacy, final DateTime? goPublicDate, String eventID) async {
+    Uri url = Uri.parse('$urlString/api/v1/creators/events/$eventID');
+
+    //headers sent
+    CurrentUser currentUser = CurrentUser();
+    final Map<String, String> deleteEventHeader = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      'ngrok-skip-browser-warning': '1',
+      'token': currentUser.getToken(),
+    };
+
+    Map<String, dynamic> eventMap = {};
+    if (privacy != null) {
+      eventMap["privacy"] = privacy;
+    }
+    if (goPublicDate != null) {
+      eventMap["goPublicDate"] = goPublicDate.toString();
+    }
+
+    http.Response response;
+    try {
+      response = await http.delete(url,
+          body: jsonEncode(eventMap), headers: deleteEventHeader);
+    } catch (e) {
+      throw ("Something Went Wrong, Please Try Again Later");
+    }
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return jsonDecode(response.body)["status"];
+    } else {
+      throw Exception(jsonDecode(response.body)["status"]);
     }
   }
 }

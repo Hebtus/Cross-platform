@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hebtus_crossplatform/current_user.dart';
 import 'package:hebtus_crossplatform/models/user.dart';
@@ -8,6 +9,11 @@ import '../models/notifications.dart';
 
 ///class that contains all the authentication services and functions that make api calls
 class AuthService {
+  http.Client _httpClient;
+
+  AuthService([http.Client? httpClient])
+      : _httpClient = httpClient ?? http.Client();
+
   Future<User> login(String email, String password) async {
     Uri url = Uri.parse('$urlString/api/v1/login');
     //the data sent
@@ -21,10 +27,9 @@ class AuthService {
       "Accept": "application/json",
       'ngrok-skip-browser-warning': '1',
     };
-
     http.Response response;
     try {
-      response = await http.post(url,
+      response = await _httpClient.post(url,
           body: jsonEncode(loginData), headers: loginHeaders);
     } catch (e) {
       throw ("Something Went Wrong, Please Try Again Later");
@@ -67,7 +72,7 @@ class AuthService {
 
     http.Response response;
     try {
-      response = await http.post(url,
+      response = await _httpClient.post(url,
           body: jsonEncode(signupData), headers: signupHeaders);
     } catch (e) {
       throw ("Something Went Wrong, Please Try Again Later");
@@ -107,7 +112,7 @@ class AuthService {
 
     http.Response response;
     try {
-      response = await http.post(url,
+      response = await _httpClient.post(url,
           body: jsonEncode(forgotPassData), headers: forgotPassHeaders);
     } catch (e) {
       throw ("Something Went Wrong, Please Try Again Later");
@@ -135,7 +140,7 @@ class AuthService {
 
     http.Response response;
     try {
-      response = await http.post(url,
+      response = await _httpClient.post(url,
           body: jsonEncode(loginData), headers: loginHeaders);
     } catch (e) {
       throw ("Something Went Wrong, Please Try Again Later");
@@ -161,7 +166,7 @@ class AuthService {
   Future<User> facebookLogin(String idToken, String email) async {
     http.Response fbResponse;
     try {
-      fbResponse = await http.get(Uri.parse(
+      fbResponse = await _httpClient.get(Uri.parse(
           "https://graph.facebook.com/oauth/access_token?client_id=180177551591717&client_secret=f88a0c39201ba6b49e2181d934c6ac99&grant_type=client_credentials"));
     } catch (e) {
       throw ("Something Went Wrong, Please Try Again Later");
@@ -184,7 +189,7 @@ class AuthService {
     };
     http.Response response;
     try {
-      response = await http.post(url,
+      response = await _httpClient.post(url,
           body: jsonEncode(loginData), headers: loginHeaders);
     } catch (e) {
       throw ("Something Went Wrong, Please Try Again Later");
@@ -221,7 +226,7 @@ class AuthService {
 
     http.Response response;
     try {
-      response = await http.get(url, headers: logoutHeaders);
+      response = await _httpClient.get(url, headers: logoutHeaders);
     } catch (e) {
       throw ("Something Went Wrong, Please Try Again Later");
     }
@@ -245,7 +250,7 @@ class AuthService {
 
     http.Response response;
     try {
-      response = await http.get(url, headers: notificationHeaders);
+      response = await _httpClient.get(url, headers: notificationHeaders);
     } catch (e) {
       throw ("Something Went Wrong, Please Try Again Later");
     }
