@@ -92,7 +92,7 @@ class AttendeeService {
     int? limit,
     int? page,
   }) async {
-    var queryParams = {'limit': limit, 'page': page};
+    var queryParams = {'page': page, 'limit': limit};
     queryParams.removeWhere((key, value) => value == null);
 
     Uri url = Uri.parse(

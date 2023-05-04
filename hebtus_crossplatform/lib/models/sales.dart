@@ -24,17 +24,15 @@ class SalesByType {
   final String ticketName;
   final String ticketType;
   final int price;
-  final int sold;
   final int capacity;
 
   SalesByType(this.ticketID, this.ticketName, this.ticketType, this.price,
-      this.sold, this.capacity);
+      this.capacity);
 
   SalesByType.fromJson(Map<String, dynamic> json)
-      : ticketID = json["ticketID"],
-        ticketName = json["ticketName"],
-        ticketType = json["TicketType"],
-        price = json["Price"],
-        sold = json["sold"],
+      : ticketID = json["_id"],
+        ticketName = json["name"],
+        ticketType = json["type"],
+        price = json["price"],
         capacity = json["capacity"];
 }
