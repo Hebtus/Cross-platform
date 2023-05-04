@@ -21,7 +21,7 @@ class AttendeeTicket {
       : ticketID = json['_id'],
         name = json['name'],
         type = json['type'],
-        price = json['price'],
+        price = (json['price']).toDouble(),
         currentReservations = json['currentReservations'],
         capacity = json['capacity'],
         sellingEndTime = DateTime.parse(json['sellingEndTime']);
