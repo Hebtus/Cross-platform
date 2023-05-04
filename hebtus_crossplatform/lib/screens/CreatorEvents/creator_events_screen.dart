@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hebtus_crossplatform/screens/all_screens.dart';
 
 import 'package:hebtus_crossplatform/services/creator_service.dart';
@@ -163,8 +164,13 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
                                     padding: EdgeInsets.zero,
                                     itemBuilder: ((context, index) {
                                       if (index < events.length) {
-                                        return CreatorEventCard(
-                                            event: events[index]);
+                                        return GestureDetector(
+                                          onTap: () => context.goNamed(
+                                              "dashboard",
+                                              extra: events[index]),
+                                          child: CreatorEventCard(
+                                              event: events[index]),
+                                        );
                                       } else {
                                         return const Center(
                                           child: CircularProgressIndicator(),

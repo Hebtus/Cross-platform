@@ -1,32 +1,30 @@
 class PromoCodes {
-  final String promocodeID;
-  final String code;
-  final int percentage;
+  final String eventID;
+  final String codeName;
+  final int discountOrPercentage;
+  final double discountAmount;
+  final double percentageAmount;
   final int limit;
-  final int uses;
 
-  PromoCodes(
-      this.promocodeID,
-      this.code,
-      this.percentage,
-      this.limit,
-      this.uses,
-      );
+  PromoCodes(this.eventID, this.codeName, this.discountOrPercentage,
+      this.discountAmount, this.percentageAmount, this.limit);
 
   PromoCodes.fromJson(Map<String, dynamic> json)
-      : promocodeID = json['promoCodeID'],
-        code = json['code'],
-        percentage = json['precentage'],
-        limit = json['limit'],
-        uses = json['uses'];
+      : eventID = json['eventID'],
+        codeName = json['codeName'],
+        discountOrPercentage = json['discountOrPercentage'],
+        discountAmount = json['discountAmount'],
+        percentageAmount = json['percentageAmount'],
+        limit = json['limit'];
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['promoCodeID'] = this.promocodeID;
-    data['code'] = this.code;
-    data['precentage'] = this.percentage;
-    data['limit'] = this.limit;
-    data['uses'] = this.uses;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['eventID'] = eventID;
+    data['codeName'] = codeName;
+    data['discountOrPercentage'] = discountOrPercentage;
+    data['discountAmount'] = discountAmount;
+    data['percentageAmount'] = percentageAmount;
+    data['limit'] = limit;
     return data;
   }
 }
