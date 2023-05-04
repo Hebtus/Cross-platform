@@ -316,7 +316,7 @@ class CreatorService {
     required int price,
     required int quantity,
   }) async {
-    Uri url = Uri.parse('$urlString/api/v1/bookings/');
+    Uri url = Uri.parse('$urlString/api/v1/bookings/add-attendee/');
     //the data sent
     final Map<String, dynamic> addAttendeeData = {
       'ticketID': ticketID,
@@ -464,8 +464,8 @@ class CreatorService {
     }
   }
 
-  Future<String> editEvent(
-      bool? privacy, final DateTime? goPublicDate, String eventID) async {
+  Future<String> editEvent(bool? privacy, final DateTime? goPublicDate,
+      String eventID, String? description, bool? draft) async {
     Uri url = Uri.parse('$urlString/api/v1/tickets/$eventID');
     //headers sent
     CurrentUser currentUser = CurrentUser();
@@ -482,6 +482,12 @@ class CreatorService {
     }
     if (goPublicDate != null) {
       eventMap["goPublicDate"] = goPublicDate;
+    }
+    if (description != null) {
+      eventMap['description'] = description;
+    }
+    if (draft != null) {
+      eventMap['draft'] = draft;
     }
 
     http.Response response;
