@@ -1,5 +1,6 @@
 class AttendeeBooking {
   final String eventID;
+  final String promoCode;
   final Name name;
   final String guestEmail;
   final String phoneNumber;
@@ -12,7 +13,8 @@ class AttendeeBooking {
       required this.guestEmail,
       required this.phoneNumber,
       required this.gender,
-      required this.bookings});
+      required this.bookings,
+      required this.promoCode});
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -20,6 +22,7 @@ class AttendeeBooking {
     data['name'] = name.toJson();
     data['guestEmail'] = guestEmail;
     data['phoneNumber'] = phoneNumber;
+    data['promoCode'] = promoCode;
     data['gender'] = gender;
     data['bookings'] = bookings.map((booking) => booking.toJson()).toList();
     return data;
