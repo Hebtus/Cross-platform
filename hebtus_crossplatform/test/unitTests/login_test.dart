@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hebtus_crossplatform/constants.dart';
+import 'package:hebtus_crossplatform/current_user.dart';
 import 'package:hebtus_crossplatform/models/user.dart';
 import 'package:hebtus_crossplatform/services/auth_service.dart';
 import 'package:http/http.dart' as http;
@@ -14,13 +15,13 @@ import 'login_test.mocks.dart';
 // Create new instances of this class in each test.
 @GenerateMocks([http.Client])
 void main() {
-  group('AuthServices', () {
+  group('Login tests', () {
     test('returns a User when the login call is successful', () async {
       final client = MockClient();
 
       // Use Mockito to return a successful response when it calls the
       // provided http.Client.
-      final vari = when(client.post(
+      when(client.post(
         Uri.parse('$urlString/api/v1/login'),
         headers: anyNamed('headers'),
         body: anyNamed('body'),
@@ -49,7 +50,7 @@ void main() {
 
       // Use Mockito to return a successful response when it calls the
       // provided http.Client.
-      final vari = when(client.post(
+      when(client.post(
         Uri.parse('$urlString/api/v1/login'),
         headers: anyNamed('headers'),
         body: anyNamed('body'),
@@ -90,6 +91,37 @@ void main() {
       )).thenAnswer((_) async => http.Response('Not Found', 404));
       AuthService authService = AuthService(client);
       expect(authService.login("email@gmail.com", "password"), throwsException);
+    });
+    test('token is returned correctly in current user object', () async {
+      final client = MockClient();
+
+      // Use Mockito to return a successful response when it calls the
+      // provided http.Client.
+      when(client.post(
+        Uri.parse('$urlString/api/v1/login'),
+        headers: anyNamed('headers'),
+        body: anyNamed('body'),
+      )).thenAnswer((_) async => http.Response(
+          jsonEncode({
+            "status": "success",
+            "token": "112",
+            "data": {
+              "user": {
+                "_id": "11",
+                "name": {"firstName": "name", "lastName": "lastname"},
+                "email": "email@gmail.com",
+                "locationName": "Faculty of Engineering, Cairo University",
+                "location": {
+                  "coordinates": [30.0594885, 31.2584644]
+                }
+              }
+            }
+          }),
+          200));
+      AuthService authService = AuthService(client);
+      var response = await authService.login("email@gmail.com", "password");
+      CurrentUser currentUser = CurrentUser();
+      expect(currentUser.token, "112");
     });
   });
 }

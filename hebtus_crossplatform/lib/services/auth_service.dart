@@ -91,7 +91,7 @@ class AuthService {
         //setting current user data
         User user = User.fromJson(userData);
         currentUser.setUser(user);
-        return "login";
+        return "success";
       } else {
         String message = signUpResponse["message"];
         return message;
