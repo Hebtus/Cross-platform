@@ -23,7 +23,7 @@ class CreatorTicket {
   });
 
   CreatorTicket.fromJson(Map<String, dynamic> json)
-      : ticketID = json['ticketID'],
+      : ticketID = json['_id'],
         name = json['name'],
         type = json['type'],
         price = json['price'],

@@ -28,15 +28,15 @@ class CreatorBooking {
   );
 
   CreatorBooking.fromJson(Map<String, dynamic> json)
-      : ticketName = json['ticketName'],
-        ticketType = json['ticketType'],
-        bookingID = json['bookingID'],
-        prefix = json['prefix'],
+      : ticketName = json['ticketID'],
+        ticketType = json['_id'],
+        bookingID = json['ticketID'],
+        prefix = json['_id'],
         name = Name.fromJson(json['name']),
-        cellphone = json['cellphone'],
+        cellphone = json['phoneNumber'],
         guestEmail = json['guestEmail'],
-        homeAddress = json['homeAddress'],
-        shippingAddress = json['shippingAddress'],
+        homeAddress = json['_id'],
+        shippingAddress = json['_id'],
         price = json['price'],
         quantity = json['quantity'],
         purchasedOn = DateTime.parse(json['purchasedOn']);

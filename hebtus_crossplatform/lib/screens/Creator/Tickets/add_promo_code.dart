@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hebtus_crossplatform/models/promocodes.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Components/creator_components.dart';
+import 'package:hebtus_crossplatform/screens/all_screens.dart';
 
 bool checkListRevealHiddenTickets = false;
 
@@ -14,10 +16,16 @@ PromoCodeEnd? _character2 = PromoCodeEnd.ticketEnd;
 enum ApplyCode { allVisible, onlyCertine }
 
 ApplyCode? _character3 = ApplyCode.allVisible;
+bool priceButton = true;
+bool percntagebutton = false;
+TextEditingController codeNameController = TextEditingController();
+TextEditingController priceController = TextEditingController();
+TextEditingController percentageController = TextEditingController();
+TextEditingController usesController = TextEditingController();
 
 class AddPromoCode extends StatefulWidget {
-  const AddPromoCode({Key? key}) : super(key: key);
-
+  const AddPromoCode({Key? key, required this.eventID}) : super(key: key);
+  final String eventID;
   @override
   State<AddPromoCode> createState() => _AddPromoCodeState();
 }
@@ -42,6 +50,7 @@ class _AddPromoCodeState extends State<AddPromoCode> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
+                controller: codeNameController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Code name',
@@ -54,21 +63,12 @@ class _AddPromoCodeState extends State<AddPromoCode> {
               const SizedBox(
                 height: 10,
               ),
-              DropdownButton(
-                isExpanded: true,
-                value: dropdownvalue,
-                icon: const Icon(Icons.keyboard_arrow_down),
-                items: items.map((String items) {
-                  return DropdownMenuItem(
-                    value: items,
-                    child: Text(items),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    dropdownvalue = newValue!;
-                  });
-                },
+              TextFormField(
+                controller: usesController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Number of uses',
+                ),
               ),
               const SizedBox(
                 height: 5,
@@ -78,17 +78,6 @@ class _AddPromoCodeState extends State<AddPromoCode> {
               const SizedBox(
                 height: 10,
               ),
-              CheckboxListTile(
-                title: const Text("Display number of tickets remaining."),
-                value: checkListRevealHiddenTickets,
-                onChanged: (newValue) {
-                  setState(() {
-                    checkListRevealHiddenTickets = newValue!;
-                  });
-                },
-                controlAffinity:
-                    ListTileControlAffinity.leading, //  <-- leading Checkbox
-              ),
               const Text(
                 'Discount amount',
                 style: TextStyle(
@@ -96,139 +85,70 @@ class _AddPromoCodeState extends State<AddPromoCode> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              TextFormField(
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: '\$',
-                ),
+              Row(
+                children: [
+                  ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          priceButton = true;
+                          percntagebutton = false;
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                      ),
+                      child: const Text('Price')),
+                  ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          priceButton = false;
+                          percntagebutton = true;
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                      ),
+                      child: const Text('Percentage')),
+                ],
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              const Center(
-                child: Text(
-                  'or',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+              if (priceButton) ...[
+                TextFormField(
+                  controller: priceController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: '\$',
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: '%',
+                const SizedBox(
+                  height: 10,
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const Text(
-                'Promo code starts',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+              ],
+              if (percntagebutton) ...[
+                TextFormField(
+                  controller: percentageController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: '%',
+                  ),
                 ),
-              ),
-              ListTile(
-                title: const Text('Now'),
-                leading: Radio<PromoCodeStart>(
-                  value: PromoCodeStart.now,
-                  groupValue: _character,
-                  onChanged: (PromoCodeStart? value) {
-                    setState(() {
-                      _character = value;
-                    });
-                  },
+                const SizedBox(
+                  height: 10,
                 ),
-              ),
-              ListTile(
-                title: const Text('Scheduled time'),
-                leading: Radio<PromoCodeStart>(
-                  value: PromoCodeStart.scheduledTime,
-                  groupValue: _character,
-                  onChanged: (PromoCodeStart? value) {
-                    setState(() {
-                      _character = value;
-                    });
-                  },
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const Text(
-                'Promo code ends',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              ListTile(
-                title: const Text('when tickets sales end'),
-                leading: Radio<PromoCodeEnd>(
-                  value: PromoCodeEnd.ticketEnd,
-                  groupValue: _character2,
-                  onChanged: (PromoCodeEnd? value) {
-                    setState(() {
-                      _character2 = value;
-                    });
-                  },
-                ),
-              ),
-              ListTile(
-                title: const Text('Scheduled time'),
-                leading: Radio<PromoCodeEnd>(
-                  value: PromoCodeEnd.scheduledTim,
-                  groupValue: _character2,
-                  onChanged: (PromoCodeEnd? value) {
-                    setState(() {
-                      _character2 = value;
-                    });
-                  },
-                ),
-              ),
-              const Text(
-                'Apply code to:',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              ListTile(
-                title: const Text('All visible tickets'),
-                leading: Radio<ApplyCode>(
-                  value: ApplyCode.allVisible,
-                  groupValue: _character3,
-                  onChanged: (ApplyCode? value) {
-                    setState(() {
-                      _character3 = value;
-                    });
-                  },
-                ),
-              ),
-              ListTile(
-                title: const Text('Only certain visible tickets'),
-                leading: Radio<ApplyCode>(
-                  value: ApplyCode.onlyCertine,
-                  groupValue: _character3,
-                  onChanged: (ApplyCode? value) {
-                    setState(() {
-                      _character3 = value;
-                    });
-                  },
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
+              ],
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    PromoCodes promo = PromoCodes(
+                        widget.eventID,
+                        codeNameController.text,
+                        priceButton ? 0 : 1,
+                        double.parse(priceController.text),
+                        double.parse(percentageController.text),
+                        int.parse(usesController.text));
+                    String result = await creatorData.createPromoCode(
+                        promo, widget.eventID);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white, // Background colo// r
                   ),

@@ -167,7 +167,7 @@ class CreatorService {
     }
   }
 
-  Future<String> createEvent(
+  Future<CreatorEvent> createEvent(
       String pathImage, File imageFile, CreatorEvent eventData) async {
     var request = http.MultipartRequest(
         'POST', Uri.parse('https://hebtus.me/api/v1/events/'));
@@ -185,26 +185,28 @@ class CreatorService {
       'startDate': eventData.startTime.toString(),
       'endDate': eventData.endTime.toString(),
       'category': eventData.category,
-      'location': eventData.location.longitude.toString() +
-          ',' +
-          eventData.location.longitude.toString()
+      'location':
+          '${eventData.location.longitude},${eventData.location.longitude}'
     });
-    var stream = new http.ByteStream(DelegatingStream(imageFile.openRead()));
+    var stream = http.ByteStream(DelegatingStream(imageFile.openRead()));
     var length = await imageFile.length();
-    var multipartFile = new http.MultipartFile('image', stream, length,
+    var multipartFile = http.MultipartFile('image', stream, length,
         filename: basename(imageFile.path));
     //request.files.add(await http.MultipartFile.fromPath('image', pathImage));
     //print( http.MultipartFile.fromPath('image', pathImage));
     //ayausamakhalifa@gmail.com
     request.files.add(multipartFile);
     http.StreamedResponse response = await request.send();
+    String body = await response.stream.transform(utf8.decoder).join();
 
     if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
+      Map getEventsResponse = jsonDecode(body);
+      final data = getEventsResponse["data"]["event"];
+      return CreatorEvent.fromJson(data);
+      //print(await response.stream.bytesToString());
     } else {
-      print(response.reasonPhrase);
+      throw Exception("something went wrong");
     }
-    return "help";
   }
 
   Future<List<PromoCodes>> getCreatorPromoCode({
@@ -396,7 +398,7 @@ class CreatorService {
     queryParams.removeWhere((key, value) => value == null);
 
     Uri url = Uri.parse(
-        "$urlString/api/v1/creators/events/$eventID/bookings/?${queryParams.entries.map((e) => '${e.key}=${e.value}').join('&')}");
+        "$urlString/api/v1/events/$eventID/bookings/?${queryParams.entries.map((e) => '${e.key}=${e.value}').join('&')}");
 
     //headers sent
     CurrentUser currentUser = CurrentUser();
@@ -542,7 +544,7 @@ class CreatorService {
 
     //headers sent
     CurrentUser currentUser = CurrentUser();
-    final Map<String, String> deleteEventHeader = {
+    final Map<String, String> editEventHeader = {
       "Content-Type": "application/json",
       "Accept": "application/json",
       'ngrok-skip-browser-warning': '1',
@@ -560,7 +562,7 @@ class CreatorService {
     http.Response response;
     try {
       response = await http.delete(url,
-          body: jsonEncode(eventMap), headers: deleteEventHeader);
+          body: jsonEncode(eventMap), headers: editEventHeader);
     } catch (e) {
       throw ("Something Went Wrong, Please Try Again Later");
     }

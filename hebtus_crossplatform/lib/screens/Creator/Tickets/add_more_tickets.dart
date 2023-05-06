@@ -18,9 +18,9 @@ DateTime selectedDate2 = DateTime.now();
 bool displayStartTime = false;
 bool displayEndTime = false;
 bool buttonRegular = true;
-bool buttonVIP= false;
+bool buttonVIP = false;
 
-CreatorService creatorData=CreatorService();
+CreatorService creatorData = CreatorService();
 
 TextEditingController nameController = TextEditingController();
 TextEditingController priceController = TextEditingController();
@@ -31,8 +31,8 @@ TextEditingController startTimeController = TextEditingController();
 TextEditingController endTimeController = TextEditingController();
 
 class AddMoreTickets extends StatefulWidget {
-  const AddMoreTickets({Key? key}) : super(key: key);
-
+  AddMoreTickets({Key? key, required this.eventID}) : super(key: key);
+  final String eventID;
   @override
   State<AddMoreTickets> createState() => _AddMoreTicketsState();
 }
@@ -94,7 +94,6 @@ class _AddMoreTicketsState extends State<AddMoreTickets> {
                         setState(() {
                           buttonRegular = true;
                           buttonVIP = false;
-
                         });
                       },
                       child: const Text('Regular'),
@@ -104,7 +103,6 @@ class _AddMoreTicketsState extends State<AddMoreTickets> {
                         setState(() {
                           buttonRegular = false;
                           buttonVIP = true;
-
                         });
                       },
                       child: const Text('VIP'),
@@ -302,8 +300,6 @@ class _AddMoreTicketsState extends State<AddMoreTickets> {
                   ),
                 ),
               ],
-
-
               const SizedBox(
                 height: 20,
               ),
@@ -329,13 +325,14 @@ class _AddMoreTicketsState extends State<AddMoreTickets> {
                         0);
                     CreatorTicket ticketData = CreatorTicket(
                         name: nameController.text,
-                        type: buttonRegular?"Regular":"VIP",
+                        type: buttonRegular ? "Regular" : "VIP",
                         price: int.parse(priceController.text),
                         capacity: int.parse(quntatityController.text),
                         sellingStartTime: startDate,
                         sellingEndTime: endDate);
-                   String result=await creatorData.createTicket(ticketData, "642fda172c9619b9850f7102");
-                   print(result);
+                    String result = await creatorData.createTicket(
+                        ticketData, widget.eventID);
+                    print(result);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white, // Background colo// r

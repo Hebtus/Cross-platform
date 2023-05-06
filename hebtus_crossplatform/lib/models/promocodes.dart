@@ -12,10 +12,11 @@ class PromoCodes {
   PromoCodes.fromJson(Map<String, dynamic> json)
       : eventID = json['eventID'],
         codeName = json['codeName'],
-        discountOrPercentage = json['discountOrPercentage'],
-        discountAmount = json['discountAmount'],
-        percentageAmount = json['percentageAmount'],
-        limit = json['limit'];
+        discountOrPercentage =
+            json['discountOrPercentage'].toString() == false ? 0 : 1,
+        discountAmount = double.parse(json['discountAmount'].toString()),
+        percentageAmount = double.parse(json['percentage'].toString()),
+        limit = int.parse(json['limits'].toString());
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -23,8 +24,8 @@ class PromoCodes {
     data['codeName'] = codeName;
     data['discountOrPercentage'] = discountOrPercentage;
     data['discountAmount'] = discountAmount;
-    data['percentageAmount'] = percentageAmount;
-    data['limit'] = limit;
+    data['percentage'] = percentageAmount;
+    data['limits'] = limit;
     return data;
   }
 }

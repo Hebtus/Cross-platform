@@ -65,6 +65,7 @@ dependencies:
   flutter_file_downloader: ^1.1.2
   path_provider: ^2.0.14
   build_runner: ^2.3.3
+  file_picker: ^5.2.11
 
 dev_dependencies:
   flutter_test:

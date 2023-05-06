@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:go_router/go_router.dart';
+import 'package:hebtus_crossplatform/models/promocodes.dart';
 import 'package:hebtus_crossplatform/screens/all_screens.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,6 +14,9 @@ import 'package:hebtus_crossplatform/models/creator_events.dart';
 import 'package:hebtus_crossplatform/models/location.dart';
 
 import '../../../current_user.dart';
+import '../../../models/creator_bookings.dart';
+import '../../../models/creator_tickets.dart';
+import '../../../models/sales.dart';
 //notes for testing team:
 //this is where the event making will start
 //the user can write the event name only within the given limit
@@ -65,11 +69,19 @@ double _longitude = 0;
 
 final apiKey = '8c0ae3cbd8fc449aab02e760ef906a5d';
 
-
-DateTime start=DateTime(2000);
-DateTime end=DateTime(2100);
-Location egypt=Location(longitude: 1, latitude: 2);
- CreatorEvent eventdetails=CreatorEvent(eventID: '1', eventName:' eventName', imgURL: 'imgURL', startTime: start, endTime: end, location: egypt, locationName: 'locationName', category: 'category', isDraft: true);
+DateTime start = DateTime(2000);
+DateTime end = DateTime(2100);
+Location egypt = Location(longitude: 1, latitude: 2);
+CreatorEvent eventdetails = CreatorEvent(
+    eventID: '1',
+    eventName: ' eventName',
+    imgURL: 'imgURL',
+    startTime: start,
+    endTime: end,
+    location: egypt,
+    locationName: 'locationName',
+    category: 'category',
+    isDraft: true);
 
 ///name:_selectDate
 ///Description:add a calender with start and end date to an icon
@@ -119,8 +131,6 @@ class _BasicInfoStartState extends State<BasicInfoStart> {
   }
 
   Future getImage() async {
-
-
     img = await picker.pickImage(source: ImageSource.gallery);
     imageObj = File(img.path);
     filePath = imageObj?.path;
@@ -919,10 +929,10 @@ class _BasicInfoStartState extends State<BasicInfoStart> {
                 double? sendLong = _longitude;
                 double? sendlat = _latitude;
                 Location eventLocation =
-                Location(longitude: sendLong, latitude: sendlat);
+                    Location(longitude: sendLong, latitude: sendlat);
 
                 CreatorEvent Eventdata = CreatorEvent(
-                    eventID: '1',
+                    eventID: '2',
                     eventName: eventName.text,
                     imgURL: imageUrl,
                     startTime: sendStart,
@@ -933,13 +943,14 @@ class _BasicInfoStartState extends State<BasicInfoStart> {
                     category: _dropDownValue,
                     isOnline: buttonOnlineEvent);
                 print(sendStart);
-                context.goNamed("basicinfo", extra: Eventdata);
-                eventdetails=Eventdata;
 
+                eventdetails = Eventdata;
               }
             });
-            String result=await creatorData.createEvent(imageUrl,File(img.path),eventdetails);
-            print(result);
+            eventdetails = await creatorData.createEvent(
+                imageUrl, File(img.path), eventdetails);
+            print(eventdetails);
+            context.goNamed("basicinfo", extra: eventdetails);
           },
           child: const Text('Save'),
         ),

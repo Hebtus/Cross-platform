@@ -1,19 +1,21 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hebtus_crossplatform/models/promocodes.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Components/creator_components.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Tickets/add_more_tickets.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Tickets/add_promo_code.dart';
 import 'package:hebtus_crossplatform/services/creator_service.dart';
+import 'package:file_picker/file_picker.dart';
 
 import '../../../models/creator_events.dart';
 import '../../../models/creator_tickets.dart';
 //notes for the testing team :
 //pressing the refresh button will make the get tickets request from the backend and the ticket cards will be viewed
 //press add ticket to navigate to the adding ticket page and make the create ticket request
-
 
 String pageTitle = 'Tickets';
 bool buttonAdmission = true;
@@ -34,8 +36,9 @@ List _itemsPromo = [];
 SampleItem? selectedMenu;
 SingingCharacter? _character = SingingCharacter.ticketEvent;
 
-CreatorService creatorData=CreatorService();
+CreatorService creatorData = CreatorService();
 List<CreatorTicket>? ticketsList;
+List<PromoCodes>? promoList;
 
 ///name:readJson
 ///Description:read a json file for tickets list from assets and added to a global variable
@@ -93,6 +96,19 @@ class _TicketsState extends State<Tickets> {
     });
   }
 
+  Future<void> pickAndSendCsv() async {
+    // Show file picker dialog
+    final pickedFile = await FilePicker.platform.pickFiles();
+
+    if (pickedFile != null) {
+      // Create File object from picked file path
+      File csvFile = File(pickedFile.files.single.path!);
+
+      // Call sendCsvAndJson function to upload file
+      await creatorData.sendCsv(csvFile);
+    }
+  }
+
   ///Description:this method returns the row of button tabs to navigate the tickets page
   /// return type:Column
   Column tabMenu() {
@@ -122,21 +138,6 @@ class _TicketsState extends State<Tickets> {
                   onPressed: () {
                     setState(() {
                       buttonAdmission = buttonAdmission ? false : false;
-                      buttonAddons = true;
-                      buttonPromoCode = buttonPromoCode ? false : false;
-                      buttonHold = buttonHold ? false : false;
-                      buttonSettings = buttonSettings ? false : false;
-                      pageTitle = 'Add-ons';
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                  ),
-                  child: const Text('Add-ons')),
-              ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      buttonAdmission = buttonAdmission ? false : false;
                       buttonAddons = buttonAddons ? false : false;
                       buttonPromoCode = true;
                       buttonHold = buttonHold ? false : false;
@@ -149,36 +150,6 @@ class _TicketsState extends State<Tickets> {
                     backgroundColor: Colors.white,
                   ),
                   child: const Text('Promo code')),
-              ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      buttonAdmission = buttonAdmission ? false : false;
-                      buttonAddons = buttonAddons ? false : false;
-                      buttonPromoCode = buttonPromoCode ? false : false;
-                      buttonHold = true;
-                      buttonSettings = buttonSettings ? false : false;
-                      pageTitle = 'Holds';
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                  ),
-                  child: const Text('Holds')),
-              ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      buttonAdmission = buttonAdmission ? false : false;
-                      buttonAddons = buttonAddons ? false : false;
-                      buttonPromoCode = buttonPromoCode ? false : false;
-                      buttonHold = buttonHold ? false : false;
-                      buttonSettings = true;
-                      pageTitle = 'Settings';
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                  ),
-                  child: const Text('Settings')),
             ],
           ),
         ),
@@ -460,7 +431,7 @@ class _TicketsState extends State<Tickets> {
                         ),
                         const Spacer(),
                         Text(
-                          ticketsList[i].capacity.toString()+'\$',
+                          ticketsList[i].capacity.toString() + '\$',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(fontSize: 20.0),
@@ -504,11 +475,45 @@ class _TicketsState extends State<Tickets> {
   /// return type:Column
   DataRow promoCodetable(List promoList, int i) {
     return DataRow(cells: [
-        DataCell(Text(promoList[i]["name"])),
-        DataCell(Text(promoList[i]["codeType"])),
-        DataCell(Text(promoList[i]["discount"])),
-        DataCell(Text(promoList[i]["uses"])),
-        DataCell(Text(promoList[i]["status"])),
+      DataCell(Text(promoList[i]["name"])),
+      DataCell(Text(promoList[i]["codeType"])),
+      DataCell(Text(promoList[i]["discount"])),
+      DataCell(Text(promoList[i]["uses"])),
+      DataCell(Text(promoList[i]["status"])),
+      DataCell(
+        PopupMenuButton<SampleItem>(
+          initialValue: selectedMenu,
+          // Callback that sets the selected popup menu item.
+          onSelected: (SampleItem item) {
+            setState(() {
+              selectedMenu = item;
+            });
+          },
+          itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
+            const PopupMenuItem<SampleItem>(
+              value: SampleItem.itemOne,
+              child: Text('edit'),
+            ),
+            const PopupMenuItem<SampleItem>(
+              value: SampleItem.itemThree,
+              child: Text('delete'),
+            ),
+          ],
+        ),
+      ),
+    ]);
+  }
+
+  DataRow promoCodetableWeb(List<PromoCodes> promoListWeb, int i) {
+    return DataRow(cells: [
+      DataCell(Text(promoListWeb[i].codeName)),
+      DataCell(Text(
+          promoListWeb[i].discountOrPercentage == 1 ? "percantage" : "price")),
+      DataCell(Text(promoListWeb[i].discountOrPercentage == 1
+          ? promoListWeb[i].percentageAmount.toString()
+          : promoListWeb[i].discountAmount.toString())),
+      DataCell(Text(promoListWeb[i].limit.toString())),
+      DataCell(Text("active")),
       DataCell(
         PopupMenuButton<SampleItem>(
           initialValue: selectedMenu,
@@ -535,7 +540,7 @@ class _TicketsState extends State<Tickets> {
 
   @override
   Widget build(BuildContext context) {
-    bool isLoading=false;
+    bool isLoading = false;
     return Scaffold(
         bottomSheet: SizedBox(
           width: MediaQuery.of(context).size.width,
@@ -549,163 +554,208 @@ class _TicketsState extends State<Tickets> {
         drawer: appDrawer(context, "Tickets", widget.eventdetails),
         body: SingleChildScrollView(
             child: SingleChildScrollView(
-          child:isLoading?
-          const Center(
-              child: CircularProgressIndicator(
-                backgroundColor: Colors.transparent,
-              )): Column(
-            children: [
-              sideMenuModule(_globalKey, pageTitle),
-              //for ( var i = 0; i < 10; i++ )  tabMenu(),
-              const SizedBox(
-                height: 10,
-              ),
-              tabMenu(),
+          child: isLoading
+              ? const Center(
+                  child: CircularProgressIndicator(
+                  backgroundColor: Colors.transparent,
+                ))
+              : Column(
+                  children: [
+                    sideMenuModule(_globalKey, pageTitle),
+                    //for ( var i = 0; i < 10; i++ )  tabMenu(),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    tabMenu(),
 
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      if (buttonAdmission) ...[
-                        for (int i = 0; i < _items.length; i++)
-                          ticketCard(_items, i),
-                        if (ticketsList != null) ...[
-                          for (int i = 0; i < ticketsList!.length; i++)
-                            ticketCardFromWeb(ticketsList!, i),
-                        ],
-                        const SizedBox(
-                          height: 50,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const AddMoreTickets()),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  Colors.white, // Background colo// r
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 10,
                             ),
-                            child: const Text(
-                              '+ Add more tickets',
-                              style: TextStyle(color: Colors.blueAccent),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: ElevatedButton(
-                            onPressed: ()async {
-                              setState(() {
-                                isLoading=true;
-                              });
-                              //readJson();
-                             try{
-                               ticketsList = await creatorData.getCreatorEventTickets(
-                                   eventID: "642fda172c9619b9850f7102",
-                                   limit: 100,
-                                   page: 1) as List<CreatorTicket>?;
-                               context.goNamed("tickets", extra: widget.eventdetails);
-
-                               print(ticketsList);
-
-
-
-                              }catch(e){
-
-                               setState(() {
-                                 isLoading=false;
-                               });
-                             }finally{
-
-                               setState(() {
-                                 isLoading=false;
-                               });
-
-
-                             }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  Colors.white, // Background colo// r
-                            ),
-                            child: const Text(
-                              'Refresh',
-                              style: TextStyle(color: Colors.blueAccent),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 50,
-                        ),
-                      ],
-                      if (buttonAddons) ...[],
-                      if (buttonPromoCode) ...[
-                        ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const AddPromoCode()),
-                              );
-                            },
-                            child: const Text('Add a code')),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: DataTable(columns: const [
-                            DataColumn(
-                                label: Text('Name',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold))),
-                            DataColumn(
-                                label: Text('Code type',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold))),
-                            DataColumn(
-                                label: Text('Discount',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold))),
-                            DataColumn(
-                                label: Text('Uses',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold))),
-                            DataColumn(
-                                label: Text('Status',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold))),
-                            DataColumn(
-                                label: Text('Options',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold))),
-                          ], rows: [
-                            for (int i = 0; i < _itemsPromo.length; i++)
-                              promoCodetable(_itemsPromo, i),
+                            if (buttonAdmission) ...[
+                              // for (int i = 0; i < _items.length; i++)
+                              //   ticketCard(_items, i),
+                              if (ticketsList != null) ...[
+                                for (int i = 0; i < ticketsList!.length; i++)
+                                  ticketCardFromWeb(ticketsList!, i),
+                              ],
+                              const SizedBox(
+                                height: 50,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AddMoreTickets(
+                                              eventID:
+                                                  widget.eventdetails.eventID)),
+                                    );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        Colors.white, // Background colo// r
+                                  ),
+                                  child: const Text(
+                                    '+ Add more tickets',
+                                    style: TextStyle(color: Colors.blueAccent),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                    //readJson();
+                                    try {
+                                      ticketsList = await creatorData
+                                          .getCreatorEventTickets(
+                                              eventID:
+                                                  widget.eventdetails.eventID,
+                                              limit: 100,
+                                              page: 1) as List<CreatorTicket>?;
+                                      context.goNamed("tickets",
+                                          extra: widget.eventdetails);
+                                    } catch (e) {
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                    } finally {
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        Colors.white, // Background colo// r
+                                  ),
+                                  child: const Text(
+                                    'Refresh',
+                                    style: TextStyle(color: Colors.blueAccent),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 50,
+                              ),
+                            ],
+                            if (buttonAddons) ...[],
+                            if (buttonPromoCode) ...[
+                              ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AddPromoCode(
+                                              eventID:
+                                                  widget.eventdetails.eventID)),
+                                    );
+                                  },
+                                  child: const Text('Add a code')),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    pickAndSendCsv();
+                                  },
+                                  child: const Text('upload CSV')),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                    //readJson();
+                                    try {
+                                      promoList =
+                                          await creatorData.getCreatorPromoCode(
+                                              eventID:
+                                                  widget.eventdetails.eventID,
+                                              limit: 100,
+                                              page: 1);
+                                      print(promoList);
+                                      context.goNamed("tickets",
+                                          extra: widget.eventdetails);
+                                    } catch (e) {
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                    } finally {
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        Colors.white, // Background colo// r
+                                  ),
+                                  child: const Text(
+                                    'Refresh',
+                                    style: TextStyle(color: Colors.blueAccent),
+                                  ),
+                                ),
+                              ),
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: DataTable(columns: const [
+                                  DataColumn(
+                                      label: Text('Name',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold))),
+                                  DataColumn(
+                                      label: Text('Code type',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold))),
+                                  DataColumn(
+                                      label: Text('Discount',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold))),
+                                  DataColumn(
+                                      label: Text('Uses',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold))),
+                                  DataColumn(
+                                      label: Text('Status',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold))),
+                                  DataColumn(
+                                      label: Text('Options',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold))),
+                                ], rows: [
+                                  for (int i = 0; i < _itemsPromo.length; i++)
+                                    promoCodetable(_itemsPromo, i),
+                                  if (promoList != null) ...[
+                                    for (int i = 0; i < promoList!.length; i++)
+                                      promoCodetableWeb(promoList!, i),
+                                  ],
+                                ]),
+                              )
+                            ],
+                            if (buttonHold) ...[],
+                            if (buttonSettings) ...[
+                              tabSettings(),
+                            ],
                           ]),
-                        )
-                      ],
-                      if (buttonHold) ...[],
-                      if (buttonSettings) ...[
-                        tabSettings(),
-                      ],
-                    ]),
-              ),
-            ],
-          ),
+                    ),
+                  ],
+                ),
         )));
   }
 }

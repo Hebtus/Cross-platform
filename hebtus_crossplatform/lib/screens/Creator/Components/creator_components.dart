@@ -12,9 +12,6 @@ import '../../../current_user.dart';
 
 ///description:this methode will draw the upper appbar for all the event making pages
 ///return type:AppBar
-CurrentUser currentUser = CurrentUser();
-String initialName1 = currentUser.currentUser.firstName.isEmpty ? "" : currentUser.currentUser.firstName.substring(0, 1);
-String intialName2 = currentUser.currentUser.lastName.isEmpty ? "" : currentUser.currentUser.lastName.substring(0, 1);
 
 enum SampleItem2 {
   itemOne,
@@ -22,6 +19,14 @@ enum SampleItem2 {
 }
 
 AppBar appBarModule(BuildContext context) {
+  CurrentUser currentUser = CurrentUser();
+  String initialName1 = currentUser.currentUser.firstName.isEmpty
+      ? ""
+      : currentUser.currentUser.firstName.substring(0, 1);
+  String intialName2 = currentUser.currentUser.lastName.isEmpty
+      ? ""
+      : currentUser.currentUser.lastName.substring(0, 1);
+
   return AppBar(
     automaticallyImplyLeading: false,
     title: Padding(
@@ -114,7 +119,7 @@ AppBar appBarModule(BuildContext context) {
       CircleAvatar(
         backgroundColor: Colors.blue,
         radius: 20,
-        child: initialName1  !=''&&initialName1  !=null
+        child: initialName1 != '' && initialName1 != null
             ? Text(
                 '$initialName1$intialName2',
                 style: TextStyle(

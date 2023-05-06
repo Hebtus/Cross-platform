@@ -90,20 +90,26 @@ class _PublishState extends State<Publish> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20),
                                           child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(8),
-                                            child: kIsWeb
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            child: kIsWeb ||
+                                                    widget.eventdetails.imgURL
+                                                            .substring(0, 4) ==
+                                                        "http"
                                                 ? Image.network(
-                                              widget.eventdetails.imgURL,
-                                              fit: BoxFit.cover,
-                                              height: 200,
-                                            )
+                                                    widget.eventdetails.imgURL,
+                                                    fit: BoxFit.cover,
+                                                    height: 200,
+                                                  )
                                                 : Image.file(
-                                              File(widget.eventdetails.imgURL),
-                                              fit: BoxFit.cover,
-                                              height: 200,
-                                            ),
+                                                    File(widget
+                                                        .eventdetails.imgURL),
+                                                    fit: BoxFit.cover,
+                                                    height: 200,
+                                                  ),
                                           ),
                                         ),
                                         Padding(
@@ -113,7 +119,7 @@ class _PublishState extends State<Publish> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                "testing website",
+                                                widget.eventdetails.eventName,
                                                 style: TextStyle(
                                                   fontSize: 20,
                                                   fontWeight: FontWeight.bold,
@@ -123,7 +129,8 @@ class _PublishState extends State<Publish> {
                                                 height: 5,
                                               ),
                                               Text(
-                                                "Saturday, April 15, 2023 at 7:00 PM EET",
+                                                widget.eventdetails.startTime
+                                                    .toString(),
                                                 overflow: TextOverflow.ellipsis,
                                               ),
                                               SizedBox(
@@ -131,7 +138,8 @@ class _PublishState extends State<Publish> {
                                               ),
 
                                               Text(
-                                                "online event",
+                                                widget
+                                                    .eventdetails.locationName,
                                                 overflow: TextOverflow.ellipsis,
                                               ),
                                               SizedBox(
@@ -183,192 +191,21 @@ class _PublishState extends State<Publish> {
                 SizedBox(
                   height: 10,
                 ),
-                Text(
-                  "Who can see the event?",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                ListTile(
-                  title: const Text('Public'),
-                  leading: Radio<radioButton>(
-                    value: radioButton.publicEv,
-                    groupValue: _character,
-                    onChanged: (radioButton? value) {
-                      setState(() {
-                        _character = value;
-                      });
-                    },
-                  ),
-                ),
-                ListTile(
-                  title: const Text('Private'),
-                  leading: Radio<radioButton>(
-                    value: radioButton.privateEv,
-                    groupValue: _character,
-                    onChanged: (radioButton? value) {
-                      setState(() {
-                        _character = value;
-                      });
-                    },
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Text(
-                  "Choose your audience",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                DropdownButton(
-                  hint: _dropDownValue == null
-                      ? Text('Any one with link')
-                      : Text(
-                          _dropDownValue!,
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                  isExpanded: true,
-                  iconSize: 30.0,
-                  style: TextStyle(color: Colors.blue),
-                  items: ['Any one with link', 'only people with the password']
-                      .map(
-                    (val) {
-                      return DropdownMenuItem<String>(
-                        value: val,
-                        child: Text(val),
-                      );
-                    },
-                  ).toList(),
-                  onChanged: (val) {
-                    setState(
-                      () {
-                        _dropDownValue = val;
-                      },
-                    );
+                ElevatedButton(
+                  onPressed: () async {
+                    String response = await creatorData.editEvent(
+                        true,
+                        widget.eventdetails.goPublicDate,
+                        widget.eventdetails.eventID,
+                        "temp",
+                        false) as String;
                   },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                if (_dropDownValue == 'only people with the password') ...[
-                  TextFormField(
-                    maxLength: 50,
-                    onChanged: (String value) {
-                      setState(() {});
-                    },
-                    decoration: InputDecoration(
-                      labelText:
-                          'Password', //hint addressa dispappers while the lable remains
-                      border: const OutlineInputBorder(),
-                    ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white, // Background colo// r
                   ),
-                ],
-                SizedBox(
-                  height: 30,
-                ),
-                Text(
-                  "Will this event ever be public?",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                ListTile(
-                  title: const Text('No, keep it private'),
-                  leading: Radio<radioButton2>(
-                    value: radioButton2.privateEv2,
-                    groupValue: _character2,
-                    onChanged: (radioButton2? value) {
-                      setState(() {
-                        _character2 = value;
-                      });
-                    },
-                  ),
-                ),
-                ListTile(
-                  title: const Text('Yes, schedule to share publicly'),
-                  leading: Radio<radioButton2>(
-                    value: radioButton2.publicEv2,
-                    groupValue: _character2,
-                    onChanged: (radioButton2? value) {
-                      setState(() {
-                        _character2 = value;
-                      });
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                if (_character2 == radioButton2.privateEv2) ...[
-                  TextFormField(
-                    enabled: false,
-                    controller: _date,
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      hintText: 'Event starts',
-                      prefixIcon: IconButton(
-                        icon: const Icon(Icons.calendar_today),
-                        onPressed: () {
-                          _selectDate(context);
-                        },
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    enabled: false,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Start time',
-                    ),
-                  ),
-                ],
-                if (_character2 == radioButton2.publicEv2) ...[
-                  TextFormField(
-                    enabled: true,
-                    controller: _date,
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      hintText: 'Event starts',
-                      prefixIcon: IconButton(
-                        icon: const Icon(Icons.calendar_today),
-                        onPressed: () {
-                          _selectDate(context);
-                        },
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    enabled: true,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Start time',
-                    ),
-                  ),
-                ],
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  "Time zone is the same as your event's",
-                  style: TextStyle(
-                    fontSize: 15,
+                  child: const Text(
+                    'Publish The event',
+                    style: TextStyle(color: Colors.blueAccent),
                   ),
                 ),
               ],

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hebtus_crossplatform/screens/all_screens.dart';
+import 'package:hebtus_crossplatform/services/auth_service.dart';
 
 import 'package:hebtus_crossplatform/services/creator_service.dart';
 import '../../models/creator_events.dart';
+import '../../models/notifications.dart';
 import 'components/creator_event_card.dart';
 import 'components/filter_events_bttn.dart';
 
@@ -56,11 +58,39 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
       setState(() {});
       //print(events);
       currentPage++;
-
-      return true;
     } catch (e) {
       return false;
     }
+
+    // //get notifications
+    // AuthService authService = AuthService();
+    // try {
+    //   Notifications? notif = await authService.getNotifications();
+    //   if (notif == null) {
+    //     //display popup
+    //     // ignore: use_build_context_synchronously
+    //     showDialog(
+    //         barrierDismissible: true,
+    //         context: context,
+    //         builder: (BuildContext context) {
+    //           return AlertDialog(
+    //             title: const Text("Error"),
+    //             content: const Text("you have been invited to an event!"),
+    //             actions: [
+    //               TextButton(
+    //                 onPressed: () {
+    //                   Navigator.pop(context);
+    //                 },
+    //                 child: const Text('OK'),
+    //               ),
+    //             ],
+    //           );
+    //         });
+    //   }
+    // } catch (e) {
+    //   //catch any error from notifications
+    // }
+    return true;
   }
 
   void rebuildPage({String? filter}) async {

@@ -572,13 +572,13 @@ class _BasicInfoState extends State<BasicInfo> {
         const SizedBox(
           height: 10,
         ),
-        ElevatedButton(
-          onPressed: () {
-            myAlert();
-            print(filePath);
-          },
-          child: Text('Upload Photo'),
-        ),
+        // ElevatedButton(
+        //   onPressed: () {
+        //     myAlert();
+        //     print(filePath);
+        //   },
+        //   child: Text('Upload Photo'),
+        // ),
         SizedBox(
           height: 10,
         ),
@@ -587,7 +587,8 @@ class _BasicInfoState extends State<BasicInfo> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
-                  child: kIsWeb
+                  child: kIsWeb ||
+                          widget.eventdetails.imgURL.substring(0, 4) == "http"
                       ? Image.network(
                           img!,
                           fit: BoxFit.cover,
