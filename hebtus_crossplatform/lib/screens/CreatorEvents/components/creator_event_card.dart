@@ -136,7 +136,8 @@ class CreatorEventCard extends StatelessWidget {
             mediaQuery.size.width > widthConst
                 ? event.ticketsAvailable != null &&
                         event.ticketsAvailable == '1' &&
-                        event.isDraft == false
+                        event.isDraft == false &&
+                        event.endTime.isAfter(DateTime.now())
                     ? Expanded(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
