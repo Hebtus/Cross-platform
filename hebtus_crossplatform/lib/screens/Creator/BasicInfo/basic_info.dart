@@ -1,4 +1,4 @@
-import 'dart:convert';
+  import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 
@@ -257,14 +257,6 @@ class _BasicInfoState extends State<BasicInfo> {
             counterText: '$tagsCount/25',
           ),
         ),
-        OutlinedButton(
-          onPressed: () {},
-          style: OutlinedButton.styleFrom(),
-          child: const Text(
-            'Add',
-            style: TextStyle(color: Colors.black),
-          ),
-        ),
       ],
     );
   }
@@ -322,15 +314,7 @@ class _BasicInfoState extends State<BasicInfo> {
               const SizedBox(
                 width: 10,
               ),
-              OutlinedButton(
-                  onPressed: () {
-                    setState(() {
-                      buttonToBeAnnounced = true;
-                      buttonVenue = buttonVenue ? false : false;
-                      buttonOnlineEvent = buttonVenue ? false : false;
-                    });
-                  },
-                  child: const Text('To be annonced')),
+
             ],
           ),
         ),
@@ -355,7 +339,7 @@ class _BasicInfoState extends State<BasicInfo> {
           const Text(
               'Online events have unique event pages where you can add links to livestreams and more'),
         ],
-        if (buttonToBeAnnounced) ...[],
+
         const Divider(
           thickness: 1,
         ),
@@ -404,14 +388,6 @@ class _BasicInfoState extends State<BasicInfo> {
               const SizedBox(
                 width: 10,
               ),
-              OutlinedButton(
-                  onPressed: () {
-                    setState(() {
-                      buttonRecurringEvent = !buttonRecurringEvent;
-                      buttonSingleEvent = buttonSingleEvent ? false : false;
-                    });
-                  },
-                  child: const Text('Recurring Event')),
             ],
           ),
         ),
@@ -482,77 +458,8 @@ class _BasicInfoState extends State<BasicInfo> {
               hintText: 'End time',
             ),
           ),
-          CheckboxListTile(
-            title: const Text("Display start time"),
-            value: displayStartTime,
-            onChanged: (newValue) {
-              setState(() {
-                displayStartTime = newValue!;
-              });
-            },
-            controlAffinity:
-                ListTileControlAffinity.leading, //  <-- leading Checkbox
-          ),
-          CheckboxListTile(
-            title: const Text("Display end time"),
-            value: displayEndTime,
-            onChanged: (newValue) {
-              setState(() {
-                displayEndTime = newValue!;
-              });
-            },
-            controlAffinity:
-                ListTileControlAffinity.leading, //  <-- leading Checkbox
-          ),
-          TextFormField(
-            enabled: enableVar,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'Time zone',
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          TextFormField(
-            enabled: enableVar,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'Event page languge',
-            ),
-          ),
-        ],
-        if (buttonRecurringEvent) ...[
-          const Text(
-              'You’ll be able to set a schedule for your recurring event in the next step. Event details and ticket types will apply to all instances.'),
-          CheckboxListTile(
-            title: const Text("Display end time"),
-            value: displayEndTime,
-            onChanged: (newValue) {
-              setState(() {
-                displayEndTime = newValue!;
-              });
-            },
-            controlAffinity:
-                ListTileControlAffinity.leading, //  <-- leading Checkbox
-          ),
-          TextFormField(
-            enabled: enableVar,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'Time zone',
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          TextFormField(
-            enabled: enableVar,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'Event page languge',
-            ),
-          ),
+
+
         ],
       ],
     );

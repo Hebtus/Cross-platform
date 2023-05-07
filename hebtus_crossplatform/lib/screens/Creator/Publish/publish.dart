@@ -199,9 +199,12 @@ class _PublishState extends State<Publish> {
                         widget.eventdetails.eventID,
                         "temp",
                         false) as String;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('The event is now published')),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white, // Background colo// r
+                    backgroundColor: Colors.white, // Background color
                   ),
                   child: const Text(
                     'Publish The event',

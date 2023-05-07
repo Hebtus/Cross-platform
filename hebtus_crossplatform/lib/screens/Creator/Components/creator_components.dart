@@ -47,22 +47,8 @@ AppBar appBarModule(BuildContext context) {
     backgroundColor: Colors.white,
     elevation: 0,
     actions: [
-      IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.visibility,
-            color: Colors.grey[400],
-            size: 35,
-          )), //on pressed needs an annonymus function or a normal one can be used
-      IconButton(
-          onPressed: () {
-            print(currentUser);
-          },
-          icon: Icon(
-            Icons.apps,
-            color: Colors.grey[400],
-            size: 35,
-          )),
+   //on pressed needs an annonymus function or a normal one can be used
+
       PopupMenuButton<SampleItem2>(
         itemBuilder: (BuildContext context) {
           return <PopupMenuEntry<SampleItem2>>[
@@ -157,7 +143,7 @@ Drawer appDrawer(
           decoration: BoxDecoration(
             color: Colors.white,
           ),
-          child: Text('Drawer Header'),
+          child: Text('Main menu'),
         ),
         ListTile(
           leading: Icon(

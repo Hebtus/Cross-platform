@@ -541,13 +541,6 @@ class _TicketsState extends State<Tickets> {
   Widget build(BuildContext context) {
     bool isLoading = false;
     return Scaffold(
-        bottomSheet: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: ElevatedButton(
-            onPressed: () {},
-            child: const Text('Next'),
-          ),
-        ),
         key: _globalKey,
         appBar: appBarModule(context),
         drawer: appDrawer(context, "Tickets", widget.eventdetails),

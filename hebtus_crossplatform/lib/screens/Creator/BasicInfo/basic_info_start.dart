@@ -49,6 +49,9 @@ bool displayEndTime = false;
 bool enableVar = true;
 bool imageUploudedCheck = false;
 
+TextEditingController tagsController = TextEditingController();
+TextEditingController descriptionController = TextEditingController();
+
 late ImagePicker picker;
 String imageUrl = '';
 String? filePath;
@@ -366,6 +369,7 @@ class _BasicInfoStartState extends State<BasicInfoStart> {
           height: 20,
         ),
         TextFormField(
+          controller: tagsController,
           enabled: enableVar,
           maxLength: 25,
           onChanged: (String value) {
@@ -378,14 +382,6 @@ class _BasicInfoStartState extends State<BasicInfoStart> {
                 'Add search keywords to your event', //hint addressa dispappers while the lable remains
             border: const OutlineInputBorder(),
             counterText: '$tagsCount/25',
-          ),
-        ),
-        OutlinedButton(
-          onPressed: () {},
-          style: OutlinedButton.styleFrom(),
-          child: const Text(
-            'Add',
-            style: TextStyle(color: Colors.black),
           ),
         ),
       ],
@@ -445,15 +441,7 @@ class _BasicInfoStartState extends State<BasicInfoStart> {
               const SizedBox(
                 width: 10,
               ),
-              OutlinedButton(
-                  onPressed: () {
-                    setState(() {
-                      buttonToBeAnnounced = true;
-                      buttonVenue = buttonVenue ? false : false;
-                      buttonOnlineEvent = buttonVenue ? false : false;
-                    });
-                  },
-                  child: const Text('To be annonced')),
+
             ],
           ),
         ),
@@ -510,7 +498,7 @@ class _BasicInfoStartState extends State<BasicInfoStart> {
           const Text(
               'Online events have unique event pages where you can add links to livestreams and more'),
         ],
-        if (buttonToBeAnnounced) ...[],
+
         const Divider(
           thickness: 1,
         ),
@@ -559,14 +547,6 @@ class _BasicInfoStartState extends State<BasicInfoStart> {
               const SizedBox(
                 width: 10,
               ),
-              OutlinedButton(
-                  onPressed: () {
-                    setState(() {
-                      buttonRecurringEvent = !buttonRecurringEvent;
-                      buttonSingleEvent = buttonSingleEvent ? false : false;
-                    });
-                  },
-                  child: const Text('Recurring Event')),
             ],
           ),
         ),
@@ -772,78 +752,9 @@ class _BasicInfoStartState extends State<BasicInfoStart> {
               );
             },
           ),
-          CheckboxListTile(
-            title: const Text("Display start time"),
-            value: displayStartTime,
-            onChanged: (newValue) {
-              setState(() {
-                displayStartTime = newValue!;
-              });
-            },
-            controlAffinity:
-                ListTileControlAffinity.leading, //  <-- leading Checkbox
-          ),
-          CheckboxListTile(
-            title: const Text("Display end time"),
-            value: displayEndTime,
-            onChanged: (newValue) {
-              setState(() {
-                displayEndTime = newValue!;
-              });
-            },
-            controlAffinity:
-                ListTileControlAffinity.leading, //  <-- leading Checkbox
-          ),
-          TextFormField(
-            enabled: enableVar,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'Time zone',
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          TextFormField(
-            enabled: enableVar,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'Event page languge',
-            ),
-          ),
+
         ],
-        if (buttonRecurringEvent) ...[
-          const Text(
-              'You’ll be able to set a schedule for your recurring event in the next step. Event details and ticket types will apply to all instances.'),
-          CheckboxListTile(
-            title: const Text("Display end time"),
-            value: displayEndTime,
-            onChanged: (newValue) {
-              setState(() {
-                displayEndTime = newValue!;
-              });
-            },
-            controlAffinity:
-                ListTileControlAffinity.leading, //  <-- leading Checkbox
-          ),
-          TextFormField(
-            enabled: enableVar,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'Time zone',
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          TextFormField(
-            enabled: enableVar,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'Event page languge',
-            ),
-          ),
-        ],
+
       ],
     );
   }
@@ -906,7 +817,7 @@ class _BasicInfoStartState extends State<BasicInfoStart> {
               print(imageUploudedCheck);
               //enableVar = false;
               if (_formKey.currentState!.validate() &&
-                  imageUploudedCheck == true) {
+                  imageUploudedCheck == true&&selectedDate.isBefore(selectedDate2)) {
                 _formKey.currentState?.save();
                 // Navigator.push(
                 //   context,
@@ -932,6 +843,8 @@ class _BasicInfoStartState extends State<BasicInfoStart> {
                     Location(longitude: sendLong, latitude: sendlat);
 
                 CreatorEvent Eventdata = CreatorEvent(
+                  description: descriptionController.text,
+                    tags: [tagsController.text],
                     eventID: '2',
                     eventName: eventName.text,
                     imgURL: imageUrl,
@@ -1008,6 +921,7 @@ class _BasicInfoStartState extends State<BasicInfoStart> {
                       height: 20,
                     ),
                     TextField(
+                      controller: descriptionController,
                       decoration: InputDecoration(
                         labelText: 'Description',
                         hintText: 'Enter a description',

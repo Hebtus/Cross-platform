@@ -300,7 +300,7 @@ class CreatorService {
     } else {
       print(response.reasonPhrase);
     }
-    return "help";
+      return "help";
   }
 
   Future<Sales> getEventSales(
