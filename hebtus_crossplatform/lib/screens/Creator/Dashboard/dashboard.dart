@@ -67,6 +67,7 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    bool isLoading = false;
     return Scaffold(
       key: _globalKey,
       appBar: appBarModule(context),
@@ -117,7 +118,9 @@ class _DashboardState extends State<Dashboard> {
                                 Row(
                                   children: [
                                     Text(
-                                      "\$1000",
+                                      salesList == null
+                                          ? "\$0"
+                                          : salesList!.totalNetSales.toString(),
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(fontSize: 20.0),
@@ -126,8 +129,11 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                                 Row(
                                   children: [
-                                    const Text(
-                                      "\$0.00 gross sales",
+                                     Text(
+                                      salesList == null
+                                          ? "\$0.00 gross sales"
+                                          : salesList!.totalGrossSales.toString(),
+
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(fontSize: 10.0),
@@ -175,8 +181,8 @@ class _DashboardState extends State<Dashboard> {
                                   children: [
                                     Text(
                                       salesList == null
-                                          ? "0/40"
-                                          : salesList!.totalNetSales.toString(),
+                                          ? "0"
+                                          : salesList!.salesByType.length.toString(),
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(fontSize: 20.0),
@@ -281,6 +287,10 @@ class _DashboardState extends State<Dashboard> {
               ),
               ElevatedButton(
                   onPressed: () async {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    try{
                     salesList = (await creatorData.getEventSales(
                         eventID: widget.eventdetails.eventID,
                         page: 1,
@@ -289,7 +299,19 @@ class _DashboardState extends State<Dashboard> {
                     attendeeList = await creatorData.getCreatorBookings(
                         eventID: widget.eventdetails.eventID,
                         limit: 100,
-                        page: 1);
+                        page: 1);}
+                        catch(e){
+                          setState(() {
+                            isLoading = false;
+                          });
+
+                        }finally{
+                      setState(() {
+                        isLoading = false;
+                      });
+
+
+                    }
                   },
                   child: Text("refresh")),
               Text(
@@ -304,7 +326,7 @@ class _DashboardState extends State<Dashboard> {
                       widget.eventdetails.eventID) as String;
 
                   return context.go(
-                      "/home"); // navigates to homescreen when hebtus is clicked
+                      "/creatorhome"); // navigates to homescreen when hebtus is clicked
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white, // Background colo// r
@@ -322,12 +344,15 @@ class _DashboardState extends State<Dashboard> {
                         page: 1) as List<CreatorTicket>?;
 
                     if (ticketsListHere != null && addAttendee == false) {
-                      for (int i = 0; i < ticketsListHere!.length; i++) {
-                        ticketsListIDs.add(ticketsListHere![i].ticketID ?? '');
-                      }
-                      addAttendee = true;
+
+                      setState(() {
+                        for (int i = 0; i < ticketsListHere!.length; i++) {
+                          ticketsListIDs.add(ticketsListHere![i].ticketID ?? '');
+                        }
+                        addAttendee = true;
+                      });
+
                     }
-                    return context.go("/dashboard");
                   },
                   child: Text("add attendee")),
               if (addAttendee) ...[
@@ -401,18 +426,35 @@ class _DashboardState extends State<Dashboard> {
                 ),
                 ElevatedButton(
                     onPressed: () async {
-                      String response = await creatorData.addAttendee(
-                          ticketID: selectedItem ?? 'temp',
-                          eventID: widget.eventdetails.eventID,
-                          firstName: firstNameController.text,
-                          lastName: lastNameController.text,
-                          phoneNumber: phoneNumberController.text,
-                          gender: genderController.text,
-                          guestEmail: guestEmailController.text,
-                          price: int.parse(priceController.text),
-                          quantity: int.parse(quantityController.text));
+                      setState(() {
+                        isLoading = true;
+                      });
+                      try {
+                        String response = await creatorData.addAttendee(
+                            ticketID: selectedItem ?? 'temp',
+                            eventID: widget.eventdetails.eventID,
+                            firstName: firstNameController.text,
+                            lastName: lastNameController.text,
+                            phoneNumber: phoneNumberController.text,
+                            gender: genderController.text,
+                            guestEmail: guestEmailController.text,
+                            price: int.parse(priceController.text),
+                            quantity: int.parse(quantityController.text));
+
+                      }catch(e){
+                        setState(() {
+                          isLoading = false;
+                        });
+                      }finally{
+                        setState(() {
+                          isLoading = false;
+                        });
+                      }
+                      setState(() {
+                        addAttendee=false;
+                        ticketsListIDs.clear();
+                      });
                       ticketsListIDs.remove(selectedItem);
-                      return context.go("/dashboard");
                     },
                     child: Text('add')),
               ],

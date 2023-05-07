@@ -8,6 +8,7 @@ import 'package:hebtus_crossplatform/models/promocodes.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Components/creator_components.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Tickets/add_more_tickets.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Tickets/add_promo_code.dart';
+import 'package:hebtus_crossplatform/screens/Creator/Tickets/edit_ticket.dart';
 import 'package:hebtus_crossplatform/services/creator_service.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -105,7 +106,7 @@ class _TicketsState extends State<Tickets> {
       File csvFile = File(pickedFile.files.single.path!);
 
       // Call sendCsvAndJson function to upload file
-      await creatorData.sendCsv(csvFile);
+      await creatorData.sendCsv(csvFile,widget.eventdetails.eventID);
     }
   }
 
@@ -143,7 +144,7 @@ class _TicketsState extends State<Tickets> {
                       buttonHold = buttonHold ? false : false;
                       buttonSettings = buttonSettings ? false : false;
                       pageTitle = 'Promo code';
-                      readJsonPromo();
+                     // readJsonPromo();
                     });
                   },
                   style: ElevatedButton.styleFrom(
@@ -394,6 +395,12 @@ class _TicketsState extends State<Tickets> {
                           onSelected: (SampleItem item) {
                             setState(() {
                               selectedMenu = item;
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EditTicket(
+                                      eventIDhere:widget.eventdetails.eventID,ticketIDHere: ticketsList[i].ticketID ,)),
+                              );
                             });
                           },
                           itemBuilder: (BuildContext context) =>
@@ -401,14 +408,6 @@ class _TicketsState extends State<Tickets> {
                             const PopupMenuItem<SampleItem>(
                               value: SampleItem.itemOne,
                               child: Text('edit'),
-                            ),
-                            const PopupMenuItem<SampleItem>(
-                              value: SampleItem.itemTwo,
-                              child: Text('copy'),
-                            ),
-                            const PopupMenuItem<SampleItem>(
-                              value: SampleItem.itemThree,
-                              child: Text('delete'),
                             ),
                           ],
                         ),
@@ -739,8 +738,7 @@ class _TicketsState extends State<Tickets> {
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold))),
                                 ], rows: [
-                                  for (int i = 0; i < _itemsPromo.length; i++)
-                                    promoCodetable(_itemsPromo, i),
+
                                   if (promoList != null) ...[
                                     for (int i = 0; i < promoList!.length; i++)
                                       promoCodetableWeb(promoList!, i),

@@ -15,7 +15,7 @@ class Sales {
         list.map((e) => SalesByType.fromJson(e)).toList();
 
     return Sales(
-        json['totalNetSales'], json['totalGrossSales'], salesByTypeList);
+       json['totalNetSales'].toInt() , json['totalGrossSales'].toInt(), salesByTypeList);
   }
 }
 

@@ -142,7 +142,7 @@ class _AddPromoCodeState extends State<AddPromoCode> {
                     PromoCodes promo = PromoCodes(
                         widget.eventID,
                         codeNameController.text,
-                        priceButton ? 0 : 1,
+                        priceButton ? 1 : 0,
                         double.parse(priceController.text),
                         double.parse(percentageController.text),
                         int.parse(usesController.text));

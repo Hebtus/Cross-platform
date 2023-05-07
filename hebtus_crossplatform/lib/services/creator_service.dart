@@ -275,7 +275,7 @@ class CreatorService {
     }
   }
 
-  Future<String> sendCsv(File csvFile) async {
+  Future<String> sendCsv(File csvFile,String eventID) async {
     var request = http.MultipartRequest(
         'POST', Uri.parse('https://hebtus.me/api/v1/promocodes/csv/'));
     CurrentUser currentUser = CurrentUser();
@@ -285,7 +285,7 @@ class CreatorService {
       'token': currentUser.getToken(),
     };
     request.headers.addAll(headers);
-    request.fields.addAll({'eventID': '644f8707f85590efba395624'});
+    request.fields.addAll({'eventID': eventID});
     // Add CSV file to request body
     var csvStream = http.ByteStream(DelegatingStream(csvFile.openRead()));
     var csvLength = await csvFile.length();
@@ -491,9 +491,9 @@ class CreatorService {
     }
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      return jsonDecode(response.body)["message"];
+      return jsonDecode(response.body)["status"];
     } else {
-      throw Exception(jsonDecode(response.body)["message"]);
+      throw Exception(jsonDecode(response.body)["status"]);
     }
   }
 
