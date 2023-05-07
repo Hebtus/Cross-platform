@@ -25,14 +25,30 @@ class SalesByType {
   final String ticketType;
   final int price;
   final int capacity;
+  final int currentReservations;
+  final String eventID;
+  final DateTime sellingStartTime;
+  final DateTime sellingEndTime;
 
-  SalesByType(this.ticketID, this.ticketName, this.ticketType, this.price,
-      this.capacity);
+  SalesByType(
+      this.ticketID,
+      this.ticketName,
+      this.ticketType,
+      this.price,
+      this.capacity,
+      this.currentReservations,
+      this.eventID,
+      this.sellingEndTime,
+      this.sellingStartTime);
 
   SalesByType.fromJson(Map<String, dynamic> json)
       : ticketID = json["_id"],
         ticketName = json["name"],
         ticketType = json["type"],
         price = json["price"],
-        capacity = json["capacity"];
+        capacity = json["capacity"],
+        currentReservations = json["currentReservations"],
+        eventID = json["eventID"],
+        sellingStartTime = DateTime.parse(json['sellingStartTime']),
+        sellingEndTime = DateTime.parse(json['sellingEndTime']);
 }

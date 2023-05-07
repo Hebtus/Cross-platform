@@ -64,7 +64,8 @@ class CreatorEventCard extends StatelessWidget {
                             Flexible(
                               child: Text(
                                 event.eventName,
-                                style: const TextStyle(fontSize: 15),
+                                style: const TextStyle(
+                                    fontSize: 17, fontWeight: FontWeight.bold),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
                                 softWrap: true,
@@ -132,6 +133,46 @@ class CreatorEventCard extends StatelessWidget {
                             : Container(),
                       ],
                     ))),
+            mediaQuery.size.width > widthConst
+                ? event.ticketsAvailable != null &&
+                        event.ticketsAvailable == '1' &&
+                        event.isDraft == false
+                    ? Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const Text(
+                                  'On Sale',
+                                  style: TextStyle(
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(width: 10.0),
+                                Container(
+                                  width: 16.0,
+                                  height: 16.0,
+                                  decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.green),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10.0),
+                            Text("Tickets Sold: ${event.ticketsSold}"),
+                          ],
+                        ),
+                      )
+                    : Expanded(
+                        child: Text("Tickets Sold: ${event.ticketsSold}"))
+                : Container(),
+            SizedBox(
+              width: 10,
+              child: Container(),
+            )
           ]),
           const Divider(),
         ],

@@ -34,6 +34,12 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
     fetchEvents();
   }
 
+  @override
+  void dispose() {
+    scrollController.removeListener(_scrollListener);
+    super.dispose();
+  }
+
   void _scrollListener() async {
     if (isLoading) return;
     if (scrollController.position.pixels ==
@@ -62,34 +68,35 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
       return false;
     }
 
-    // //get notifications
-    // AuthService authService = AuthService();
-    // try {
-    //   Notifications? notif = await authService.getNotifications();
-    //   if (notif == null) {
-    //     //display popup
-    //     // ignore: use_build_context_synchronously
-    //     showDialog(
-    //         barrierDismissible: true,
-    //         context: context,
-    //         builder: (BuildContext context) {
-    //           return AlertDialog(
-    //             title: const Text("Error"),
-    //             content: const Text("you have been invited to an event!"),
-    //             actions: [
-    //               TextButton(
-    //                 onPressed: () {
-    //                   Navigator.pop(context);
-    //                 },
-    //                 child: const Text('OK'),
-    //               ),
-    //             ],
-    //           );
-    //         });
-    //   }
-    // } catch (e) {
-    //   //catch any error from notifications
-    // }
+    //get notifications
+    AuthService authService = AuthService();
+    try {
+      Notifications? notif = await authService.getNotifications();
+      if (notif != null) {
+        //display popup
+        // ignore: use_build_context_synchronously
+        showDialog(
+            barrierDismissible: true,
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("Event Invitation!"),
+                content: Text(
+                    "you have been invited to an event!\n You have been invited to ${notif.eventName} by ${notif.creatorFirstName} ${notif.creatorLastName}, Check you email for more information "),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
+            });
+      }
+    } catch (e) {
+      //catch any error from notifications
+    }
     return true;
   }
 
@@ -162,9 +169,12 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
                     const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: FittedBox(
-                        child: Text("Hey There,",
+                        child: Text("hey there!",
                             style: TextStyle(
-                                fontSize: 40, fontWeight: FontWeight.bold)),
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic,
+                            )),
                       ),
                     ),
                     Padding(

@@ -80,25 +80,28 @@ class _FilterEventsBttnState extends State<FilterEventsBttn> {
                     ),
                   ]),
                   FittedBox(
-                    child: TextButton(
-                        onPressed: () {
-                          widget.exportToCSV();
-                        },
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(Icons.download_rounded),
-                            const SizedBox(width: 4),
-                            Flexible(
-                              child: Text(
-                                "Export to CSV",
-                                style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextButton(
+                          onPressed: () {
+                            widget.exportToCSV();
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(Icons.download_rounded),
+                              const SizedBox(width: 4),
+                              Flexible(
+                                child: Text(
+                                  "Export to CSV",
+                                  style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        )),
+                            ],
+                          )),
+                    ),
                   ),
                 ],
               ),

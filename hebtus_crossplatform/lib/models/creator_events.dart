@@ -15,6 +15,7 @@ class CreatorEvent {
   final bool? isPrivate;
   final DateTime? goPublicDate;
   final int? ticketsSold;
+  final String? ticketsAvailable;
   final List<String>? tags;
 
   //uses named parameters
@@ -33,6 +34,7 @@ class CreatorEvent {
       this.isPrivate,
       this.goPublicDate,
       this.ticketsSold,
+      this.ticketsAvailable,
       this.tags});
 
   CreatorEvent.fromJson(Map<String, dynamic> json)
@@ -50,12 +52,15 @@ class CreatorEvent {
             json.containsKey('description') ? json['description'] : null,
         isOnline = json.containsKey('online') ? json['online'] : false,
         isDraft = json.containsKey('draft') ? json['draft'] : false,
-        isPrivate = json.containsKey('private') ? json['private'] : false,
+        isPrivate = json.containsKey('privacy') ? json['privacy'] : false,
         goPublicDate = json.containsKey('goPublicDate')
             ? DateTime.parse(json['goPublicDate'])
             : null,
         ticketsSold =
             json.containsKey('ticketsSold') ? json['ticketsSold'] : null,
+        ticketsAvailable = json.containsKey('ticketsAvailable')
+            ? json['ticketsAvailable']
+            : null,
         tags = json.containsKey('tags')
             ? (json['tags'] == null ? null : List<String>.from(json['tags']))
             : null;
