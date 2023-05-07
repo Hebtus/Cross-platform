@@ -1,6 +1,6 @@
 class AttendeeBooking {
   final String eventID;
-  final String promoCode;
+  final String? promoCode;
   final Name name;
   final String guestEmail;
   final String phoneNumber;
@@ -22,7 +22,7 @@ class AttendeeBooking {
     data['name'] = name.toJson();
     data['guestEmail'] = guestEmail;
     data['phoneNumber'] = phoneNumber;
-    data['promoCode'] = promoCode;
+    if (promoCode != null) data['promoCode'] = promoCode;
     data['gender'] = gender;
     data['bookings'] = bookings.map((booking) => booking.toJson()).toList();
     return data;
