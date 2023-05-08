@@ -145,23 +145,6 @@ class _PublishState extends State<Publish> {
                                               SizedBox(
                                                 height: 10,
                                               ),
-                                              Row(
-                                                children: [
-                                                  Icon(Icons.attach_money),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Text("Free-\$0.01"),
-                                                  SizedBox(
-                                                    width: 20,
-                                                  ),
-                                                  Icon(Icons.person),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Text("30"),
-                                                ],
-                                              ),
                                               SizedBox(
                                                 height: 10,
                                               ),
@@ -197,7 +180,7 @@ class _PublishState extends State<Publish> {
                         true,
                         widget.eventdetails.goPublicDate,
                         widget.eventdetails.eventID,
-                        "temp",
+                        widget.eventdetails.description,
                         false) as String;
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('The event is now published')),
@@ -208,6 +191,46 @@ class _PublishState extends State<Publish> {
                   ),
                   child: const Text(
                     'Publish The event',
+                    style: TextStyle(color: Colors.blueAccent),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    String response = await creatorData.editEvent(
+                        false,
+                        widget.eventdetails.goPublicDate,
+                        widget.eventdetails.eventID,
+                        widget.eventdetails.description,
+                        false) as String;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('The event is now public')),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white, // Background color
+                  ),
+                  child: const Text(
+                    'Make the event public',
+                    style: TextStyle(color: Colors.blueAccent),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    String response = await creatorData.editEvent(
+                        true,
+                        widget.eventdetails.goPublicDate,
+                        widget.eventdetails.eventID,
+                        widget.eventdetails.description,
+                        false) as String;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('The event is private')),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white, // Background color
+                  ),
+                  child: const Text(
+                    'Make The event private',
                     style: TextStyle(color: Colors.blueAccent),
                   ),
                 ),

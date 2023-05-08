@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hebtus_crossplatform/models/creator_tickets.dart';
 import 'package:hebtus_crossplatform/screens/Creator/BasicInfo/basic_info_start.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Components/creator_components.dart';
@@ -20,6 +21,8 @@ bool displayStartTime = false;
 bool displayEndTime = false;
 bool buttonRegular = true;
 bool buttonVIP = false;
+String _dropDownValueStartTime = "02:00";
+String _dropDownValueEndTime = "02:00";
 
 CreatorService creatorData = CreatorService();
 
@@ -113,6 +116,9 @@ class _EditTicketState extends State<EditTicket> {
                 ),
               ),
               if (buttonRegular) ...[
+                Text(
+                    "Regular"
+                ),
                 TextFormField(
                   controller: nameController,
                   maxLength: 50,
@@ -125,6 +131,10 @@ class _EditTicketState extends State<EditTicket> {
                   height: 10,
                 ),
                 TextFormField(
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                  ],
                   controller: priceController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -135,6 +145,10 @@ class _EditTicketState extends State<EditTicket> {
                   height: 10,
                 ),
                 TextFormField(
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                  ],
                   controller: quntatityController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -159,6 +173,7 @@ class _EditTicketState extends State<EditTicket> {
                 ),
                 TextFormField(
                   controller: _date,
+                  readOnly:true,
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     hintText: 'Event starts',
@@ -173,18 +188,91 @@ class _EditTicketState extends State<EditTicket> {
                 const SizedBox(
                   height: 20,
                 ),
-                TextFormField(
-                  controller: startTimeController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Start time',
+                // TextFormField(
+                //   controller: startTimeController,
+                //   decoration: const InputDecoration(
+                //     border: OutlineInputBorder(),
+                //     hintText: 'Start time',
+                //   ),
+                // ),
+                DropdownButton(
+                  hint: _dropDownValueStartTime == null
+                      ? Text('02:00')
+                      : Text(
+                    _dropDownValueStartTime!,
+                    style: TextStyle(color: Colors.blue),
                   ),
+                  isExpanded: true,
+                  iconSize: 30.0,
+                  style: TextStyle(color: Colors.blue),
+                  items: [
+                    '01:00',
+                    '01:30',
+                    '02:00',
+                    '02:30',
+                    '03:00',
+                    '03:30',
+                    '04:00',
+                    '04:30',
+                    '05:00',
+                    '05:30',
+                    '06:00',
+                    '06:30',
+                    '07:00',
+                    '07:30',
+                    '08:00',
+                    '08:30',
+                    '09:00',
+                    '09:30',
+                    '10:00',
+                    '10:30',
+                    '11:30',
+                    '11:30',
+                    '12:30',
+                    '13:00',
+                    '13:30',
+                    '14:00',
+                    '14:30',
+                    '15:00',
+                    '15:30',
+                    '16:00',
+                    '16:30',
+                    '17:00',
+                    '17:30',
+                    '18:00',
+                    '18:30',
+                    '19:00',
+                    '19:30',
+                    '20:00',
+                    '20:30',
+                    '21:00',
+                    '21:30',
+                    '22:00',
+                    '22:30',
+                    '23:00',
+                    '23:30'
+                  ].map(
+                        (val) {
+                      return DropdownMenuItem<String>(
+                        value: val,
+                        child: Text(val),
+                      );
+                    },
+                  ).toList(),
+                  onChanged: (val) {
+                    setState(
+                          () {
+                        _dropDownValueStartTime = val!;
+                      },
+                    );
+                  },
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 TextFormField(
                   controller: _date2,
+                  readOnly: true,
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     hintText: 'Event ends',
@@ -199,15 +287,88 @@ class _EditTicketState extends State<EditTicket> {
                 const SizedBox(
                   height: 20,
                 ),
-                TextFormField(
-                  controller: endTimeController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'End time',
+                // TextFormField(
+                //   controller: endTimeController,
+                //   decoration: const InputDecoration(
+                //     border: OutlineInputBorder(),
+                //     hintText: 'End time',
+                //   ),
+                // ),
+                DropdownButton(
+                  hint: _dropDownValueEndTime == null
+                      ? Text('02:00')
+                      : Text(
+                    _dropDownValueEndTime!,
+                    style: TextStyle(color: Colors.blue),
                   ),
+                  isExpanded: true,
+                  iconSize: 30.0,
+                  style: TextStyle(color: Colors.blue),
+                  items: [
+                    '01:00',
+                    '01:30',
+                    '02:00',
+                    '02:30',
+                    '03:00',
+                    '03:30',
+                    '04:00',
+                    '04:30',
+                    '05:00',
+                    '05:30',
+                    '06:00',
+                    '06:30',
+                    '07:00',
+                    '07:30',
+                    '08:00',
+                    '08:30',
+                    '09:00',
+                    '09:30',
+                    '10:00',
+                    '10:30',
+                    '11:30',
+                    '11:30',
+                    '12:30',
+                    '13:00',
+                    '13:30',
+                    '14:00',
+                    '14:30',
+                    '15:00',
+                    '15:30',
+                    '16:00',
+                    '16:30',
+                    '17:00',
+                    '17:30',
+                    '18:00',
+                    '18:30',
+                    '19:00',
+                    '19:30',
+                    '20:00',
+                    '20:30',
+                    '21:00',
+                    '21:30',
+                    '22:00',
+                    '22:30',
+                    '23:00',
+                    '23:30'
+                  ].map(
+                        (val) {
+                      return DropdownMenuItem<String>(
+                        value: val,
+                        child: Text(val),
+                      );
+                    },
+                  ).toList(),
+                  onChanged: (val) {
+                    setState(
+                          () {
+                        _dropDownValueEndTime = val!;
+                      },
+                    );
+                  },
                 ),
               ],
               if (buttonVIP) ...[
+                Text("VIP"),
                 TextFormField(
                   controller: nameController,
                   maxLength: 50,
@@ -220,6 +381,10 @@ class _EditTicketState extends State<EditTicket> {
                   height: 10,
                 ),
                 TextFormField(
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                  ],
                   controller: priceController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -230,6 +395,10 @@ class _EditTicketState extends State<EditTicket> {
                   height: 10,
                 ),
                 TextFormField(
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                  ],
                   controller: quntatityController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -254,6 +423,7 @@ class _EditTicketState extends State<EditTicket> {
                 ),
                 TextFormField(
                   controller: _date,
+                  readOnly: true,
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     hintText: 'Event starts',
@@ -268,18 +438,84 @@ class _EditTicketState extends State<EditTicket> {
                 const SizedBox(
                   height: 20,
                 ),
-                TextFormField(
-                  controller: startTimeController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Start time',
+                DropdownButton(
+                  hint: _dropDownValueStartTime == null
+                      ? Text('02:00')
+                      : Text(
+                    _dropDownValueStartTime!,
+                    style: TextStyle(color: Colors.blue),
                   ),
+                  isExpanded: true,
+                  iconSize: 30.0,
+                  style: TextStyle(color: Colors.blue),
+                  items: [
+                    '01:00',
+                    '01:30',
+                    '02:00',
+                    '02:30',
+                    '03:00',
+                    '03:30',
+                    '04:00',
+                    '04:30',
+                    '05:00',
+                    '05:30',
+                    '06:00',
+                    '06:30',
+                    '07:00',
+                    '07:30',
+                    '08:00',
+                    '08:30',
+                    '09:00',
+                    '09:30',
+                    '10:00',
+                    '10:30',
+                    '11:30',
+                    '11:30',
+                    '12:30',
+                    '13:00',
+                    '13:30',
+                    '14:00',
+                    '14:30',
+                    '15:00',
+                    '15:30',
+                    '16:00',
+                    '16:30',
+                    '17:00',
+                    '17:30',
+                    '18:00',
+                    '18:30',
+                    '19:00',
+                    '19:30',
+                    '20:00',
+                    '20:30',
+                    '21:00',
+                    '21:30',
+                    '22:00',
+                    '22:30',
+                    '23:00',
+                    '23:30'
+                  ].map(
+                        (val) {
+                      return DropdownMenuItem<String>(
+                        value: val,
+                        child: Text(val),
+                      );
+                    },
+                  ).toList(),
+                  onChanged: (val) {
+                    setState(
+                          () {
+                        _dropDownValueStartTime = val!;
+                      },
+                    );
+                  },
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 TextFormField(
                   controller: _date2,
+                  readOnly: true,
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     hintText: 'Event ends',
@@ -294,13 +530,86 @@ class _EditTicketState extends State<EditTicket> {
                 const SizedBox(
                   height: 20,
                 ),
-                TextFormField(
-                  controller: endTimeController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'End time',
+                // TextFormField(
+                //   controller: endTimeController,
+                //   decoration: const InputDecoration(
+                //     border: OutlineInputBorder(),
+                //     hintText: 'End time',
+                //   ),
+                // ),
+                DropdownButton(
+                  hint: _dropDownValueEndTime == null
+                      ? Text('02:00')
+                      : Text(
+                    _dropDownValueEndTime!,
+                    style: TextStyle(color: Colors.blue),
                   ),
+                  isExpanded: true,
+                  iconSize: 30.0,
+                  style: TextStyle(color: Colors.blue),
+                  items: [
+                    '01:00',
+                    '01:30',
+                    '02:00',
+                    '02:30',
+                    '03:00',
+                    '03:30',
+                    '04:00',
+                    '04:30',
+                    '05:00',
+                    '05:30',
+                    '06:00',
+                    '06:30',
+                    '07:00',
+                    '07:30',
+                    '08:00',
+                    '08:30',
+                    '09:00',
+                    '09:30',
+                    '10:00',
+                    '10:30',
+                    '11:30',
+                    '11:30',
+                    '12:30',
+                    '13:00',
+                    '13:30',
+                    '14:00',
+                    '14:30',
+                    '15:00',
+                    '15:30',
+                    '16:00',
+                    '16:30',
+                    '17:00',
+                    '17:30',
+                    '18:00',
+                    '18:30',
+                    '19:00',
+                    '19:30',
+                    '20:00',
+                    '20:30',
+                    '21:00',
+                    '21:30',
+                    '22:00',
+                    '22:30',
+                    '23:00',
+                    '23:30'
+                  ].map(
+                        (val) {
+                      return DropdownMenuItem<String>(
+                        value: val,
+                        child: Text(val),
+                      );
+                    },
+                  ).toList(),
+                  onChanged: (val) {
+                    setState(
+                          () {
+                        _dropDownValueEndTime = val!;
+                      },
+                    );
+                  },
                 ),
+
               ],
               const SizedBox(
                 height: 20,
@@ -313,30 +622,29 @@ class _EditTicketState extends State<EditTicket> {
                         selectedDate.year,
                         selectedDate.month,
                         selectedDate.day,
-                        int.parse(startTimeController.text.substring(0, 1)),
-                        int.parse(startTimeController.text.substring(3, 4)),
+                        int.parse(_dropDownValueStartTime.substring(0, 1)),
+                        int.parse(_dropDownValueStartTime.substring(3, 4)),
                         0,
                         0);
                     DateTime endDate = DateTime(
                         selectedDate2.year,
                         selectedDate2.month,
                         selectedDate2.day,
-                        int.parse(endTimeController.text.substring(0, 1)),
-                        int.parse(endTimeController.text.substring(3, 4)),
+                        int.parse(_dropDownValueEndTime.substring(0, 1)),
+                        int.parse(_dropDownValueEndTime.substring(3, 4)),
                         0,
                         0);
-                    CreatorTicket ticketData = CreatorTicket(
-                      ticketID: widget.ticketIDHere,
-                        name: nameController.text,
-                        type: buttonRegular ? "Regular" : "VIP",
-                        price: int.parse(priceController.text),
-                        capacity: int.parse(quntatityController.text),
-                        sellingStartTime: startDate,
-                        sellingEndTime: endDate);
-                    String result = await creatorData.editTicket(ticketData, widget.eventIDhere);
-                    //creatorData.createTicket(
-                      //  ticketData, widget.eventID);
-                    print(result);
+                    if(startDate.isBefore(endDate)){
+                      CreatorTicket ticketData = CreatorTicket(
+                        ticketID: widget.ticketIDHere,
+                          name: nameController.text,
+                          type: buttonRegular ? "Regular" : "VIP",
+                          price: int.parse(priceController.text),
+                          capacity: int.parse(quntatityController.text),
+                          sellingStartTime: startDate,
+                          sellingEndTime: endDate);
+                      String result = await creatorData.editTicket(ticketData, widget.eventIDhere);
+                      print(result);}
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white, // Background colo// r

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hebtus_crossplatform/models/promocodes.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Components/creator_components.dart';
 import 'package:hebtus_crossplatform/screens/all_screens.dart';
@@ -64,6 +65,10 @@ class _AddPromoCodeState extends State<AddPromoCode> {
                 height: 10,
               ),
               TextFormField(
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                ],
                 controller: usesController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -112,7 +117,12 @@ class _AddPromoCodeState extends State<AddPromoCode> {
                 ],
               ),
               if (priceButton) ...[
+                Text("Price"),
                 TextFormField(
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                  ],
                   controller: priceController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -124,7 +134,12 @@ class _AddPromoCodeState extends State<AddPromoCode> {
                 ),
               ],
               if (percntagebutton) ...[
+                Text("Perctange"),
                 TextFormField(
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                  ],
                   controller: percentageController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -143,11 +158,14 @@ class _AddPromoCodeState extends State<AddPromoCode> {
                         widget.eventID,
                         codeNameController.text,
                         priceButton ? 1 : 0,
-                        double.parse(priceController.text),
-                        double.parse(percentageController.text),
+                        priceController.text.isNotEmpty?double.parse(priceController.text):1,
+                        percentageController.text.isNotEmpty?double.parse(percentageController.text):1,
                         int.parse(usesController.text));
                     String result = await creatorData.createPromoCode(
                         promo, widget.eventID);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Promo code added')),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white, // Background colo// r

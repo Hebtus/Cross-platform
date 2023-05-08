@@ -13,7 +13,7 @@ class PromoCodes {
       : eventID = json['eventID'],
         codeName = json['codeName'],
         discountOrPercentage =
-            json['discountOrPercentage'].toString() == false ? 0 : 1,
+            json['discountOrPercentage'].toString() == 'false' ? 0 : 1,
         discountAmount = double.parse(json['discountAmount'].toString()),
         percentageAmount = double.parse(json['percentage'].toString()),
         limit = int.parse(json['limits'].toString());

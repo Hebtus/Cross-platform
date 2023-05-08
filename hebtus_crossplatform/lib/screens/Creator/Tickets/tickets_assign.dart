@@ -430,7 +430,7 @@ class _TicketsState extends State<Tickets> {
                         ),
                         const Spacer(),
                         Text(
-                          ticketsList[i].capacity.toString() + '\$',
+                          ticketsList[i].price.toString() + '\$',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(fontSize: 20.0),
@@ -449,7 +449,7 @@ class _TicketsState extends State<Tickets> {
                           style: TextStyle(fontSize: 20.0, color: Colors.grey),
                         ),
                         Text(
-                          ticketsList[i].price.toString(),
+                          ticketsList[i].capacity.toString(),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
@@ -507,7 +507,7 @@ class _TicketsState extends State<Tickets> {
     return DataRow(cells: [
       DataCell(Text(promoListWeb[i].codeName)),
       DataCell(Text(
-          promoListWeb[i].discountOrPercentage == 1 ? "percantage" : "price")),
+          promoListWeb[i].discountOrPercentage == 0 ? "percantage" : "price")),
       DataCell(Text(promoListWeb[i].discountOrPercentage == 1
           ? promoListWeb[i].percentageAmount.toString()
           : promoListWeb[i].discountAmount.toString())),
