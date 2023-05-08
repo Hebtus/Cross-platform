@@ -120,7 +120,7 @@ class _DashboardState extends State<Dashboard> {
                                     Text(
                                       salesList == null
                                           ? "\$0"
-                                          : salesList!.totalNetSales.toString(),
+                                          : salesList!.totalGrossSales.toString(),
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(fontSize: 20.0),
@@ -132,7 +132,7 @@ class _DashboardState extends State<Dashboard> {
                                      Text(
                                       salesList == null
                                           ? "\$0.00 gross sales"
-                                          : salesList!.totalGrossSales.toString(),
+                                          : salesList!.totalNetSales.toString(),
 
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
@@ -182,7 +182,7 @@ class _DashboardState extends State<Dashboard> {
                                     Text(
                                       salesList == null
                                           ? "0"
-                                          : salesList!.salesByType.length.toString(),
+                                          : attendeeList!.length.toString(),
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(fontSize: 20.0),
