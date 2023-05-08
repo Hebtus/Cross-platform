@@ -15,7 +15,6 @@ class EventCard extends StatelessWidget {
   final List<AttendeeEvent> events;
   final int num;
   const EventCard({super.key, required this.num, required this.events});
-  
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +29,9 @@ class EventCard extends StatelessWidget {
             child: InkWell(
                 splashColor: const Color.fromARGB(255, 250, 195, 188),
                 onTap: () {
-                  if(currentUser.isLoggedIn==true)
-                  {
-                     return context.go("/events/${events[num].eventID}");
-                  }
-                  else
-                  {
+                  if (currentUser.isLoggedIn == true) {
+                    return context.go("/events/${events[num].eventID}");
+                  } else {
                     return context.go("/");
                   }
                 },
@@ -44,14 +40,16 @@ class EventCard extends StatelessWidget {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Flexible(
-                            flex: 1,
-                            child: Image(
-                              image: NetworkImage(events[num].imgURL),
-                              fit: BoxFit.contain,
-                              width: mediaQuery.size.width,
-                            ),
-                          ),
+                          events[num].imgURL != ""
+                              ? Flexible(
+                                  flex: 1,
+                                  child: Image(
+                                    image: NetworkImage(events[num].imgURL),
+                                    fit: BoxFit.contain,
+                                    width: mediaQuery.size.width,
+                                  ),
+                                )
+                              : Container(),
                           SizedBox(
                             width: 250,
                             child: Padding(
