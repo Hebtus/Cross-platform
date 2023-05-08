@@ -264,7 +264,7 @@ class AuthService {
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       Map responseMap = jsonDecode(response.body);
-      dynamic notificationData = responseMap["notification"];
+      dynamic notificationData = responseMap["data"]["notification"];
       Notifications notif = Notifications.fromJson(notificationData);
 
       return notif;

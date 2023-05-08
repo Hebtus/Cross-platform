@@ -47,7 +47,7 @@ AppBar appBarModule(BuildContext context) {
     backgroundColor: Colors.white,
     elevation: 0,
     actions: [
-   //on pressed needs an annonymus function or a normal one can be used
+      //on pressed needs an annonymus function or a normal one can be used
 
       PopupMenuButton<SampleItem2>(
         itemBuilder: (BuildContext context) {
@@ -83,7 +83,8 @@ AppBar appBarModule(BuildContext context) {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       title: const Text("Error"),
-                      content: Text(e.toString()),
+                      content: Text(
+                          e.toString().replaceAll(RegExp(r'Exception: '), '')),
                       actions: [
                         TextButton(
                           onPressed: () {

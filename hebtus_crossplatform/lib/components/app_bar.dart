@@ -76,7 +76,9 @@ PreferredSizeWidget MainAppBar(BuildContext context) {
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   title: const Text("Error"),
-                                  content: Text(e.toString()),
+                                  content: Text(e
+                                      .toString()
+                                      .replaceAll(RegExp(r'Exception: '), '')),
                                   actions: [
                                     TextButton(
                                       onPressed: () {

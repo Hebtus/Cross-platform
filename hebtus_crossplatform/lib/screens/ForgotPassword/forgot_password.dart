@@ -116,8 +116,12 @@ class _ForgotPasswdScreenState extends State<ForgotPasswdScreen> {
                                                       return AlertDialog(
                                                         title:
                                                             const Text("Error"),
-                                                        content:
-                                                            Text(e.toString()),
+                                                        content: Text(e
+                                                            .toString()
+                                                            .replaceAll(
+                                                                RegExp(
+                                                                    r'Exception: '),
+                                                                '')),
                                                         actions: [
                                                           TextButton(
                                                             onPressed: () {
