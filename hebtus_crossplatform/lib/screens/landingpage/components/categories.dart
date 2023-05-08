@@ -9,7 +9,8 @@ class Categories extends StatelessWidget {
       {String? category,
       DateTime? todaystartdate, DateTime? todayenddate,double ?long,double ?lat,
       bool? online,
-      bool? free}) rebuildLandingPage;
+      bool? free,
+      String? address}) rebuildLandingPage;
   const Categories({super.key, required this.rebuildLandingPage});
   @override
   Widget build(BuildContext context) {

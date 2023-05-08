@@ -2,15 +2,15 @@ import 'package:go_router/go_router.dart';
 import 'package:hebtus_crossplatform/models/creator_events.dart';
 import 'package:hebtus_crossplatform/screens/Creator/BasicInfo/basic_info_start.dart';
 import 'package:hebtus_crossplatform/screens/all_screens.dart';
-
 import '../globals/globals.dart';
+
 
 class AppRouter {
   final GoRouter router = GoRouter(routes: <GoRoute>[
     GoRoute(
       path: '/',
       builder: (context, state) {
-        return const LoginScreen();
+        return LoginScreen();
       },
     ),
     GoRoute(
@@ -19,6 +19,7 @@ class AppRouter {
         return const SignupScreen();
       },
     ),
+    
     GoRoute(
       path: '/forgotpassword',
       builder: (context, state) {

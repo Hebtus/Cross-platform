@@ -1,6 +1,8 @@
 // ignore_for_file: sized_box_for_whitespace, duplicate_ignore, avoid_unnecessary_containers
 
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hebtus_crossplatform/components/app_bar.dart';
 import 'package:hebtus_crossplatform/models/attendee_event.dart';
@@ -8,10 +10,10 @@ import 'package:hebtus_crossplatform/screens/landingpage/components/cover_image.
 import 'package:hebtus_crossplatform/screens/landingpage/components/categories.dart';
 import 'package:hebtus_crossplatform/globals/globals.dart';
 import 'package:hebtus_crossplatform/services/attendee_service.dart';
-import 'package:intl/intl.dart';
-import 'components/location.dart';
+import 'package:hebtus_crossplatform/screens/landingpage/components/location.dart';
 import 'components/event_list.dart';
 import 'components/tab_bar.dart';
+import 'dart:async';
 
 /// This class returns landingpage which is the homepage of the app
 class LandingPageScreen extends StatefulWidget {
@@ -23,6 +25,7 @@ class LandingPageScreen extends StatefulWidget {
 
 class _LandingPageScreenState extends State<LandingPageScreen> {
   Future<List<AttendeeEvent>>? events;
+  String? _currentAddress;
   @override
   void initState() {
     super.initState();
@@ -38,7 +41,8 @@ class _LandingPageScreenState extends State<LandingPageScreen> {
       double? lat,
       DateTime? todayenddate,
       bool? online,
-      bool? free}) async {
+      bool? free,
+      String? address}) async {
     AttendeeService attendeeService = AttendeeService();
     if (category != null) {
       if (category != "All") {
@@ -57,7 +61,8 @@ class _LandingPageScreenState extends State<LandingPageScreen> {
       events = attendeeService.getEvents(
           latitude: latitude_v, longitude: longitude_v);
     }
-
+    print(latitude_v);
+    print(longitude_v);
     setState(() {});
   }
 
@@ -88,9 +93,50 @@ class _LandingPageScreenState extends State<LandingPageScreen> {
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
-                            Location(
-                                rebuildLandingPage:
-                                    rebuildLandingPage), // class that returns textfield for entering location
+                            Row(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: PopupMenuButton(
+                                    itemBuilder: (context) => [
+                                      PopupMenuItem(
+                                        child: const Text(
+                                          "use current Location",
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                        onTap: () async {
+                                          // Get the current location
+                                          Position position = await Geolocator
+                                              .getCurrentPosition();
+                                          latitude_v = position.latitude;
+                                          longitude_v = position.longitude;
+                                          // Get the address from the latitude and longitude values
+                                          List<Placemark> placemarks =
+                                              await placemarkFromCoordinates(
+                                                  latitude_v!, longitude_v!);
+                                          Placemark placemark =
+                                              placemarks.first;
+                                          String? address = placemark.name ??
+                                              placemark.thoroughfare;
+                                          setState(() {
+                                            _currentAddress = address;
+                                          });
+                                          rebuildLandingPage(address: _currentAddress,lat: latitude_v,long: longitude_v);
+                                        },
+                                      ),
+                                    ],
+                                    child: const Icon(
+                                      Icons.arrow_drop_down,
+                                      color: Colors.blue,
+                                      size: 30,
+                                    ),
+                                  ),
+                                ),
+                                LocationSearch(
+                                  rebuildLandingPage: rebuildLandingPage,
+                                ),
+                              ],
+                            ),
                             NavBar(
                               rebuildLandingPage: rebuildLandingPage,
                             ),
@@ -103,10 +149,10 @@ class _LandingPageScreenState extends State<LandingPageScreen> {
                               ),
                             ),
                             Categories(rebuildLandingPage: rebuildLandingPage),
-                            const Padding(
+                            Padding(
                               padding: EdgeInsets.all(20),
                               child: Text(
-                                "Events in Cairo",
+                                "Events in ${_currentAddress ?? 'Cairo'}",
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),

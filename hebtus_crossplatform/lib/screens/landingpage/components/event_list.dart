@@ -6,56 +6,16 @@ import 'package:hebtus_crossplatform/models/attendee_event.dart';
 import 'package:hebtus_crossplatform/services/attendee_service.dart';
 import '../../../models/events.dart';
 import 'package:hebtus_crossplatform/globals/globals.dart';
+import 'package:hebtus_crossplatform/current_user.dart';
+
+CurrentUser currentUser = CurrentUser();
 
 /// This class returns cards of events
 class EventCard extends StatelessWidget {
   final List<AttendeeEvent> events;
   final int num;
   const EventCard({super.key, required this.num, required this.events});
-  /*List<Events> eventlist = [
-    Events(
-        "assets/images/foodtruck.jpg",
-        "Celebrating Century:Presidency University",
-        "Today at 7:00 PM",
-        "The Great Pyramid of Giza",
-        "EZZ event riders",
-        "20k followers"),
-    Events(
-        "assets/images/opendoors.jpg",
-        "Open doors:come and win free course-GOMYCODE Egypt",
-        "Tue,Mar28,2:00 PM",
-        "GOMYCODE DOkki",
-        "GoMyCode",
-        "26k followers"),
-    Events(
-        "assets/images/chatbot.jpg",
-        "Free workshop: build your own chatbot in 21h",
-        "sun,Mar26,2:00 PM",
-        "GOMYCODE DOkki",
-        "GoMyCode",
-        "26k followers"),
-    Events(
-        "assets/images/canada.jpg",
-        "Canada Immigration : Live Q&A",
-        "thus,Mar30,1:00 PM",
-        "Gizza governorate",
-        "free organizers",
-        "26k followers"),
-    Events(
-        "assets/images/fayoum.jpg",
-        "AfricArena 2023 VC Unconference Weekend",
-        "sat,apr 29,3:00 PM",
-        "Lazib Inn resort and spa",
-        "AfricArena",
-        "16k followers"),
-    Events(
-        "assets/images/egypt.jpg",
-        "Egypt stargate pilgrimage golden universe temples",
-        "sat,nov 3,4:00 PM",
-        "Egypt,Giza",
-        "Jennifer Ashira Ra",
-        "606 followers"),
-  ];*/
+  
 
   @override
   Widget build(BuildContext context) {
@@ -70,17 +30,27 @@ class EventCard extends StatelessWidget {
             child: InkWell(
                 splashColor: const Color.fromARGB(255, 250, 195, 188),
                 onTap: () {
-                  return context.go("/events/${events[num].eventID}");
+                  if(currentUser.isLoggedIn==true)
+                  {
+                     return context.go("/events/${events[num].eventID}");
+                  }
+                  else
+                  {
+                    return context.go("/");
+                  }
                 },
                 child: Container(
                     height: double.infinity,
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Image(
-                            image: NetworkImage(events[num].imgURL),
-                            fit: BoxFit.contain,
-                            width: mediaQuery.size.width,
+                          Flexible(
+                            flex: 1,
+                            child: Image(
+                              image: NetworkImage(events[num].imgURL),
+                              fit: BoxFit.contain,
+                              width: mediaQuery.size.width,
+                            ),
                           ),
                           SizedBox(
                             width: 250,

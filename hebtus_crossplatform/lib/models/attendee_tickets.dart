@@ -8,6 +8,7 @@ class AttendeeTicket {
   final DateTime sellingEndTime;
 
   AttendeeTicket(
+    
     this.ticketID,
     this.name,
     this.type,

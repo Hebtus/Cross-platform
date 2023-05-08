@@ -13,7 +13,8 @@ class NavBar extends StatelessWidget {
       {String? category,
        DateTime? todaystartdate, DateTime? todayenddate,double ?long,double ?lat,
       bool? online,
-      bool? free}) rebuildLandingPage;
+      bool? free,
+      String? address}) rebuildLandingPage;
   const NavBar({super.key, required this.rebuildLandingPage});
 
   @override

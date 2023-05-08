@@ -34,12 +34,13 @@ class _EventsScreenState extends State<EventsScreen> {
     return Container(
       child: Scaffold(
         appBar: MainAppBar(context),
-        bottomSheet: const TicketBottomSheet(),
+        bottomSheet:  TicketBottomSheet(eventID: widget.eventID,),
         body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: FutureBuilder(
               future: event,
               builder: (context, snapshot) {
+                
                 if (snapshot.connectionState == ConnectionState.done) {
                   return Container(
                     child: Column(

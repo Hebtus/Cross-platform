@@ -1,84 +1,61 @@
 // ignore_for_file: no_logic_in_create_state
 
-import 'dart:collection';
+
 
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:developer';
 import 'package:hebtus_crossplatform/globals/globals.dart';
 
-///This class returns textfield for entering location
-class Location extends StatefulWidget {
+
+
+///This class returns textfield for entering LocationSearch
+class LocationSearch extends StatefulWidget {
+ 
   final void Function(
       {String? category,
        DateTime? todaystartdate, DateTime? todayenddate,double?long,double?lat,
       bool? online,
-      bool? free}) rebuildLandingPage;
-      Location({super.key,required this.rebuildLandingPage});
+      bool? free,
+      String?address}) rebuildLandingPage;
+      LocationSearch({super.key,required this.rebuildLandingPage});
 
   @override
-  State<Location> createState() => _LocationState(rebuildLandingPage);
-  /*void search() async {
-    _LocationState().search() as List<double>;
-    return ;
-   }*/
+  State<LocationSearch> createState() => _LocationSearchState(rebuildLandingPage);
+ 
 }
 
-class _LocationState extends State<Location> {
-  final void Function(
-      {String? category,
-       DateTime? todaystartdate, DateTime? todayenddate,double?long,double?lat,
-      bool? online,
-      bool? free}) rebuildLandingPage;
+class _LocationSearchState extends State<LocationSearch> {
+ 
   final TextEditingController _searchController = TextEditingController();
   String _responseText = '';
-
-  _LocationState(this.rebuildLandingPage);
  
+  _LocationSearchState(rebuildLandingPage);
   @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    
   }
+  
+
+
 
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     return Container(
-      width: double.infinity,
       child: Row(
         children: [
           Container(
-            padding: EdgeInsets.only(left: 10),
-            child: PopupMenuButton(
-              itemBuilder: (context) => [
-                PopupMenuItem(
-                  child: const Text(
-                    "use current location",
-                    style: TextStyle(fontSize: 12),
-                  ),
-                  onTap: () {},
-                ),
-              ],
-              child: const Icon(
-                Icons.arrow_drop_down,
-                color: Colors.blue,
-                size: 30,
-              ),
-            ),
-          ),
-          Flexible(
-            child: Container(
-              padding: const EdgeInsets.only(left: 19),
-              width: MediaQuery.of(context).size.width * 0.28,
-              child: TextField(
-                controller: _searchController,
-                decoration: const InputDecoration(
-                  hintText: "Enter location",
-                  hintStyle: TextStyle(fontSize: 15),
-                ),
+            padding: const EdgeInsets.only(left: 19),
+            width: MediaQuery.of(context).size.width * 0.28,
+            child: TextField(
+              controller: _searchController,
+              decoration: const InputDecoration(
+                hintText: "Enter LocationSearch",
+                hintStyle: TextStyle(fontSize: 15),
               ),
             ),
           ),
@@ -86,10 +63,8 @@ class _LocationState extends State<Location> {
             child: Text('Search'),
             onPressed: search,
           ),
-          Expanded(
-            child: Center(
-              child: Text(_responseText),
-            ),
+          Center(
+            child: Text(_responseText),
           ),
         ],
       ),
@@ -120,10 +95,10 @@ class _LocationState extends State<Location> {
       latitude_v = coordinates[1];
       longitude_v = coordinates[0];
       setState(() {
-       /* _responseText = 'Latitude: $latitude_v\nLongitude: $longitude_v';*/
+        _responseText = 'Latitude: $latitude_v\nLongitude: $longitude_v';
       });
       log('API response: $_responseText');
-      rebuildLandingPage(long:longitude_v,lat:latitude_v);
+      widget.rebuildLandingPage(long:longitude_v,lat:latitude_v);
     } else {
       setState(() {
         _responseText =
