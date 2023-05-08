@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hebtus_crossplatform/models/creator_tickets.dart';
 import 'package:hebtus_crossplatform/screens/Creator/Components/creator_components.dart';
 
@@ -111,6 +112,9 @@ class _AddMoreTicketsState extends State<AddMoreTickets> {
                 ),
               ),
               if (buttonRegular) ...[
+                Text(
+                  "Regular"
+                ),
                 TextFormField(
                   controller: nameController,
                   maxLength: 50,
@@ -206,6 +210,7 @@ class _AddMoreTicketsState extends State<AddMoreTickets> {
                 ),
               ],
               if (buttonVIP) ...[
+                Text("VIP"),
                 TextFormField(
                   controller: nameController,
                   maxLength: 50,
@@ -218,6 +223,10 @@ class _AddMoreTicketsState extends State<AddMoreTickets> {
                   height: 10,
                 ),
                 TextFormField(
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                  ],
                   controller: priceController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -228,6 +237,10 @@ class _AddMoreTicketsState extends State<AddMoreTickets> {
                   height: 10,
                 ),
                 TextFormField(
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                  ],
                   controller: quntatityController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -252,6 +265,7 @@ class _AddMoreTicketsState extends State<AddMoreTickets> {
                 ),
                 TextFormField(
                   controller: _date,
+                  readOnly: true,
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     hintText: 'Event starts',
@@ -278,6 +292,7 @@ class _AddMoreTicketsState extends State<AddMoreTickets> {
                 ),
                 TextFormField(
                   controller: _date2,
+                  readOnly: true,
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     hintText: 'Event ends',

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 
@@ -370,13 +371,15 @@ class _DashboardState extends State<Dashboard> {
                     hintText: 'Last name',
                   ),
                 ),
-                TextFormField(
-                  controller: phoneNumberController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Phone number',
-                  ),
-                ),
+      TextFormField(
+        keyboardType: TextInputType.number,
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+        ],decoration: const InputDecoration(
+        border: OutlineInputBorder(),
+        hintText: 'Phone number',
+      ),
+      ),
                 TextFormField(
                   controller: genderController,
                   decoration: const InputDecoration(
@@ -392,6 +395,10 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
                 TextFormField(
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                  ],
                   controller: priceController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -399,9 +406,14 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
                 TextFormField(
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                  ],
                   controller: quantityController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
+
                     hintText: 'Quantity',
                   ),
                 ),

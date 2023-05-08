@@ -566,6 +566,7 @@ class _BasicInfoStartState extends State<BasicInfoStart> {
               }
               return null;
             },
+            readOnly: true,
             enabled: enableVar,
             controller: _date,
             decoration: InputDecoration(
@@ -664,6 +665,7 @@ class _BasicInfoStartState extends State<BasicInfoStart> {
               }
               return null;
             },
+            readOnly: true,
             enabled: enableVar,
             controller: _date2,
             decoration: InputDecoration(
