@@ -14,6 +14,7 @@ class AuthService {
   AuthService([http.Client? httpClient])
       : _httpClient = httpClient ?? http.Client();
 
+  ///login function, takes an email and password and returns a [User] on successful login, throws exception otherwise
   Future<User> login(String email, String password) async {
     Uri url = Uri.parse('$urlString/api/v1/login');
     //the data sent
@@ -55,6 +56,7 @@ class AuthService {
     }
   }
 
+  ///signup function, takes information necessary for signup and returns a string that indicates success on successful signup, throws exception otherwise
   Future<String> signup(String firstName, String lastName, String email,
       String password, String confirmPassword) async {
     Uri url = Uri.parse("$urlString/api/v1/signup");
@@ -101,6 +103,7 @@ class AuthService {
     }
   }
 
+  ///forgot password function, takes a string email and returns a success message on success, throws exception otherwise
   Future<String> forgotPassword(String email) async {
     Uri url = Uri.parse("$urlString/api/v1/forgotpassword");
     final Map<String, dynamic> forgotPassData = {"email": email};
@@ -127,6 +130,7 @@ class AuthService {
     }
   }
 
+  ///function that handles the google login and signup logic, returns a [User] instance on success
   Future<User> googleLogin(String idToken) async {
     Uri url = Uri.parse('https://hebtus.me/api/v1/oauth/login/google');
     //the data sent
@@ -163,6 +167,7 @@ class AuthService {
     }
   }
 
+  ///function that handles the facebook login and signup logic, returns a [User] instance on success
   Future<User> facebookLogin(String idToken, String email) async {
     http.Response fbResponse;
     try {
@@ -212,6 +217,7 @@ class AuthService {
     }
   }
 
+  ///logout function, logs the user out of the application and modifies the current user object accordingly
   Future<String> logout() async {
     Uri url = Uri.parse("$urlString/api/v1/logout");
     CurrentUser currentUser = CurrentUser();
@@ -238,6 +244,7 @@ class AuthService {
     }
   }
 
+  ///function that fetches the notifications, if there are any for the [CurrentUser]
   Future<Notifications?> getNotifications() async {
     Uri url = Uri.parse("$urlString/api/v1/notifications");
     CurrentUser currentUser = CurrentUser();

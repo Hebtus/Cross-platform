@@ -9,6 +9,7 @@ import '../models/attendee_tickets.dart';
 ///class that contains all the attendee services and functions that make api calls
 class AttendeeService {
   //the parameters are named meaning that when you call the function you have to pass named parameter ex category: "all"
+  ///the function takes the parameters with which the events will be filtered and returns a list of [AttendeeEvent] with the filters applied
   Future<List<AttendeeEvent>> getEvents(
       {String? category,
       int? limit,
@@ -61,6 +62,7 @@ class AttendeeService {
     }
   }
 
+  /// the function takes the ID of some event and returns an [AttendeeEvent] which contains all information for that event
   Future<AttendeeEvent> getEventByID(String eventID) async {
     Uri url = Uri.parse("$urlString/api/v1/events/$eventID");
     final Map<String, String> getEventHeaders = {
@@ -87,6 +89,7 @@ class AttendeeService {
     }
   }
 
+  ///the function takes an event ID and returns list of tickets associated with that event
   Future<List<AttendeeTicket>> getAttendeeEventTickets({
     required String eventID,
     int? limit,
@@ -124,6 +127,7 @@ class AttendeeService {
     }
   }
 
+  ///function that takes an object of [AttendeeBooking] which holds all the booking information, and makes a booking with given information
   Future<String> createBooking(AttendeeBooking booking) async {
     Uri url = Uri.parse('$urlString/api/v1/bookings/');
     //headers sent

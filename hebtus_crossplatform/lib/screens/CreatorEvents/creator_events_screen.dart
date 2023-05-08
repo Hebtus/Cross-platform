@@ -9,6 +9,7 @@ import '../../models/notifications.dart';
 import 'components/creator_event_card.dart';
 import 'components/filter_events_bttn.dart';
 
+///The class contains the list of events associated with the logged in creator
 class CreatorEventsScreen extends StatefulWidget {
   const CreatorEventsScreen({super.key});
 

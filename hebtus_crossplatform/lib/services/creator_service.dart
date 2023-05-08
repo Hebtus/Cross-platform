@@ -18,6 +18,7 @@ import 'package:path_provider/path_provider.dart';
 ///class that contains all the creator services and functions that make api calls
 ///
 class CreatorService {
+  ///function that takes an event ID and returns an object of [CreatorEvent]
   Future<CreatorEvent> getOneEvent(String eventID) async {
     Uri url = Uri.parse('$urlString/api/v1/creators/events/$eventID');
 
@@ -46,6 +47,8 @@ class CreatorService {
     }
   }
 
+  ///function that ID and returns an list of [CreatorEvent]
+  ///the function also has the option of returning a csv, which is downloaded directly whether on android or web
   Future<List<CreatorEvent>> getMultipleEvents(
       {int? limit, int? page, String? time, required bool csv}) async {
     var queryParams = {'limit': limit, 'page': page, 'csv': csv, "time": time};
@@ -101,6 +104,7 @@ class CreatorService {
     }
   }
 
+  ///function that takes eventID and returns a list of [CreatorTicket] associated with this event
   Future<List<CreatorTicket>> getCreatorEventTickets({
     required String eventID,
     int? limit,
@@ -137,6 +141,7 @@ class CreatorService {
     }
   }
 
+  ///function that takes a [CreatorTicket] object and an eventID and creates a ticket with this information for that event
   Future<String> createTicket(CreatorTicket ticket, String eventID) async {
     Uri url = Uri.parse('$urlString/api/v1/tickets/');
     //headers sent
@@ -167,6 +172,7 @@ class CreatorService {
     }
   }
 
+  ///function takes [CreatorEvent] information, path of the image and image file, and creates the event
   Future<CreatorEvent> createEvent(
       String pathImage, File imageFile, CreatorEvent eventData) async {
     var request = http.MultipartRequest(
@@ -209,6 +215,7 @@ class CreatorService {
     }
   }
 
+  ///function takes an event ID and returns a list of [PromoCodes] associated with the event
   Future<List<PromoCodes>> getCreatorPromoCode({
     required String eventID,
     int? limit,
@@ -245,6 +252,7 @@ class CreatorService {
     }
   }
 
+  ///function that takes an object [PromoCodes] and an event ID  and creates a promocode for this event with the given information
   Future<String> createPromoCode(PromoCodes Promo, String eventID) async {
     Uri url = Uri.parse('$urlString/api/v1/promocodes/');
     //headers sent
@@ -275,7 +283,8 @@ class CreatorService {
     }
   }
 
-  Future<String> sendCsv(File csvFile,String eventID) async {
+  ///function that takes a csv file containing promo codes and an event ID and creates promo codes in this list for given event
+  Future<String> sendCsv(File csvFile, String eventID) async {
     var request = http.MultipartRequest(
         'POST', Uri.parse('https://hebtus.me/api/v1/promocodes/csv/'));
     CurrentUser currentUser = CurrentUser();
@@ -300,9 +309,10 @@ class CreatorService {
     } else {
       print(response.reasonPhrase);
     }
-      return "help";
+    return "help";
   }
 
+  ///function takes the event ID and returns a [Sales] object that contains information about the event sales
   Future<Sales> getEventSales(
       {required String eventID,
       int? limit,
@@ -338,6 +348,7 @@ class CreatorService {
     }
   }
 
+  ///function takes attendee information and event ID and adds attendee to the event
   Future<String> addAttendee({
     required String ticketID,
     required String eventID,
@@ -389,6 +400,7 @@ class CreatorService {
     }
   }
 
+  ///function takes the event ID and returns a list of [CreatorBooking] that contains all booking information for the event
   Future<List<CreatorBooking>> getCreatorBookings({
     required String eventID,
     int? limit,
@@ -425,6 +437,7 @@ class CreatorService {
     }
   }
 
+  ///function takes an event ID and returns csv file with all the bookings of that event
   Future<String> getCreatorBookingsCSV({
     required String eventID,
   }) async {
@@ -468,6 +481,7 @@ class CreatorService {
     }
   }
 
+  ///function that takes a [CreatorTicket] object and an event ID and edits an already existing ticket
   Future<String> editTicket(CreatorTicket ticket, String eventID) async {
     Uri url = Uri.parse('$urlString/api/v1/tickets/${ticket.ticketID}');
     //headers sent
@@ -497,6 +511,7 @@ class CreatorService {
     }
   }
 
+  ///function that takes event information as its parameters and edits an already existing event
   Future<String> editEvent(bool? privacy, final DateTime? goPublicDate,
       String eventID, String? description, bool? draft) async {
     Uri url = Uri.parse('$urlString/api/v1/events/$eventID');
@@ -538,6 +553,7 @@ class CreatorService {
     }
   }
 
+  ///function that takes event ID and deletes that event
   Future<String> deleteEvent(
       bool? privacy, final DateTime? goPublicDate, String eventID) async {
     Uri url = Uri.parse('$urlString/api/v1/creators/events/$eventID');

@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hebtus_crossplatform/components/app_bar.dart';
 import 'package:hebtus_crossplatform/models/attendee_event.dart';
+import 'package:hebtus_crossplatform/models/notifications.dart';
 import 'package:hebtus_crossplatform/screens/landingpage/components/cover_image.dart';
 import 'package:hebtus_crossplatform/screens/landingpage/components/categories.dart';
 import 'package:hebtus_crossplatform/globals/globals.dart';
@@ -14,6 +15,7 @@ import 'package:hebtus_crossplatform/screens/landingpage/components/location.dar
 import 'components/event_list.dart';
 import 'components/tab_bar.dart';
 import 'dart:async';
+import 'package:hebtus_crossplatform/services/auth_service.dart';
 
 /// This class returns landingpage which is the homepage of the app
 class LandingPageScreen extends StatefulWidget {
@@ -31,6 +33,7 @@ class _LandingPageScreenState extends State<LandingPageScreen> {
     super.initState();
     AttendeeService attendeeService = AttendeeService();
     events = attendeeService.getEvents();
+    getNotifications();
   }
 
   //callback function to rebuild landing page from child widgets
@@ -63,7 +66,40 @@ class _LandingPageScreenState extends State<LandingPageScreen> {
     }
     print(latitude_v);
     print(longitude_v);
+    getNotifications();
     setState(() {});
+  }
+
+  void getNotifications() async {
+    //getting notifications
+    AuthService authService = AuthService();
+    try {
+      Notifications? notif = await authService.getNotifications();
+      if (notif != null) {
+        //display popup
+        // ignore: use_build_context_synchronously
+        showDialog(
+            barrierDismissible: true,
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("Event Invitation!"),
+                content: Text(
+                    "you have been invited to an event!\n You have been invited to ${notif.eventName} by ${notif.creatorFirstName} ${notif.creatorLastName}, Check you email for more information "),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
+            });
+      }
+    } catch (e) {
+      //catch any error from notifications
+    }
   }
 
   @override
@@ -121,7 +157,10 @@ class _LandingPageScreenState extends State<LandingPageScreen> {
                                           setState(() {
                                             _currentAddress = address;
                                           });
-                                          rebuildLandingPage(address: _currentAddress,lat: latitude_v,long: longitude_v);
+                                          rebuildLandingPage(
+                                              address: _currentAddress,
+                                              lat: latitude_v,
+                                              long: longitude_v);
                                         },
                                       ),
                                     ],

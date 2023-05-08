@@ -3,6 +3,7 @@ import 'package:hebtus_crossplatform/constants.dart';
 import 'package:hebtus_crossplatform/models/creator_events.dart';
 import 'package:intl/intl.dart';
 
+///Class that represents a single event card and includes all its information, used in the creator events screen
 class CreatorEventCard extends StatelessWidget {
   final CreatorEvent event;
   const CreatorEventCard({super.key, required this.event});
@@ -61,6 +62,12 @@ class CreatorEventCard extends StatelessWidget {
                       children: [
                         Row(
                           children: [
+                            event.isPrivate != null && event.isPrivate!
+                                ? const Padding(
+                                    padding: EdgeInsets.only(right: 1),
+                                    child: Icon(Icons.lock, size: 15),
+                                  )
+                                : Container(),
                             Flexible(
                               child: Text(
                                 event.eventName,
@@ -113,24 +120,6 @@ class CreatorEventCard extends StatelessWidget {
                             ],
                           ),
                         ),
-                        event.isPrivate != null && event.isPrivate!
-                            ? Padding(
-                                padding: const EdgeInsets.only(top: 3),
-                                child: Row(
-                                  children: const [
-                                    Icon(Icons.lock),
-                                    Flexible(
-                                      child: Text(
-                                        "Private",
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 2,
-                                        softWrap: true,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              )
-                            : Container(),
                       ],
                     ))),
             mediaQuery.size.width > widthConst

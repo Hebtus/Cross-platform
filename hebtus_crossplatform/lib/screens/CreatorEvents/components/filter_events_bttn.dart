@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+///The class contains the buttons that create csv file of the events, filter events and create new event
 class FilterEventsBttn extends StatefulWidget {
   final void Function({String? filter}) rebuildPage;
   final void Function() exportToCSV;
