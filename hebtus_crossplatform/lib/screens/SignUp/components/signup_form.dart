@@ -66,7 +66,8 @@ class _SignupFormState extends State<SignupForm> {
           builder: (BuildContext context) {
             return AlertDialog(
               title: const Text("Error"),
-              content: Text(e.toString()),
+              content:
+                  Text(e.toString().replaceAll(RegExp(r'Exception: '), '')),
               actions: [
                 TextButton(
                   onPressed: () {
@@ -216,7 +217,8 @@ class _SignupFormState extends State<SignupForm> {
                                   builder: (BuildContext context) {
                                     return AlertDialog(
                                       title: const Text("Error"),
-                                      content: Text(e.toString()),
+                                      content: Text(e.toString().replaceAll(
+                                          RegExp(r'Exception: '), '')),
                                       actions: [
                                         TextButton(
                                           onPressed: () {
@@ -303,7 +305,8 @@ class _SignupFormState extends State<SignupForm> {
                                   builder: (BuildContext context) {
                                     return AlertDialog(
                                       title: const Text("Error"),
-                                      content: Text(e.toString()),
+                                      content: Text(e.toString().replaceAll(
+                                          RegExp(r'Exception: '), '')),
                                       actions: [
                                         TextButton(
                                           onPressed: () {

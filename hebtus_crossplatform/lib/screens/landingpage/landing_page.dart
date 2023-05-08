@@ -85,7 +85,7 @@ class _LandingPageScreenState extends State<LandingPageScreen> {
               return AlertDialog(
                 title: const Text("Event Invitation!"),
                 content: Text(
-                    "you have been invited to an event!\n You have been invited to ${notif.eventName} by ${notif.creatorFirstName} ${notif.creatorLastName}, Check you email for more information "),
+                    "You have been invited to '${notif.eventName}' by ${notif.creatorFirstName} ${notif.creatorLastName}"),
                 actions: [
                   TextButton(
                     onPressed: () {
