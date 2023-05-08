@@ -64,6 +64,20 @@ List<PromoCodes>? promoList;
 /// promoCodeTable
 ///Description:this methode promo code list and draws the container with the contained data
 /// return type:Column
+/// ------------------------------------------------
+/// name ticketCardWeb
+///Description:this methode tickets list and draws the container with the contained data but the list used is recived from the request
+/// return type:Column
+/// -----------------------------------------------
+/// promoCodeTableWeb
+///Description:this methode promo code list and draws the container with the contained data but the list used is recived from the request
+/// return type:Column
+/// ------------------------------------------------
+/// sendCSV
+///Description:this methode opens the device directory where we can navigate to a csv file and upload it through a multipart request to the backend
+/// return type:void
+/// ------------------------------------------------
+
 class Tickets extends StatefulWidget {
   Tickets({Key? key, required this.eventdetails}) : super(key: key);
   final CreatorEvent eventdetails;
@@ -74,6 +88,13 @@ class Tickets extends StatefulWidget {
 
 class _TicketsState extends State<Tickets> {
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
+  @override
+  void dispose(){
+    ticketsList?.clear();
+    promoList?.clear();
+
+
+  }
 
   ///Description:read a json file for tickets list from assets and added to a global variable
   ///return type:non
@@ -507,7 +528,7 @@ class _TicketsState extends State<Tickets> {
     return DataRow(cells: [
       DataCell(Text(promoListWeb[i].codeName)),
       DataCell(Text(
-          promoListWeb[i].discountOrPercentage == 0 ? "percantage" : "price")),
+          promoListWeb[i].discountOrPercentage == 0 ? "price" : "percantage")),
       DataCell(Text(promoListWeb[i].discountOrPercentage == 1
           ? promoListWeb[i].percentageAmount.toString()
           : promoListWeb[i].discountAmount.toString())),

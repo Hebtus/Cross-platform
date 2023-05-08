@@ -191,6 +191,8 @@ class CreatorService {
     request.headers.addAll(createTicketHeaders);
 
     request.fields.addAll({
+      'description':eventData?.description??'',
+      'tags':eventData.tags?.isNotEmpty == true ?eventData.tags![0] : '',
       'locationName': eventData.locationName,
       'name': eventData.eventName,
       'startDate': eventData.startTime.toString(),

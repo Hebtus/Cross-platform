@@ -65,7 +65,7 @@ String _dropDownValueEndTime = "02:00";
 //////////////////////////////passed values to basic info
 TextEditingController eventName = TextEditingController();
 
-final _controller = TextEditingController();
+TextEditingController _controller = TextEditingController();
 List<String> _suggestions = [];
 double _latitude = 0;
 double _longitude = 0;
@@ -105,6 +105,20 @@ CreatorEvent eventdetails = CreatorEvent(
 ///name:dateAndtime
 ///Description:This methode has 3 buttons that change the field according to th button pressed
 ///Return Type:Column
+///---------------------------------------------------------
+///name:getAutocompleteSuggestions
+///Description:this function calls the api of geoapify to get a list of strings from the letters entered so far
+///Return Type:list of strings
+///---------------------------------------------------------
+///name:getCoordinates
+///Description:take the location name and appends it to the request url to get the longitude and latitude
+///Return Type:void
+///---------------------------------------------------------
+///name:getimage
+///Description:acess the mobile directory or the computer depending on the platforma and get the image path
+///Return Type:file
+///---------------------------------------------------------
+
 class BasicInfoStart extends StatefulWidget {
   const BasicInfoStart({super.key});
 
@@ -122,6 +136,58 @@ class _BasicInfoStartState extends State<BasicInfoStart> {
   @override
   void dispose() {
     _searchController.dispose();
+     eventNameCount = 0;
+    tagsCount = 0;
+    buttonVenue = true;
+    buttonOnlineEvent = false;
+    buttonToBeAnnounced = false;
+    buttonSingleEvent = true;
+    buttonRecurringEvent = false;
+    _date = TextEditingController();
+    selectedDate = DateTime.now();
+    _date2 = TextEditingController();
+    selectedDate2 = DateTime.now();
+    displayStartTime = false;
+    displayEndTime = false;
+    enableVar = true;
+    imageUploudedCheck = false;
+
+    tagsController = TextEditingController();
+    descriptionController = TextEditingController();
+
+    late ImagePicker picker;
+    imageUrl = '';
+    String? filePath;
+    File? imageObj;
+    late var img;
+
+ _dropDownValue = "Music";
+  _dropDownValueStartTime = "02:00";
+_dropDownValueEndTime = "02:00";
+
+//////////////////////////////passed values to basic info
+    eventName = TextEditingController();
+
+    _controller = TextEditingController();
+    _suggestions = [];
+     _latitude = 0;
+   _longitude = 0;
+
+
+ start = DateTime(2000);
+  end = DateTime(2100);
+   egypt = Location(longitude: 1, latitude: 2);
+    CreatorEvent eventdetails = CreatorEvent(
+        eventID: '1',
+        eventName: ' eventName',
+        imgURL: 'imgURL',
+        startTime: start,
+        endTime: end,
+        location: egypt,
+        locationName: 'locationName',
+        category: 'category',
+        isDraft: true);
+
     super.dispose();
   }
 
@@ -168,20 +234,7 @@ class _BasicInfoStartState extends State<BasicInfoStart> {
                       ],
                     ),
                   ),
-                  if (!kIsWeb)
-                    ElevatedButton(
-                      onPressed: () {
-                        print(imageUploudedCheck);
-                        Navigator.pop(context);
-                        getImage();
-                      },
-                      child: Row(
-                        children: [
-                          Icon(Icons.camera),
-                          Text('From Camera'),
-                        ],
-                      ),
-                    ),
+
                 ],
               ),
             ),
@@ -843,6 +896,8 @@ class _BasicInfoStartState extends State<BasicInfoStart> {
                 double? sendlat = _latitude;
                 Location eventLocation =
                     Location(longitude: sendLong, latitude: sendlat);
+                Location eventLocationTemp =
+                Location(longitude: 11.1, latitude: 11.1);
 
                 CreatorEvent Eventdata = CreatorEvent(
                   description: descriptionController.text,
@@ -852,8 +907,8 @@ class _BasicInfoStartState extends State<BasicInfoStart> {
                     imgURL: imageUrl,
                     startTime: sendStart,
                     endTime: sendEnd,
-                    location: eventLocation,
-                    locationName: _controller.text,
+                    location: buttonOnlineEvent?eventLocationTemp:eventLocation,
+                    locationName: buttonOnlineEvent?"Online":_controller.text,
                     isDraft: true,
                     category: _dropDownValue,
                     isOnline: buttonOnlineEvent);

@@ -33,7 +33,7 @@ TextEditingController startDateController = TextEditingController();
 TextEditingController endDateController = TextEditingController();
 TextEditingController startTimeController = TextEditingController();
 TextEditingController endTimeController = TextEditingController();
-
+///in this class we take the data from the user and send it in the create ticket request to be made
 class AddMoreTickets extends StatefulWidget {
   AddMoreTickets({Key? key, required this.eventID}) : super(key: key);
   final String eventID;

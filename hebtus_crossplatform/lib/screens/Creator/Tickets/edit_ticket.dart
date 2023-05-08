@@ -33,6 +33,7 @@ TextEditingController startDateController = TextEditingController();
 TextEditingController endDateController = TextEditingController();
 TextEditingController startTimeController = TextEditingController();
 TextEditingController endTimeController = TextEditingController();
+///this class is very simmilare to the create ticket the only diffrence is that we use a diffrent request to edit ticket
 
 class EditTicket extends StatefulWidget {
   EditTicket({Key? key, required this.eventIDhere,required this.ticketIDHere}) : super(key: key);

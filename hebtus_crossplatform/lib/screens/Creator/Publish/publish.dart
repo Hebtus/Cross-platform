@@ -27,7 +27,7 @@ String? _dropDownValue = "Any one with link";
 TextEditingController _date = TextEditingController();
 DateTime selectedDatePublish = DateTime.now();
 bool enableDate = false;
-
+///only the editEvent request is used here for changing from draft to publish and public and pivate
 class Publish extends StatefulWidget {
   Publish({Key? key, required this.eventdetails}) : super(key: key);
   final CreatorEvent eventdetails;

@@ -23,6 +23,7 @@ TextEditingController codeNameController = TextEditingController();
 TextEditingController priceController = TextEditingController();
 TextEditingController percentageController = TextEditingController();
 TextEditingController usesController = TextEditingController();
+///in this class we take the data from the user and send it in the create ticket request to be made
 
 class AddPromoCode extends StatefulWidget {
   const AddPromoCode({Key? key, required this.eventID}) : super(key: key);
@@ -157,9 +158,9 @@ class _AddPromoCodeState extends State<AddPromoCode> {
                     PromoCodes promo = PromoCodes(
                         widget.eventID,
                         codeNameController.text,
-                        priceButton ? 1 : 0,
-                        priceController.text.isNotEmpty?double.parse(priceController.text):1,
-                        percentageController.text.isNotEmpty?double.parse(percentageController.text):1,
+                        priceButton ? 0: 1,
+                        priceButton?double.parse(priceController.text):1,
+                        priceButton?1:double.parse(percentageController.text),
                         int.parse(usesController.text));
                     String result = await creatorData.createPromoCode(
                         promo, widget.eventID);

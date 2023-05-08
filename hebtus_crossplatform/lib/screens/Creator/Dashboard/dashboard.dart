@@ -34,6 +34,14 @@ bool addAttendee = false;
 
 Sales? salesList;
 List<CreatorBooking>? attendeeList;
+///name:AttendeeListTable
+///Description:this function takes a list of attendees taken from the api response and views it in the form of a table
+///Return Type:dataRow
+///-----------------------------------------
+///name:SalesListTable
+///Description:this function takes a list of sale taken from the api response and views it in the form of a table
+///Return Type:dataRow
+///-----------------------------------------
 
 class Dashboard extends StatefulWidget {
   Dashboard({Key? key, required this.eventdetails}) : super(key: key);
@@ -47,6 +55,25 @@ class _DashboardState extends State<Dashboard> {
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
   final TextEditingController _searchController = TextEditingController();
   String _responseText = '';
+  @override
+    void dispose(){
+     ticketIDController = TextEditingController();
+    eventIDController = TextEditingController();
+     firstNameController = TextEditingController();
+     lastNameController = TextEditingController();
+     phoneNumberController = TextEditingController();
+     genderController = TextEditingController();
+     guestEmailController = TextEditingController();
+     priceController = TextEditingController();
+     quantityController = TextEditingController();
+
+     ticketsListHere?.clear();
+   attendeeList?.clear();
+   salesList=Sales(0, 0, []);
+
+    super.dispose();
+
+  }
 
   DataRow AttendeeListTable(List<CreatorBooking> attendeeList, int i) {
     return DataRow(cells: [
@@ -62,7 +89,7 @@ class _DashboardState extends State<Dashboard> {
     return DataRow(cells: [
       DataCell(Text(salesList.salesByType[i].ticketType)),
       DataCell(Text(salesList.salesByType[i].price.toString())),
-      DataCell(Text((salesList.salesByType[i].capacity.toString()))),
+      DataCell(Text((salesList.salesByType[i].currentReservations.toString()))),
     ]);
   }
 
@@ -369,6 +396,7 @@ class _DashboardState extends State<Dashboard> {
                       ),
                     ),
       TextFormField(
+        controller: phoneNumberController,
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
@@ -449,9 +477,6 @@ class _DashboardState extends State<Dashboard> {
                                 guestEmail: guestEmailController.text,
                                 price: int.parse(priceController.text),
                                 quantity: int.parse(quantityController.text));
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Attendee added')),
-                            );
 
                           }catch(e){
                             setState(() {

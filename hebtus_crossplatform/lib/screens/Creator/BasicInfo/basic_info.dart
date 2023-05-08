@@ -1,5 +1,6 @@
   import 'dart:convert';
 import 'dart:developer';
+import 'package:hebtus_crossplatform/constants.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/foundation.dart';
@@ -242,21 +243,21 @@ class _BasicInfoState extends State<BasicInfo> {
         const SizedBox(
           height: 20,
         ),
-        TextFormField(
-          enabled: enableVar,
-          maxLength: 25,
-          onChanged: (String value) {
-            setState(() {
-              tagsCount = value.length;
-            });
-          },
-          decoration: InputDecoration(
-            labelText:
-                'Add search keywords to your event', //hint addressa dispappers while the lable remains
-            border: const OutlineInputBorder(),
-            counterText: '$tagsCount/25',
-          ),
-        ),
+    TextFormField(
+    initialValue: widget.eventdetails.tags?.isNotEmpty == true ? widget.eventdetails.tags![0] : '',
+    enabled: enableVar,
+    maxLength: 25,
+    onChanged: (String value) {
+    setState(() {
+    tagsCount = value.length;
+    });
+    },
+    decoration: InputDecoration(
+    labelText: 'Add search keywords to your event',
+    border: const OutlineInputBorder(),
+    counterText: '$tagsCount/25',
+    ),
+    ),
       ],
     );
   }
@@ -568,7 +569,9 @@ class _BasicInfoState extends State<BasicInfo> {
                   const SizedBox(
                     height: 20,
                   ),
-                  TextField(
+                  TextFormField(
+                    initialValue: widget.eventdetails.description!=null?widget.eventdetails.description:' ',
+
                     decoration: InputDecoration(
                       labelText: 'Description',
                       hintText: 'Enter a description',
