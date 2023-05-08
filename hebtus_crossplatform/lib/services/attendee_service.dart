@@ -8,6 +8,10 @@ import '../models/attendee_tickets.dart';
 
 ///class that contains all the attendee services and functions that make api calls
 class AttendeeService {
+  http.Client _httpClient;
+
+  AttendeeService([http.Client? httpClient])
+      : _httpClient = httpClient ?? http.Client();
   //the parameters are named meaning that when you call the function you have to pass named parameter ex category: "all"
   ///the function takes the parameters with which the events will be filtered and returns a list of [AttendeeEvent] with the filters applied
   Future<List<AttendeeEvent>> getEvents(
@@ -48,7 +52,7 @@ class AttendeeService {
 
     http.Response response;
     try {
-      response = await http.get(url, headers: getEventsHeaders);
+      response = await _httpClient.get(url, headers: getEventsHeaders);
     } catch (e) {
       throw ("Something Went Wrong, Please Try Again Later");
     }
@@ -149,7 +153,7 @@ class AttendeeService {
     }
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      return jsonDecode(response.body)["message"];
+      return jsonDecode(response.body)["status"];
     } else {
       throw Exception(jsonDecode(response.body)["message"]);
     }
