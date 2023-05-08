@@ -18,6 +18,11 @@ import 'package:path_provider/path_provider.dart';
 ///class that contains all the creator services and functions that make api calls
 ///
 class CreatorService {
+  http.Client _httpClient;
+
+  CreatorService([http.Client? httpClient])
+      : _httpClient = httpClient ?? http.Client();
+
   ///function that takes an event ID and returns an object of [CreatorEvent]
   Future<CreatorEvent> getOneEvent(String eventID) async {
     Uri url = Uri.parse('$urlString/api/v1/creators/events/$eventID');
@@ -70,7 +75,7 @@ class CreatorService {
 
     http.Response response;
     try {
-      response = await http.get(url, headers: getEventsHeaders);
+      response = await _httpClient.get(url, headers: getEventsHeaders);
     } catch (e) {
       throw ("Something Went Wrong, Please Try Again Later");
     }

@@ -22,7 +22,7 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
   //for pagination
   final scrollController = ScrollController();
   int currentPage = 1;
-  final int pageLimit = 5;
+  final int pageLimit = 6;
   bool isLoading = false;
   String? filter = "future";
   bool isDownloading = false;
@@ -83,7 +83,7 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
               return AlertDialog(
                 title: const Text("Event Invitation!"),
                 content: Text(
-                    "you have been invited to an event!\n You have been invited to ${notif.eventName} by ${notif.creatorFirstName} ${notif.creatorLastName}, Check you email for more information "),
+                    "You have been invited to attend the event '${notif.eventName}' by ${notif.creatorFirstName} ${notif.creatorLastName}"),
                 actions: [
                   TextButton(
                     onPressed: () {
@@ -200,29 +200,34 @@ class _CreatorEventsScreenState extends State<CreatorEventsScreen> {
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   ))
-                                : ListView.separated(
+                                : Scrollbar(
                                     controller: scrollController,
-                                    padding: EdgeInsets.zero,
-                                    itemBuilder: ((context, index) {
-                                      if (index < events.length) {
-                                        return GestureDetector(
-                                          onTap: () => context.goNamed(
-                                              "dashboard",
-                                              extra: events[index]),
-                                          child: CreatorEventCard(
-                                              event: events[index]),
-                                        );
-                                      } else {
-                                        return const Center(
-                                          child: CircularProgressIndicator(),
-                                        );
-                                      }
-                                    }),
-                                    separatorBuilder: (context, index) =>
-                                        const SizedBox(height: 1),
-                                    itemCount: isLoading
-                                        ? events.length + 1
-                                        : events.length),
+                                    interactive: true,
+                                    child: ListView.separated(
+                                        controller: scrollController,
+                                        padding: EdgeInsets.zero,
+                                        itemBuilder: ((context, index) {
+                                          if (index < events.length) {
+                                            return GestureDetector(
+                                              onTap: () => context.goNamed(
+                                                  "dashboard",
+                                                  extra: events[index]),
+                                              child: CreatorEventCard(
+                                                  event: events[index]),
+                                            );
+                                          } else {
+                                            return const Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            );
+                                          }
+                                        }),
+                                        separatorBuilder: (context, index) =>
+                                            const SizedBox(height: 1),
+                                        itemCount: isLoading
+                                            ? events.length + 1
+                                            : events.length),
+                                  ),
                       ),
                     )
                   ],
