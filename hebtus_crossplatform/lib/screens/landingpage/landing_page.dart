@@ -27,96 +27,85 @@ class LandingPageScreen extends StatefulWidget {
 
 class _LandingPageScreenState extends State<LandingPageScreen> {
   Future<List<AttendeeEvent>>? events;
-  String? _currentAddress='';
-  String? Categ ;
+  String? _currentAddress = '';
+  String? Categ;
   String? isOnline;
-  String?isFree;
-   String ?start;
-   String ?end;
-  
+  String? isFree;
+  String? start;
+  String? end;
+
   @override
   void initState() {
-  super.initState();
-  _init();
- 
-}
-
-_init() async {
-  AttendeeService attendeeService = AttendeeService();
-  try {
-    Position? position = await _getcurrentlocation();
-    if (position != null) {
-      rebuildLandingPage(lat: position.latitude, long: position.longitude);
-    }
+    super.initState();
     getNotifications();
-  } catch (e) {
-    // handle error
+    _init();
   }
-}
- 
- Future<Position?> _getcurrentlocation() async {
-  bool serviceEnabled =await Geolocator.isLocationServiceEnabled();
-  if(!serviceEnabled)
-  {
-    return Future.error("Location services are disabled");
-  }
-  LocationPermission permission=await Geolocator.checkPermission();
-  if(permission ==LocationPermission.denied)
-  {
-    permission =await Geolocator.requestPermission();
-    if(permission ==LocationPermission.denied)
-    {
-       return Future.error("Location permissions are disabled");
+
+  _init() async {
+    AttendeeService attendeeService = AttendeeService();
+    try {
+      Position? position = await _getcurrentlocation();
+      if (position != null) {
+        rebuildLandingPage(lat: position.latitude, long: position.longitude);
+      }
+    } catch (e) {
+      // handle error
     }
   }
-  if (permission==LocationPermission.deniedForever)
-  {
-     return Future.error("Location permissions are permanently denied , we can`t request permission");
+
+  Future<Position?> _getcurrentlocation() async {
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error("Location services are disabled");
+    }
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error("Location permissions are disabled");
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          "Location permissions are permanently denied , we can`t request permission");
+    }
+    // Start listening for position updates
+
+    if (!await Geolocator.isLocationServiceEnabled()) {
+      return null;
+    }
+    Position position = await Geolocator.getCurrentPosition();
+    latitude_v = position.latitude;
+    longitude_v = position.longitude;
+    _getAddressFromLatLng();
+    return position;
   }
-   // Start listening for position updates
-     
-  if (!await Geolocator.isLocationServiceEnabled()) {
-    return null;
-  }
-  Position position = await Geolocator.getCurrentPosition();
-  latitude_v = position.latitude;
-  longitude_v = position.longitude;
-   _getAddressFromLatLng();
-  return position;
-  
-}
-  
- _getAddressFromLatLng() async {
+
+  _getAddressFromLatLng() async {
     try {
-      List<Placemark> placemarks = await placemarkFromCoordinates(
-        latitude_v!,longitude_v! );
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(latitude_v!, longitude_v!);
 
       Placemark place = placemarks[0];
 
       setState(() {
-        if(place.locality=='')
-        {
+        if (place.locality == '') {
           _currentAddress = "${place.administrativeArea}, ${place.country}";
+        } else {
+          _currentAddress =
+              "${place.administrativeArea},${place.locality}, ${place.country}";
         }
-        else
-        {
-         _currentAddress = "${place.administrativeArea},${place.locality}, ${place.country}";
-        }
-        
       });
     } catch (e) {
       print(e);
     }
   }
 
- @override
+  @override
   void dispose() {
-    
     super.dispose();
   }
-   
 
-  
   //callback function to rebuild landing page from child widgets
   void rebuildLandingPage(
       {String? category,
@@ -137,57 +126,63 @@ _init() async {
     });*/
     if (category != null) {
       if (category != "null") {
-        Categ=category;
-        isOnline=null;
-        isFree=null;
-        start=null;
-        end=null;
-        events = attendeeService.getEvents(category: category, latitude: latitude_v, longitude: longitude_v);
+        Categ = category;
+        isOnline = null;
+        isFree = null;
+        start = null;
+        end = null;
+        events = attendeeService.getEvents(
+            category: category, latitude: latitude_v, longitude: longitude_v);
       } else {
-        Categ=null;
-        isOnline=null;
-        isFree=null;
-        start=null;
-        end=null;
-        events = attendeeService.getEvents( latitude: latitude_v, longitude: longitude_v);
+        Categ = null;
+        isOnline = null;
+        isFree = null;
+        start = null;
+        end = null;
+        events = attendeeService.getEvents(
+            latitude: latitude_v, longitude: longitude_v);
       }
     } else if (online != null) {
-       Categ=null;
-        isOnline=online.toString();
-        isFree=null;
-        start=null;
-        end=null;
-      events = attendeeService.getEvents(online: true, latitude: latitude_v, longitude: longitude_v);
-    } else if (free != null) {
-       Categ=null;
-        isOnline=null;
-        isFree=free.toString();
-        start=null;
-        end=null;
-      events = attendeeService.getEvents(free: true, latitude: latitude_v, longitude: longitude_v);
-    } else if (todaystartdate != null && todayenddate != null) {
-       Categ=null;
-        isOnline=null;
-        isFree=null;
-        start=todaystartdate.toString();
-        end=todayenddate.toString();
+      Categ = null;
+      isOnline = online.toString();
+      isFree = null;
+      start = null;
+      end = null;
       events = attendeeService.getEvents(
-          startDate: todaystartdate, endDate: todayenddate, latitude: latitude_v, longitude: longitude_v);
+          online: true, latitude: latitude_v, longitude: longitude_v);
+    } else if (free != null) {
+      Categ = null;
+      isOnline = null;
+      isFree = free.toString();
+      start = null;
+      end = null;
+      events = attendeeService.getEvents(
+          free: true, latitude: latitude_v, longitude: longitude_v);
+    } else if (todaystartdate != null && todayenddate != null) {
+      Categ = null;
+      isOnline = null;
+      isFree = null;
+      start = todaystartdate.toString();
+      end = todayenddate.toString();
+      events = attendeeService.getEvents(
+          startDate: todaystartdate,
+          endDate: todayenddate,
+          latitude: latitude_v,
+          longitude: longitude_v);
     } else if (long != null && lat != null) {
-       Categ=null;
-        isOnline=null;
-        isFree=null;
-        start=null;
-        end=null;
+      Categ = null;
+      isOnline = null;
+      isFree = null;
+      start = null;
+      end = null;
       events = attendeeService.getEvents(
           latitude: latitude_v, longitude: longitude_v);
-          _getAddressFromLatLng();
+      _getAddressFromLatLng();
     }
     print(latitude_v);
     print(longitude_v);
     getNotifications();
     setState(() {});
-    
   }
 
   void getNotifications() async {
@@ -262,11 +257,13 @@ _init() async {
                                         ),
                                         onTap: () {
                                           // Get the current location
-                                         
-                                         _getcurrentlocation();
-                                         print(latitude_v);
-                                         print(longitude_v);
-                                         rebuildLandingPage(lat:latitude_v,long: longitude_v);
+
+                                          _getcurrentlocation();
+                                          print(latitude_v);
+                                          print(longitude_v);
+                                          rebuildLandingPage(
+                                              lat: latitude_v,
+                                              long: longitude_v);
                                         },
                                       ),
                                     ],
@@ -324,19 +321,20 @@ _init() async {
                                     ],
                                   )
                                 : EventCard(num: 0, events: snapshot.data!),
-                                Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top:10.0),
-                                    child: ElevatedButton(onPressed: (){
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 10.0),
+                                child: ElevatedButton(
+                                    onPressed: () {
                                       print("date");
                                       print(isFree);
-                                      return context.go("/seemore/${Categ}/${isOnline}/${isFree}/${start}/${end}");
-                                    }, child: const Text("See more")),
-                                  ),
-                                ),
-                            
+                                      return context.go(
+                                          "/seemore/${Categ}/${isOnline}/${isFree}/${start}/${end}");
+                                    },
+                                    child: const Text("See more")),
+                              ),
+                            ),
                           ],
-                          
                         ),
                       ),
                     ));
