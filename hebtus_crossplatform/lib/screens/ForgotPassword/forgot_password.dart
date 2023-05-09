@@ -127,6 +127,7 @@ class _ForgotPasswdScreenState extends State<ForgotPasswdScreen> {
                                                             onPressed: () {
                                                               Navigator.pop(
                                                                   context);
+                                                              context.go("/");
                                                             },
                                                             child: const Text(
                                                                 'OK'),
@@ -151,6 +152,7 @@ class _ForgotPasswdScreenState extends State<ForgotPasswdScreen> {
                                                               onPressed: () {
                                                                 Navigator.pop(
                                                                     context);
+                                                                context.go("/");
                                                               },
                                                               child: const Text(
                                                                   'OK'),
@@ -158,8 +160,6 @@ class _ForgotPasswdScreenState extends State<ForgotPasswdScreen> {
                                                           ],
                                                         );
                                                       });
-
-                                                  context.go("/");
                                                 }
                                               }
                                             }
