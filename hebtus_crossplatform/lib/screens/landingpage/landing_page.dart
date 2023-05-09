@@ -34,9 +34,8 @@ class _LandingPageScreenState extends State<LandingPageScreen> {
     super.initState();
     _getcurrentlocation();
     AttendeeService attendeeService = AttendeeService();
-    events =attendeeService.getEvents(latitude: latitude_v,longitude: longitude_v);
+    events = attendeeService.getEvents(latitude: latitude_v,longitude: longitude_v);
     getNotifications();
-    
   }
  
  Future<void> _getcurrentlocation() async {
@@ -59,20 +58,21 @@ class _LandingPageScreenState extends State<LandingPageScreen> {
      return Future.error("Location permissions are permanently denied , we can`t request permission");
   }
    // Start listening for position updates
-    _currentPosition = Geolocator.getCurrentPosition(
+     Geolocator.getCurrentPosition(
     desiredAccuracy: LocationAccuracy.best,
     forceAndroidLocationManager: true,
   ).then((position) {
-    if (mounted) {
+    
       setState(() {
         latitude_v = position.latitude;
         longitude_v = position.longitude;
         _getAddressFromLatLng();
       });
-    }
+      return position;
   }).catchError((e) {
     print(e);
-  }) as Future<Position>?;
+    return null; // return a null value if there is an error
+  });
   
 }
   

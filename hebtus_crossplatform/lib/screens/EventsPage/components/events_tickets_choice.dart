@@ -243,7 +243,8 @@ class _TicketsChoiceState extends State<TicketsChoice> {
                                     context: context,
                                     barrierDismissible: false,
                                     builder: (BuildContext context) {
-                                      print("dhdhdhdhdh");
+                                      print("boooook");
+                                      print(myList);
                                       return BookingTickets(
                                         seconds: 1800,
                                         myList: myList,

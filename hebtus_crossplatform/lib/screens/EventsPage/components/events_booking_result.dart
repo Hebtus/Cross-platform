@@ -6,7 +6,6 @@ import 'package:hebtus_crossplatform/route/router.dart';
 import '../../../services/attendee_service.dart';
 
 class BookingResult extends StatefulWidget {
-  
   final String eventid;
   final String promocode;
   final Name name;
@@ -14,6 +13,7 @@ class BookingResult extends StatefulWidget {
   final String phone;
   final String gender;
   final List<Booking> bookings;
+  final List<List<String>> myList;
   const BookingResult(
       {required this.eventid,
       required this.promocode,
@@ -22,6 +22,7 @@ class BookingResult extends StatefulWidget {
       required this.phone,
       required this.gender,
       required this.bookings,
+      required this.myList,
       super.key});
   @override
   State<BookingResult> createState() => _BookingResultState();
@@ -31,16 +32,40 @@ class _BookingResultState extends State<BookingResult> {
   late Future<String> bookingresult;
   bool res=false;
   String errorMessage = '';
- List<Booking> addbook=[];
   @override
   void initState() {
     super.initState();
     AttendeeService attendeeService = AttendeeService();
+    print(widget.myList);
     if(widget.promocode=='')
     {
       res=true;
     }
-    addbook.insert(0, widget.bookings[0]);
+    bookingresult=_createBooking(attendeeService);
+        print("hhh");
+        print(widget.bookings);
+       
+  }
+
+Future<String> _createBooking(
+     
+      AttendeeService attendeeService) async {
+        late Booking b;
+      List<Booking> book = [];
+        for (int i = 0; i < widget.myList.length; i++) {
+      if (widget.myList[i][4] != '' &&
+          widget.myList[i][3] != '' &&
+          widget.myList[i][2] != '') {
+        b = Booking(
+            widget.myList[i][4],
+            (double.parse(widget.myList[i][3])).toInt(),
+            int.parse(widget.myList[i][2]));
+        book.add(b);
+      } else {
+        continue;
+      }
+
+    }
     AttendeeBooking attendeebook = AttendeeBooking(
         eventID: widget.eventid,
         promoCode: res==false ?widget.promocode : null,
@@ -48,17 +73,9 @@ class _BookingResultState extends State<BookingResult> {
         guestEmail: widget.email,
         phoneNumber: widget.phone,
         gender: widget.gender,
-        bookings: addbook);
-        print("hhh");
-        
-        bookingresult = _createBooking(attendeeService, attendeebook);
-       
-  }
-
-Future<String> _createBooking(
-      AttendeeService attendeeService, AttendeeBooking attendeeBooking) async {
+        bookings: book);
     try {
-      return await attendeeService.createBooking(attendeeBooking);
+      return await attendeeService.createBooking(attendeebook);
     } catch (e) {
       setState(() {
         errorMessage = 'Booking failed: ${e.toString()}';

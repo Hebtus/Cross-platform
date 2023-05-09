@@ -57,6 +57,8 @@ class _BookingTicketsState extends State<BookingTickets> {
     _textFieldController3.addListener(_handleTextFieldChanged);
     _textFieldController4.addListener(_handleTextFieldChanged);
      _textFieldController5.addListener(_handleTextFieldChanged);
+     print("booking tickets");
+     print(widget.myList);
   }
 
   void _handleTextFieldChanged() {
@@ -89,6 +91,7 @@ class _BookingTicketsState extends State<BookingTickets> {
             phone: phonevalue,
             gender: gendervalue,
             bookings: book,
+            myList: widget.myList,
           ),
         );
       },
@@ -121,19 +124,7 @@ class _BookingTicketsState extends State<BookingTickets> {
     final mediaQuery = MediaQuery.of(context);
     String minutes = (_secondsRemaining ~/ 60).toString().padLeft(2, '0');
     String seconds = (_secondsRemaining % 60).toString().padLeft(2, '0');
-    for (int i = 0; i < widget.myList.length; i++) {
-      if (widget.myList[i][4] != '' &&
-          widget.myList[i][3] != '' &&
-          widget.myList[i][2] != '') {
-        b = Booking(
-            widget.myList[i][4],
-            (double.parse(widget.myList[i][3])).toInt(),
-            int.parse(widget.myList[i][2]));
-        book.add(b);
-      } else {
-        continue;
-      }
-    }
+    
 
     for (int i = 0; i < widget.myList.length; i++) {
       if (widget.myList[i][3] != '0.0' && widget.myList[i][3] != '' && int.parse(widget.myList[i][2])!=0) {
