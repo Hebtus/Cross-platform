@@ -5,6 +5,7 @@ import 'package:hebtus_crossplatform/route/router.dart';
 
 import '../../../services/attendee_service.dart';
 
+///this is a class where the booking request is called and its result is returned
 class BookingResult extends StatefulWidget {
   final String eventid;
   final String promocode;
@@ -30,29 +31,25 @@ class BookingResult extends StatefulWidget {
 
 class _BookingResultState extends State<BookingResult> {
   late Future<String> bookingresult;
-  bool res=false;
+  bool res = false;
   String errorMessage = '';
   @override
   void initState() {
     super.initState();
     AttendeeService attendeeService = AttendeeService();
     print(widget.myList);
-    if(widget.promocode=='')
-    {
-      res=true;
+    if (widget.promocode == '') {
+      res = true;
     }
-    bookingresult=_createBooking(attendeeService);
-        print("hhh");
-        print(widget.bookings);
-       
+    bookingresult = _createBooking(attendeeService);
+    print("hhh");
+    print(widget.bookings);
   }
 
-Future<String> _createBooking(
-     
-      AttendeeService attendeeService) async {
-        late Booking b;
-      List<Booking> book = [];
-        for (int i = 0; i < widget.myList.length; i++) {
+  Future<String> _createBooking(AttendeeService attendeeService) async {
+    late Booking b;
+    List<Booking> book = [];
+    for (int i = 0; i < widget.myList.length; i++) {
       if (widget.myList[i][4] != '' &&
           widget.myList[i][3] != '' &&
           widget.myList[i][2] != '') {
@@ -64,11 +61,10 @@ Future<String> _createBooking(
       } else {
         continue;
       }
-
     }
     AttendeeBooking attendeebook = AttendeeBooking(
         eventID: widget.eventid,
-        promoCode: res==false ?widget.promocode : null,
+        promoCode: res == false ? widget.promocode : null,
         name: widget.name,
         guestEmail: widget.email,
         phoneNumber: widget.phone,
@@ -83,6 +79,7 @@ Future<String> _createBooking(
       return '';
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -90,55 +87,57 @@ Future<String> _createBooking(
         child: Center(
             child: SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
-                child: errorMessage.isNotEmpty?
-                 AlertDialog(
-                  content: Column(
-                    children: [
-                      Text(errorMessage),
-                      SizedBox(height: 10),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text("back"),
-                      ),
-                    ],
-                  ),
-                ):
-                FutureBuilder(
-                    future: bookingresult,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        if (snapshot.data == null || snapshot.data!.isEmpty) {
-                        setState(() {
-                          errorMessage = 'Booking failed';
-                        });
-                        return const SizedBox.shrink();
-                        } else {
-                          
-                          return AlertDialog(
-                            content: Column(
-                              children: [
-                                Text("Booking is successful"),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text("back"))
-                              ],
+                child: errorMessage.isNotEmpty
+                    ? AlertDialog(
+                        content: Column(
+                          children: [
+                            Text(errorMessage),
+                            SizedBox(height: 10),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text("back"),
                             ),
-                          );
-                        }
-                      } else {
-                        return Container(
-                          decoration: const BoxDecoration(color: Colors.white),
-                          child:
-                              const Center(child: CircularProgressIndicator()),
-                        );
-                      }
-                    }))));
+                          ],
+                        ),
+                      )
+                    : FutureBuilder(
+                        future: bookingresult,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            if (snapshot.data == null ||
+                                snapshot.data!.isEmpty) {
+                              setState(() {
+                                errorMessage = 'Booking failed';
+                              });
+                              return const SizedBox.shrink();
+                            } else {
+                              return AlertDialog(
+                                content: Column(
+                                  children: [
+                                    Text("Booking is successful"),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("back"))
+                                  ],
+                                ),
+                              );
+                            }
+                          } else {
+                            return Container(
+                              decoration:
+                                  const BoxDecoration(color: Colors.white),
+                              child: const Center(
+                                  child: CircularProgressIndicator()),
+                            );
+                          }
+                        }))));
   }
 }

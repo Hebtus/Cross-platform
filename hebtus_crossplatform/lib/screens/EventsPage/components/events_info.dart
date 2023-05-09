@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:hebtus_crossplatform/globals/globals.dart';
 import 'package:hebtus_crossplatform/models/attendee_event.dart';
 
+///this is a class which displays the information of the event
 class EventInfo extends StatelessWidget {
   final AttendeeEvent event;
   EventInfo({super.key, required this.event});

@@ -13,6 +13,7 @@ import '../../../models/promocodes.dart';
 import '../../../services/creator_service.dart';
 import 'events_booking.dart';
 
+///this class mainly holds all the logic for choosing the tickets during booking
 class TicketsChoice extends StatefulWidget {
   final List<AttendeeTicket> ticketevent;
   final String eventID;
@@ -30,7 +31,7 @@ class _TicketsChoiceState extends State<TicketsChoice> {
   bool ispaid = false;
   String place = "";
   int _ticketEventLength = 0;
-  
+
   List<int> counters = [];
   List<List<String>> myList = [];
   late int count;
@@ -50,12 +51,11 @@ class _TicketsChoiceState extends State<TicketsChoice> {
     super.initState();
     _ticketEventLength = widget.ticketevent.length;
     counters = List.filled(_ticketEventLength, 0);
-    count=0;
+    count = 0;
     myList = List.generate(
       _ticketEventLength,
       (index) => List.filled(5, ''),
     );
-    
   }
 
   void _increment(int index) {
@@ -83,262 +83,241 @@ class _TicketsChoiceState extends State<TicketsChoice> {
     return WillPopScope(
       onWillPop: () async => false,
       child: SingleChildScrollView(
-        physics:BouncingScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         child: AlertDialog(
-              content: _close == 0
-                  ? SizedBox(
-                      width: 900,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _close = 1;
-                                    });
-                                  },
-                                  icon: Icon(Icons.arrow_back)),
-                              const Padding(
-                                padding: EdgeInsets.only(left: 30),
-                                child: Text("Choose tickets"),
-                              ),
-                            ],
-                          ),
-                      
-                          Padding(
-                            padding: const EdgeInsets.only(top: 4.0),
-                            child: const Divider(thickness: 1.4),
-                          ),
-                      
-                          ///////////////////////////////////////// free tickets ///////////////////////////////////////
-                      
-                          Visibility(
-                            visible: isfree,
-                            child: Container(
-                              width: 900,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const FittedBox(
-                                    child: Text(
-                                      "Free tickets",
-                                      style: TextStyle(fontSize: 19),
-                                    ),
-                                  ),
-                                  ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: counters.length,
-                                    itemBuilder: (context, index) {
-                                      return CounterWidget(
-                                        key: ValueKey(index),
-                                        index: index,
-                                        value: counters[index],
-                                        onIncrement: _increment,
-                                        onDecrement: _decrement,
-                                        ticketevent: widget.ticketevent,
-                                        place: "free",
-                                        myList: myList,
-                                        onMyListUpdated: updateMyList,
-                                      );
-                                    },
-                                  ),
-                                  const Divider(thickness: 1.4),
-                                ],
-                              ),
-                            ),
-                          ),
-                      
-                      /////////////////////////////////////////////for paid tickets//////////////////////////////////////////
-                      
-                          Visibility(
-                            visible: ispaid,
-                            child: Container(
-                              width: 900,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const FittedBox(
-                                    child: Text(
-                                      "paid tickets",
-                                      style: TextStyle(fontSize: 19),
-                                    ),
-                                  ),
-                                  ListView.builder(
-                                    
-                                    shrinkWrap: true,
-                                    itemCount: counters.length,
-                                    itemBuilder: (context, index) {
-                                    
-                                      return CounterWidget(
-                                        key: ValueKey(index),
-                                        index: index,
-                                        value: counters[index],
-                                        onIncrement: _increment,
-                                        onDecrement: _decrement,
-                                        ticketevent: widget.ticketevent,
-                                        place: "paid",
-                                        myList: myList,
-                                        onMyListUpdated: updateMyList,
-                                      );
-                                    },
-                                  ),
-                                  const Divider(thickness: 1.4),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Center(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                bool noTicketsChosen = true;
-                                for(int i=0 ;i<myList.length;i++)
-                                {
-                                  if(myList[i][2]=='' || myList[i][2]=='0')
-                                  {
-                                    setState(() {
-                                      count++;
-                                    });
-                                    
-                                  }
-                                  
-
-                                }
-                                print(count);
-                                
-                                for (int i = 0; i < myList.length; i++) {
-                                  if (count!=myList.length) {
-                                    
-                                    noTicketsChosen = false;
-                                    break;
-                                  }
-                                }
-                                if (noTicketsChosen) {
-                                  showDialog(
-                                    context: context,
-                                    barrierDismissible: false,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Center(child: Text('Alert')),
-                                        content: Padding(
-                                          padding: const EdgeInsets.only(left: 25),
-                                          child: Text('Please choose a ticket'),
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: Text('Close'),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                } else {
-                                  count=0;
-                                  showDialog(
-                                    context: context,
-                                    barrierDismissible: false,
-                                    builder: (BuildContext context) {
-                                      print("boooook");
-                                      print(myList);
-                                      return BookingTickets(
-                                        seconds: 1800,
-                                        myList: myList,
-                                        eventID: widget.eventID,
-                                       
-                                      );
-                                    },
-                                  );
-                                }
-                              },
-                              child: const Text("Book tickets"),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  : SizedBox(
-                      width: 900,
-                      height: MediaQuery.of(context).size.height * 0.55,
-                      child: SingleChildScrollView(
-                        physics: BouncingScrollPhysics(),
-                        child: Column(
+            content: _close == 0
+                ? SizedBox(
+                    width: 900,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
+                            IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _close = 1;
+                                  });
+                                },
+                                icon: Icon(Icons.arrow_back)),
                             const Padding(
-                              padding: EdgeInsets.only(top: 120, bottom: 10),
-                              child: Center(
-                                  child: Text(
-                                "Do you want to leave ?",
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              )),
+                              padding: EdgeInsets.only(left: 30),
+                              child: Text("Choose tickets"),
                             ),
-                            const Padding(
-                              padding: EdgeInsets.only(left: 40, bottom: 15),
-                              child: Center(
-                                  child: Text(
-                                      "Are you sure you want to leave ticket choice? The items you`ve selected may not be available later.",
-                                      style: TextStyle(fontSize: 14))),
-                            ),
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 30),
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _close = 0;
-                                      });
-                                    },
-                                    child: const Text("Stay",
-                                        style: TextStyle(color: Colors.white)),
-                                    style: ElevatedButton.styleFrom(
-                                        maximumSize: Size(100, 30),
-                                        minimumSize: Size(100, 30)),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 30),
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text("Leave",
-                                        style: TextStyle(color: Colors.white)),
-                                    style: ElevatedButton.styleFrom(
-                                        maximumSize: Size(100, 30),
-                                        minimumSize: Size(100, 30)),
-                                  ),
-                                )
-                              ],
-                            )
                           ],
                         ),
-                      ))),
-          
-         
-           
 
-            
-              
-              
-              
-           
-           
-          
-          
-        
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4.0),
+                          child: const Divider(thickness: 1.4),
+                        ),
+
+                        ///////////////////////////////////////// free tickets ///////////////////////////////////////
+
+                        Visibility(
+                          visible: isfree,
+                          child: Container(
+                            width: 900,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const FittedBox(
+                                  child: Text(
+                                    "Free tickets",
+                                    style: TextStyle(fontSize: 19),
+                                  ),
+                                ),
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: counters.length,
+                                  itemBuilder: (context, index) {
+                                    return CounterWidget(
+                                      key: ValueKey(index),
+                                      index: index,
+                                      value: counters[index],
+                                      onIncrement: _increment,
+                                      onDecrement: _decrement,
+                                      ticketevent: widget.ticketevent,
+                                      place: "free",
+                                      myList: myList,
+                                      onMyListUpdated: updateMyList,
+                                    );
+                                  },
+                                ),
+                                const Divider(thickness: 1.4),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        /////////////////////////////////////////////for paid tickets//////////////////////////////////////////
+
+                        Visibility(
+                          visible: ispaid,
+                          child: Container(
+                            width: 900,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const FittedBox(
+                                  child: Text(
+                                    "paid tickets",
+                                    style: TextStyle(fontSize: 19),
+                                  ),
+                                ),
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: counters.length,
+                                  itemBuilder: (context, index) {
+                                    return CounterWidget(
+                                      key: ValueKey(index),
+                                      index: index,
+                                      value: counters[index],
+                                      onIncrement: _increment,
+                                      onDecrement: _decrement,
+                                      ticketevent: widget.ticketevent,
+                                      place: "paid",
+                                      myList: myList,
+                                      onMyListUpdated: updateMyList,
+                                    );
+                                  },
+                                ),
+                                const Divider(thickness: 1.4),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Center(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              bool noTicketsChosen = true;
+                              for (int i = 0; i < myList.length; i++) {
+                                if (myList[i][2] == '' || myList[i][2] == '0') {
+                                  setState(() {
+                                    count++;
+                                  });
+                                }
+                              }
+                              print(count);
+
+                              for (int i = 0; i < myList.length; i++) {
+                                if (count != myList.length) {
+                                  noTicketsChosen = false;
+                                  break;
+                                }
+                              }
+                              if (noTicketsChosen) {
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Center(child: Text('Alert')),
+                                      content: Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 25),
+                                        child: Text('Please choose a ticket'),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text('Close'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              } else {
+                                count = 0;
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (BuildContext context) {
+                                    print("boooook");
+                                    print(myList);
+                                    return BookingTickets(
+                                      seconds: 1800,
+                                      myList: myList,
+                                      eventID: widget.eventID,
+                                    );
+                                  },
+                                );
+                              }
+                            },
+                            child: const Text("Book tickets"),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : SizedBox(
+                    width: 900,
+                    height: MediaQuery.of(context).size.height * 0.55,
+                    child: SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      child: Column(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(top: 120, bottom: 10),
+                            child: Center(
+                                child: Text(
+                              "Do you want to leave ?",
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            )),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 40, bottom: 15),
+                            child: Center(
+                                child: Text(
+                                    "Are you sure you want to leave ticket choice? The items you`ve selected may not be available later.",
+                                    style: TextStyle(fontSize: 14))),
+                          ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 30),
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _close = 0;
+                                    });
+                                  },
+                                  child: const Text("Stay",
+                                      style: TextStyle(color: Colors.white)),
+                                  style: ElevatedButton.styleFrom(
+                                      maximumSize: Size(100, 30),
+                                      minimumSize: Size(100, 30)),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 30),
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text("Leave",
+                                      style: TextStyle(color: Colors.white)),
+                                  style: ElevatedButton.styleFrom(
+                                      maximumSize: Size(100, 30),
+                                      minimumSize: Size(100, 30)),
+                                ),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ))),
       ),
     );
   }
 }
 
+///this class consists of a counter and it displays the ticket name next to it, used in booking
 class CounterWidget extends StatefulWidget {
-
   final int index;
   final int value;
   final Function(int) onIncrement;
@@ -372,7 +351,8 @@ class _CounterWidgetState extends State<CounterWidget> {
           widget.ticketevent[widget.index].name,
           widget.ticketevent[widget.index].type,
           (widget.value + 1).toString(),
-          (widget.ticketevent[widget.index].price *  (widget.value + 1)).toString(),
+          (widget.ticketevent[widget.index].price * (widget.value + 1))
+              .toString(),
           widget.ticketevent[widget.index].ticketID);
     }
   }

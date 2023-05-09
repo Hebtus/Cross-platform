@@ -8,6 +8,7 @@ import 'package:hebtus_crossplatform/globals/globals.dart';
 
 import '../../../models/attendee_event.dart';
 
+///this is a class that holds the description of an event
 class EventDescription extends StatelessWidget {
   final AttendeeEvent event;
   EventDescription({super.key, required this.event});
@@ -28,7 +29,7 @@ class EventDescription extends StatelessWidget {
           ),
           Row(
             children: [
-             /* Padding(
+              /* Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Container(
                   width: 70,
@@ -76,16 +77,11 @@ class EventDescription extends StatelessWidget {
           Container(
               width: MediaQuery.of(context).size.width * 0.8,
               margin: EdgeInsets.all(10),
-              
               child: Column(
                 children: [
-                  event.description==null?
-                  const Text(""):
-                   Text(
-                    event.description.toString()
-                  )
-                  ,
-                 
+                  event.description == null
+                      ? const Text("")
+                      : Text(event.description.toString()),
                 ],
               )),
           Padding(

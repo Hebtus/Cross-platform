@@ -11,6 +11,7 @@ import 'package:hebtus_crossplatform/globals/globals.dart';
 
 import '../../services/attendee_service.dart';
 
+///this class is the main event screen which displays all the event information and displays the popups for booking and ticket choosing
 class EventsScreen extends StatefulWidget {
   final String eventID;
   EventsScreen({required this.eventID, super.key});
@@ -34,13 +35,14 @@ class _EventsScreenState extends State<EventsScreen> {
     return Container(
       child: Scaffold(
         appBar: MainAppBar(context),
-        bottomSheet:  TicketBottomSheet(eventID: widget.eventID,),
+        bottomSheet: TicketBottomSheet(
+          eventID: widget.eventID,
+        ),
         body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: FutureBuilder(
               future: event,
               builder: (context, snapshot) {
-                
                 if (snapshot.connectionState == ConnectionState.done) {
                   return Container(
                     child: Column(

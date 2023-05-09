@@ -9,6 +9,7 @@ import '../../../models/attendee_bookings.dart';
 import '../../../models/promocodes.dart';
 import '../../../services/creator_service.dart';
 
+///this is a class which consists of the widgets that hold the user info in the booking process
 class BookingTickets extends StatefulWidget {
   final int seconds;
   final List<List<String>> myList;
@@ -36,7 +37,7 @@ class _BookingTicketsState extends State<BookingTickets> {
   bool _isChecked1 = false;
   bool _isChecked2 = false;
   bool _isChecked3 = false;
-  
+
   int _showCheckout = 0;
   String promovalue = '';
   String firstnamevalue = '';
@@ -56,9 +57,9 @@ class _BookingTicketsState extends State<BookingTickets> {
     _textFieldController2.addListener(_handleTextFieldChanged);
     _textFieldController3.addListener(_handleTextFieldChanged);
     _textFieldController4.addListener(_handleTextFieldChanged);
-     _textFieldController5.addListener(_handleTextFieldChanged);
-     print("booking tickets");
-     print(widget.myList);
+    _textFieldController5.addListener(_handleTextFieldChanged);
+    print("booking tickets");
+    print(widget.myList);
   }
 
   void _handleTextFieldChanged() {
@@ -66,9 +67,8 @@ class _BookingTicketsState extends State<BookingTickets> {
       _isButtonDisabled = _textFieldController1.text.isEmpty ||
           _textFieldController2.text.isEmpty ||
           _textFieldController3.text.isEmpty ||
-          _textFieldController4.text.isEmpty || 
-           _textFieldController5.text.isEmpty;
-          
+          _textFieldController4.text.isEmpty ||
+          _textFieldController5.text.isEmpty;
     });
   }
 
@@ -124,15 +124,16 @@ class _BookingTicketsState extends State<BookingTickets> {
     final mediaQuery = MediaQuery.of(context);
     String minutes = (_secondsRemaining ~/ 60).toString().padLeft(2, '0');
     String seconds = (_secondsRemaining % 60).toString().padLeft(2, '0');
-    
 
     for (int i = 0; i < widget.myList.length; i++) {
-      if (widget.myList[i][3] != '0.0' && widget.myList[i][3] != '' && int.parse(widget.myList[i][2])!=0) {
+      if (widget.myList[i][3] != '0.0' &&
+          widget.myList[i][3] != '' &&
+          int.parse(widget.myList[i][2]) != 0) {
         ispaid = true;
         break;
       }
     }
-  n = Name(firstnamevalue, secondnamevalue);
+    n = Name(firstnamevalue, secondnamevalue);
     return WillPopScope(
       onWillPop: () async => false,
       child: Center(
@@ -280,9 +281,10 @@ class _BookingTicketsState extends State<BookingTickets> {
                           children: [
                             Padding(
                               padding: EdgeInsets.only(top: 10.0),
-                            
                               child: SizedBox(
-                                width: ispaid? 200 :MediaQuery.of(context).size.width *0.32,
+                                width: ispaid
+                                    ? 200
+                                    : MediaQuery.of(context).size.width * 0.32,
                                 height: 90,
                                 child: TextField(
                                   controller: _textFieldController5,
@@ -332,7 +334,9 @@ class _BookingTicketsState extends State<BookingTickets> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 90),
                                 child: ElevatedButton(
-                                  onPressed:  _isButtonDisabled ? null : _handleButtonPressed,
+                                  onPressed: _isButtonDisabled
+                                      ? null
+                                      : _handleButtonPressed,
                                   child: const Text("Done"),
                                 ),
                               ),

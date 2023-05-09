@@ -4,12 +4,17 @@ import 'package:hebtus_crossplatform/route/router.dart';
 
 import '../../../models/promocodes.dart';
 
+///this class holds the information of the order summary done by the attendee during booking
 class OrderSummary extends StatefulWidget {
   final List<List<String>> myList;
   final String eventID;
   final String promocode;
- 
-  OrderSummary({required this.eventID, required this.myList,required this.promocode ,super.key});
+
+  OrderSummary(
+      {required this.eventID,
+      required this.myList,
+      required this.promocode,
+      super.key});
 
   @override
   State<OrderSummary> createState() => _OrderSummaryState();
@@ -97,10 +102,9 @@ class _OrderSummaryState extends State<OrderSummary> {
                           ),
                           const Divider(thickness: 1.4),
                           Text("Total"),
-                          totalprice==0.0?
-                          Text('${totalprice}' + ' LE') 
-                          :
-                           Text('${totalprice.toStringAsFixed(4)}' + ' LE') 
+                          totalprice == 0.0
+                              ? Text('${totalprice}' + ' LE')
+                              : Text('${totalprice.toStringAsFixed(4)}' + ' LE')
                         ],
                       ),
                     ))

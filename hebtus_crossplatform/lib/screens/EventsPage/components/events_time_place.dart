@@ -6,6 +6,7 @@ import 'package:hebtus_crossplatform/globals/globals.dart';
 
 import '../../../models/attendee_event.dart';
 
+///this class holds the information about the time and place of an event
 class EventTimePlace extends StatelessWidget {
   final AttendeeEvent event;
   EventTimePlace({super.key, required this.event});

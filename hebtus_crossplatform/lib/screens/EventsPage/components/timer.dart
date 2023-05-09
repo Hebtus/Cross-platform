@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
+///this class is a counter for the 30 minute booking session
 class CountdownTimer extends StatefulWidget {
   final int seconds;
   final Function onTimerFinished;

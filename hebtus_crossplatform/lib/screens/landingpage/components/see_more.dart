@@ -10,14 +10,23 @@ import '../../../current_user.dart';
 import '../../../models/attendee_event.dart';
 import '../../../services/attendee_service.dart';
 import 'event_list.dart';
+
 CurrentUser currentUser = CurrentUser();
+
+///page that contains a list of all events from the selected filter in the main page, it is paginated
 class SeeMore extends StatefulWidget {
   final String? categ;
-  final String ?isonline;
+  final String? isonline;
   final String? isfree;
-  final String ?start;
+  final String? start;
   final String? end;
-  const SeeMore({required this.categ,required this.isonline,required this.isfree,required this.start,required this.end,super.key});
+  const SeeMore(
+      {required this.categ,
+      required this.isonline,
+      required this.isfree,
+      required this.start,
+      required this.end,
+      super.key});
 
   @override
   State<SeeMore> createState() => _SeeMoreState();
@@ -46,14 +55,14 @@ class _SeeMoreState extends State<SeeMore> {
     if (isLoading) return;
     if (scrollController.position.pixels ==
         scrollController.position.maxScrollExtent) {
-            setState(() {
+      setState(() {
         isLoading = true;
       });
-          await fetchEvents();
-            setState(() {
+      await fetchEvents();
+      setState(() {
         isLoading = false;
       });
-    } 
+    }
   }
 
   Future<bool> fetchEvents() async {
@@ -97,14 +106,24 @@ class _SeeMoreState extends State<SeeMore> {
       events.addAll(newEvents);
       }
 */
-print("hjhjh");
-print(widget.isfree);
-      
-      
-      final newEvents =
-          await attendeeService.getEvents(limit: pageLimit, page: currentPage,latitude: latitude_v,
-          longitude: longitude_v,category: widget.categ=="null"? null:widget.categ, online:widget.isonline != "null"? bool.fromEnvironment(widget.isonline!) : null,
-          free: widget.isfree != "null"? bool.fromEnvironment(widget.isfree!) : null,startDate: widget.start != null? DateTime.tryParse(widget.start!) : null,endDate:widget.end != null? DateTime.tryParse(widget.end!) : null );
+      print("hjhjh");
+      print(widget.isfree);
+
+      final newEvents = await attendeeService.getEvents(
+          limit: pageLimit,
+          page: currentPage,
+          latitude: latitude_v,
+          longitude: longitude_v,
+          category: widget.categ == "null" ? null : widget.categ,
+          online: widget.isonline != "null"
+              ? bool.fromEnvironment(widget.isonline!)
+              : null,
+          free: widget.isfree != "null"
+              ? bool.fromEnvironment(widget.isfree!)
+              : null,
+          startDate:
+              widget.start != null ? DateTime.tryParse(widget.start!) : null,
+          endDate: widget.end != null ? DateTime.tryParse(widget.end!) : null);
       events.addAll(newEvents);
       setState(() {});
       currentPage++;
@@ -121,15 +140,15 @@ print(widget.isfree);
       body: ListView.separated(
         separatorBuilder: (context, index) => const SizedBox(height: 1),
         itemCount: isLoading ? events.length + 1 : events.length,
-       padding: EdgeInsets.all(12),
+        padding: EdgeInsets.all(12),
         controller: scrollController,
         itemBuilder: (context, index) {
           if (index < events.length) {
             return Card(
               clipBehavior: Clip.hardEdge,
-            color: const Color.fromARGB(255, 255, 249, 249),
-            child:InkWell(
-              splashColor: const Color.fromARGB(255, 250, 195, 188),
+              color: const Color.fromARGB(255, 255, 249, 249),
+              child: InkWell(
+                splashColor: const Color.fromARGB(255, 250, 195, 188),
                 onTap: () {
                   if (currentUser.isLoggedIn == true) {
                     return context.go("/events/${events[index].eventID}");
@@ -137,26 +156,25 @@ print(widget.isfree);
                     return context.go("/");
                   }
                 },
-              child: ListTile(
-                leading: SizedBox(
-                  width:100,
-                   
-                  child: events[index].imgURL != ""?
-                  Image(
-                    image: NetworkImage(events[index].imgURL),
-                  ):Container(),
-                ),
-                title: Text(events[index].eventName),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(events[index].startTime.toString()),
-                    Text(events[index].endTime.toString()),
-                  ],
+                child: ListTile(
+                  leading: SizedBox(
+                    width: 100,
+                    child: events[index].imgURL != ""
+                        ? Image(
+                            image: NetworkImage(events[index].imgURL),
+                          )
+                        : Container(),
+                  ),
+                  title: Text(events[index].eventName),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(events[index].startTime.toString()),
+                      Text(events[index].endTime.toString()),
+                    ],
+                  ),
                 ),
               ),
-            ),
-              
             );
           } else {
             return Center(
