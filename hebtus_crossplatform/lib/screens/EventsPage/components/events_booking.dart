@@ -36,8 +36,9 @@ class _BookingTicketsState extends State<BookingTickets> {
   bool _isChecked1 = false;
   bool _isChecked2 = false;
   bool _isChecked3 = false;
+  
   int _showCheckout = 0;
-  String promovalue = 'empty';
+  String promovalue = '';
   String firstnamevalue = '';
   String secondnamevalue = '';
   String emailvalue = '';
@@ -114,6 +115,7 @@ class _BookingTicketsState extends State<BookingTickets> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.myList);
     bool ispaid = false;
     bool haspromo = false;
     final mediaQuery = MediaQuery.of(context);

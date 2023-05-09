@@ -69,9 +69,8 @@ dependencies:
   path_provider: ^2.0.14
   build_runner: ^2.3.3
   file_picker: ^5.2.11
-  geocoder: ^0.2.1
   geocoding: ^2.1.0
-
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

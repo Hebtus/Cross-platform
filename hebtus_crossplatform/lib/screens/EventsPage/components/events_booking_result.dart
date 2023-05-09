@@ -6,6 +6,7 @@ import 'package:hebtus_crossplatform/route/router.dart';
 import '../../../services/attendee_service.dart';
 
 class BookingResult extends StatefulWidget {
+  
   final String eventid;
   final String promocode;
   final Name name;
@@ -22,27 +23,36 @@ class BookingResult extends StatefulWidget {
       required this.gender,
       required this.bookings,
       super.key});
-
   @override
   State<BookingResult> createState() => _BookingResultState();
 }
 
 class _BookingResultState extends State<BookingResult> {
   late Future<String> bookingresult;
+  bool res=false;
   String errorMessage = '';
+ List<Booking> addbook=[];
   @override
   void initState() {
     super.initState();
     AttendeeService attendeeService = AttendeeService();
+    if(widget.promocode=='')
+    {
+      res=true;
+    }
+    addbook.insert(0, widget.bookings[0]);
     AttendeeBooking attendeebook = AttendeeBooking(
         eventID: widget.eventid,
-        promoCode: widget.promocode,
+        promoCode: res==false ?widget.promocode : null,
         name: widget.name,
         guestEmail: widget.email,
         phoneNumber: widget.phone,
         gender: widget.gender,
-        bookings: widget.bookings);
+        bookings: addbook);
+        print("hhh");
+        
         bookingresult = _createBooking(attendeeService, attendeebook);
+       
   }
 
 Future<String> _createBooking(

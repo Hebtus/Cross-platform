@@ -167,9 +167,11 @@ class _TicketsChoiceState extends State<TicketsChoice> {
                                     ),
                                   ),
                                   ListView.builder(
+                                    
                                     shrinkWrap: true,
                                     itemCount: counters.length,
                                     itemBuilder: (context, index) {
+                                    
                                       return CounterWidget(
                                         key: ValueKey(index),
                                         index: index,
@@ -241,14 +243,12 @@ class _TicketsChoiceState extends State<TicketsChoice> {
                                     context: context,
                                     barrierDismissible: false,
                                     builder: (BuildContext context) {
-                                      return GestureDetector(
-                                        onTap: () {},
-                                        child: BookingTickets(
-                                          seconds: 1800,
-                                          myList: myList,
-                                          eventID: widget.eventID,
-                                         
-                                        ),
+                                      print("dhdhdhdhdh");
+                                      return BookingTickets(
+                                        seconds: 1800,
+                                        myList: myList,
+                                        eventID: widget.eventID,
+                                       
                                       );
                                     },
                                   );
@@ -337,6 +337,7 @@ class _TicketsChoiceState extends State<TicketsChoice> {
 }
 
 class CounterWidget extends StatefulWidget {
+
   final int index;
   final int value;
   final Function(int) onIncrement;

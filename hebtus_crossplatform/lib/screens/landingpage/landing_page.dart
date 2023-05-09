@@ -1,7 +1,6 @@
 // ignore_for_file: sized_box_for_whitespace, duplicate_ignore, avoid_unnecessary_containers
 
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hebtus_crossplatform/components/app_bar.dart';
@@ -16,6 +15,7 @@ import 'components/event_list.dart';
 import 'components/tab_bar.dart';
 import 'dart:async';
 import 'package:hebtus_crossplatform/services/auth_service.dart';
+import 'package:geocoding/geocoding.dart';
 
 /// This class returns landingpage which is the homepage of the app
 class LandingPageScreen extends StatefulWidget {
@@ -28,14 +28,82 @@ class LandingPageScreen extends StatefulWidget {
 class _LandingPageScreenState extends State<LandingPageScreen> {
   Future<List<AttendeeEvent>>? events;
   String? _currentAddress;
+  Future<Position>? _currentPosition;
   @override
   void initState() {
     super.initState();
+    _getcurrentlocation();
     AttendeeService attendeeService = AttendeeService();
-    events = attendeeService.getEvents();
+    events =attendeeService.getEvents(latitude: latitude_v,longitude: longitude_v);
     getNotifications();
+    
+  }
+ 
+ Future<void> _getcurrentlocation() async {
+  bool serviceEnabled =await Geolocator.isLocationServiceEnabled();
+  if(!serviceEnabled)
+  {
+    return Future.error("Location services are disabled");
+  }
+  LocationPermission permission=await Geolocator.checkPermission();
+  if(permission ==LocationPermission.denied)
+  {
+    permission =await Geolocator.requestPermission();
+    if(permission ==LocationPermission.denied)
+    {
+       return Future.error("Location permissions are disabled");
+    }
+  }
+  if (permission==LocationPermission.deniedForever)
+  {
+     return Future.error("Location permissions are permanently denied , we can`t request permission");
+  }
+   // Start listening for position updates
+    _currentPosition = Geolocator.getCurrentPosition(
+    desiredAccuracy: LocationAccuracy.best,
+    forceAndroidLocationManager: true,
+  ).then((position) {
+    if (mounted) {
+      setState(() {
+        latitude_v = position.latitude;
+        longitude_v = position.longitude;
+        _getAddressFromLatLng();
+      });
+    }
+  }).catchError((e) {
+    print(e);
+  }) as Future<Position>?;
+  
+}
+  
+ _getAddressFromLatLng() async {
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        latitude_v!,longitude_v! );
+
+      Placemark place = placemarks[0];
+
+      setState(() {
+        if(place.locality=='')
+        {
+          _currentAddress = "${place.administrativeArea}, ${place.country}";
+        }
+        else
+        {
+         _currentAddress = "${place.administrativeArea},${place.locality}, ${place.country}";
+        }
+        
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
+ @override
+void dispose() {
+  super.dispose();
+ 
+}
   //callback function to rebuild landing page from child widgets
   void rebuildLandingPage(
       {String? category,
@@ -63,6 +131,7 @@ class _LandingPageScreenState extends State<LandingPageScreen> {
     } else if (long != null && lat != null) {
       events = attendeeService.getEvents(
           latitude: latitude_v, longitude: longitude_v);
+          _getAddressFromLatLng();
     }
     print(latitude_v);
     print(longitude_v);
@@ -140,27 +209,13 @@ class _LandingPageScreenState extends State<LandingPageScreen> {
                                           "use current Location",
                                           style: TextStyle(fontSize: 12),
                                         ),
-                                        onTap: () async {
+                                        onTap: () {
                                           // Get the current location
-                                          Position position = await Geolocator
-                                              .getCurrentPosition();
-                                          latitude_v = position.latitude;
-                                          longitude_v = position.longitude;
-                                          // Get the address from the latitude and longitude values
-                                          List<Placemark> placemarks =
-                                              await placemarkFromCoordinates(
-                                                  latitude_v!, longitude_v!);
-                                          Placemark placemark =
-                                              placemarks.first;
-                                          String? address = placemark.name ??
-                                              placemark.thoroughfare;
-                                          setState(() {
-                                            _currentAddress = address;
-                                          });
-                                          rebuildLandingPage(
-                                              address: _currentAddress,
-                                              lat: latitude_v,
-                                              long: longitude_v);
+                                         
+                                         _getcurrentlocation();
+                                         print(latitude_v);
+                                         print(longitude_v);
+                                         rebuildLandingPage(lat:latitude_v,long: longitude_v);
                                         },
                                       ),
                                     ],
@@ -191,7 +246,7 @@ class _LandingPageScreenState extends State<LandingPageScreen> {
                             Padding(
                               padding: EdgeInsets.all(20),
                               child: Text(
-                                "Events in ${_currentAddress ?? 'Cairo'}",
+                                "Events in ${_currentAddress}",
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
