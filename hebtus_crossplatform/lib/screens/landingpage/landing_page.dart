@@ -27,18 +27,34 @@ class LandingPageScreen extends StatefulWidget {
 
 class _LandingPageScreenState extends State<LandingPageScreen> {
   Future<List<AttendeeEvent>>? events;
-  String? _currentAddress;
-  Future<Position>? _currentPosition;
+  String? _currentAddress='';
+  String? Categ ;
+  String? isOnline;
+  String?isFree;
+   String ?start;
+   String ?end;
+  
   @override
   void initState() {
-    super.initState();
-    _getcurrentlocation();
-    AttendeeService attendeeService = AttendeeService();
-    events = attendeeService.getEvents(latitude: latitude_v,longitude: longitude_v);
-    getNotifications();
-  }
+  super.initState();
+  _init();
  
- Future<void> _getcurrentlocation() async {
+}
+
+_init() async {
+  AttendeeService attendeeService = AttendeeService();
+  try {
+    Position? position = await _getcurrentlocation();
+    if (position != null) {
+      rebuildLandingPage(lat: position.latitude, long: position.longitude);
+    }
+    getNotifications();
+  } catch (e) {
+    // handle error
+  }
+}
+ 
+ Future<Position?> _getcurrentlocation() async {
   bool serviceEnabled =await Geolocator.isLocationServiceEnabled();
   if(!serviceEnabled)
   {
@@ -58,21 +74,15 @@ class _LandingPageScreenState extends State<LandingPageScreen> {
      return Future.error("Location permissions are permanently denied , we can`t request permission");
   }
    // Start listening for position updates
-     Geolocator.getCurrentPosition(
-    desiredAccuracy: LocationAccuracy.best,
-    forceAndroidLocationManager: true,
-  ).then((position) {
-    
-      setState(() {
-        latitude_v = position.latitude;
-        longitude_v = position.longitude;
-        _getAddressFromLatLng();
-      });
-      return position;
-  }).catchError((e) {
-    print(e);
-    return null; // return a null value if there is an error
-  });
+     
+  if (!await Geolocator.isLocationServiceEnabled()) {
+    return null;
+  }
+  Position position = await Geolocator.getCurrentPosition();
+  latitude_v = position.latitude;
+  longitude_v = position.longitude;
+   _getAddressFromLatLng();
+  return position;
   
 }
   
@@ -100,10 +110,13 @@ class _LandingPageScreenState extends State<LandingPageScreen> {
   }
 
  @override
-void dispose() {
-  super.dispose();
- 
-}
+  void dispose() {
+    
+    super.dispose();
+  }
+   
+
+  
   //callback function to rebuild landing page from child widgets
   void rebuildLandingPage(
       {String? category,
@@ -115,20 +128,57 @@ void dispose() {
       bool? free,
       String? address}) async {
     AttendeeService attendeeService = AttendeeService();
+    /*setState(() {
+     Categ=category;
+     isOnline=online.toString();
+     isFree=free.toString();
+     start=todaystartdate.toString();
+     end= todayenddate.toString();
+    });*/
     if (category != null) {
-      if (category != "All") {
-        events = attendeeService.getEvents(category: category);
+      if (category != "null") {
+        Categ=category;
+        isOnline=null;
+        isFree=null;
+        start=null;
+        end=null;
+        events = attendeeService.getEvents(category: category, latitude: latitude_v, longitude: longitude_v);
       } else {
-        events = attendeeService.getEvents();
+        Categ=null;
+        isOnline=null;
+        isFree=null;
+        start=null;
+        end=null;
+        events = attendeeService.getEvents( latitude: latitude_v, longitude: longitude_v);
       }
     } else if (online != null) {
-      events = attendeeService.getEvents(online: true);
+       Categ=null;
+        isOnline=online.toString();
+        isFree=null;
+        start=null;
+        end=null;
+      events = attendeeService.getEvents(online: true, latitude: latitude_v, longitude: longitude_v);
     } else if (free != null) {
-      events = attendeeService.getEvents(free: true);
+       Categ=null;
+        isOnline=null;
+        isFree=free.toString();
+        start=null;
+        end=null;
+      events = attendeeService.getEvents(free: true, latitude: latitude_v, longitude: longitude_v);
     } else if (todaystartdate != null && todayenddate != null) {
+       Categ=null;
+        isOnline=null;
+        isFree=null;
+        start=todaystartdate.toString();
+        end=todayenddate.toString();
       events = attendeeService.getEvents(
-          startDate: todaystartdate, endDate: todayenddate);
+          startDate: todaystartdate, endDate: todayenddate, latitude: latitude_v, longitude: longitude_v);
     } else if (long != null && lat != null) {
+       Categ=null;
+        isOnline=null;
+        isFree=null;
+        start=null;
+        end=null;
       events = attendeeService.getEvents(
           latitude: latitude_v, longitude: longitude_v);
           _getAddressFromLatLng();
@@ -137,6 +187,7 @@ void dispose() {
     print(longitude_v);
     getNotifications();
     setState(() {});
+    
   }
 
   void getNotifications() async {
@@ -273,7 +324,19 @@ void dispose() {
                                     ],
                                   )
                                 : EventCard(num: 0, events: snapshot.data!),
+                                Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top:10.0),
+                                    child: ElevatedButton(onPressed: (){
+                                      print("date");
+                                      print(isFree);
+                                      return context.go("/seemore/${Categ}/${isOnline}/${isFree}/${start}/${end}");
+                                    }, child: const Text("See more")),
+                                  ),
+                                ),
+                            
                           ],
+                          
                         ),
                       ),
                     ));

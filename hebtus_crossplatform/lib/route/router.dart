@@ -19,6 +19,13 @@ class AppRouter {
         return const SignupScreen();
       },
     ),
+    GoRoute(
+      path: '/seemore/:category/:isonline/:isfree/:start/:end',
+      builder: (context, state) {
+       
+        return  SeeMore(categ: state.params["category"]!,isonline:state.params["isonline"]!,isfree: state.params["isfree"]!,start: state.params["start"]!,end: state.params["end"]!,);
+      },
+    ),
     
     GoRoute(
       path: '/forgotpassword',
@@ -38,12 +45,7 @@ class AppRouter {
         return EventsScreen(eventID: state.params["id"]!);
       },
     ),
-    GoRoute(
-      path: '/seemore',
-      builder: (context, state) {
-        return const SeeMore();
-      },
-    ),
+    
     GoRoute(
       name: "basicinfo",
       path: "/basicinfo",

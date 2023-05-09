@@ -34,7 +34,7 @@ class NavBar extends StatelessWidget {
                     child: FittedBox(
                       child: TextButton(
                         onPressed: () {
-                          rebuildLandingPage(category: "All");
+                          rebuildLandingPage(category: "null");
                         
                         },
                         child: const Text(
